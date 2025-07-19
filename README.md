@@ -9,20 +9,20 @@ and units consumed.
 The program should provide the following functionalities:
 
 1. User Authentication (Login)
-  o Require a username and password for secure access.
+  => Require a username and password for secure access.
 2. Add New Customer Accounts
-  o Store customer details, including account number, name, address, telephone number, etc.
+  => Store customer details, including account number, name, address, telephone number, etc.
 3. Edit Customer information 
 4. Manage Item information 
-  o Add / Update/Delete Item information
+  => Add / Update/Delete Item information
 5. Display Account Details
-  o Retrieve and display customer account information.
+  => Retrieve and display customer account information.
 6. Calculate and Print Bill
-  o Compute the bill amount based on the number of units consumed.
+  => Compute the bill amount based on the number of units consumed.
 7. Help Section
-  o Provide system usage guidelines for new users.
+  => Provide system usage guidelines for new users.
 8. Exit System
-  o Allow users to close the application.
+  => Allow users to close the application.
 
 (Additional functionalities can be included as needed.)
 Create an error free, effective one with user friendly interfaces, appropriate messages, outputs and menu 
