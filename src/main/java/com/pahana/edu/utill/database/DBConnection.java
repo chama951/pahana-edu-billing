@@ -19,14 +19,17 @@ public class DBConnection {
 	private DBConnection() {
 		try {
 			// Load properties
-			InputStream input = DBConnection.class.getClassLoader().getResourceAsStream("db.properties");
+			InputStream input = this.getClass().getClassLoader().getResourceAsStream("/db.properties");
 			Properties prop = new Properties();
 			prop.load(input);
 
 			// Assign values
 			DB_URL = prop.getProperty("db.url");
+			System.out.println("db url : "+DB_URL);
 			DB_USER = prop.getProperty("db.username");
+			System.out.println("db user : "+DB_USER);
 			DB_PASSWORD = prop.getProperty("db.password");
+			System.out.println("db password : "+DB_PASSWORD);
 
 			// Register driver
 			Class.forName("com.mysql.cj.jdbc.Driver");
