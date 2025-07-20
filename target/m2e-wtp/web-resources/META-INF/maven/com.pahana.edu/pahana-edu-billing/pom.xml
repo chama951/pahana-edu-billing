@@ -1,5 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.pahana.edu</groupId>
   <artifactId>pahana-edu-billing</artifactId>
@@ -28,20 +29,32 @@
      <artifactId>mysql-connector-j</artifactId>
      <version>9.1.0</version>
 	</dependency>
-	
-	 <!-- Hibernate Core -->
+
+		<!-- Hibernate Core -->
     <dependency>
      <groupId>org.hibernate</groupId>
      <artifactId>hibernate-core</artifactId>
      <version>${hibernate.version}</version>
     </dependency>
-     
-     <!-- H2 Database (for example purposes) -->
+
+		<!-- H2 Database (for example purposes) -->
     <dependency>
      <groupId>com.h2database</groupId>
      <artifactId>h2</artifactId>
      <version>2.1.214</version>
     </dependency>
+		<!-- https://mvnrepository.com/artifact/javax.servlet/jstl -->
+	<dependency>
+    <groupId>javax.servlet</groupId>
+    <artifactId>jstl</artifactId>
+    <version>1.2</version>
+	</dependency>
+	
+	<dependency>
+    <groupId>org.mindrot</groupId>
+    <artifactId>jbcrypt</artifactId>
+    <version>0.4</version>
+	</dependency>
 
   </dependencies>
   

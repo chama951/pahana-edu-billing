@@ -1,0 +1,145 @@
+/* register.css - Styles for user registration page */
+:root {
+	--primary-color: #4a6fa5;
+	--primary-dark: #3a5a8f;
+	--secondary-color: #6c757d;
+	--success-color: #28a745;
+	--error-color: #dc3545;
+	--light-color: #f8f9fa;
+	--dark-color: #343a40;
+	--border-radius: 8px;
+	--box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	--transition: all 0.3s ease;
+}
+
+/* Base Styles */
+body {
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	line-height: 1.6;
+	background-color: #f5f5f5;
+	color: #333;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+}
+
+/* Card Container */
+.registration-container {
+	width: 100%;
+	max-width: 500px;
+	padding: 2.5rem;
+	background: white;
+	border-radius: var(--border-radius);
+	box-shadow: var(--box-shadow);
+}
+
+.registration-header {
+	color: var(--primary-color);
+	text-align: center;
+	margin-bottom: 1.5rem;
+	font-weight: 600;
+	font-size: 1.8rem;
+}
+
+/* Form Elements */
+.registration-form {
+	display: flex;
+	flex-direction: column;
+	gap: 1.25rem;
+}
+
+.form-group {
+	display: flex;
+	flex-direction: column;
+}
+
+.form-label {
+	margin-bottom: 0.5rem;
+	font-weight: 500;
+	color: var(--dark-color);
+	font-size: 0.95rem;
+}
+
+.form-control {
+	padding: 0.75rem 1rem;
+	border: 1px solid #ddd;
+	border-radius: var(--border-radius);
+	font-size: 1rem;
+	transition: var(--transition);
+}
+
+.form-control:focus {
+	border-color: var(--primary-color);
+	outline: none;
+	box-shadow: 0 0 0 2px rgba(74, 111, 165, 0.2);
+}
+
+/* Custom Select Dropdown */
+.select-wrapper {
+	position: relative;
+}
+
+.select-wrapper::after {
+	content: "";
+	position: absolute;
+	top: 50%;
+	right: 1rem;
+	transform: translateY(-50%);
+	width: 16px;
+	height: 16px;
+	background-repeat: no-repeat;
+	pointer-events: none;
+}
+
+/* Button Styles */
+.btn {
+	padding: 0.75rem;
+	background-color: var(--primary-color);
+	color: white;
+	border: none;
+	border-radius: var(--border-radius);
+	font-size: 1rem;
+	font-weight: 500;
+	cursor: pointer;
+	transition: var(--transition);
+	text-align: center;
+}
+
+.btn:hover {
+	background-color: var(--primary-dark);
+	transform: translateY(-2px);
+}
+
+/* Error Message */
+.error-message {
+	color: var(--error-color);
+	font-size: 0.875rem;
+	margin-top: 0.25rem;
+	text-align: center;
+}
+
+/* Responsive Adjustments */
+@media ( max-width : 600px) {
+	.registration-container {
+		padding: 1.5rem;
+		margin: 1rem;
+	}
+	body {
+		align-items: flex-start;
+		padding-top: 2rem;
+	}
+	.password-hint {
+		font-size: 0.75rem;
+		color: #666;
+		margin-top: 0.25rem;
+	}
+	.error-message {
+		color: #dc3545;
+		font-size: 0.85rem;
+		margin-top: 0.5rem;
+		display: none;
+	}
+}

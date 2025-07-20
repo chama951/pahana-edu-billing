@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pahana.edu.model.User;
 import com.pahana.edu.utill.database.DBConnectionFactory;
 
 public class TestDBConn extends HttpServlet {
@@ -20,7 +21,7 @@ public class TestDBConn extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("text/html; charset=utf-8");
-
+		
 		PrintWriter printWriter = response.getWriter();
 
 		printWriter.print("<h2> Pahana Edu DB Connection Object : " 
