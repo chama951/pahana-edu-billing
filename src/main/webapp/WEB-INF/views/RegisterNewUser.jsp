@@ -10,13 +10,24 @@
 <title>User Registration</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/style.css">
+	href="${pageContext.request.contextPath}/css/register.css">
 </head>
 <body>
 	<div class="registration-container">
 		<h1 class="registration-header">Register New User</h1>
 
-		<form class="registration-form" action="user" method="post">
+		<form class="registration-form" action="${pageContext.request.contextPath}/create_user" method="post">
+
+			<%
+			if (request.getAttribute("error") != null) {
+			%>
+			<div class="error-message">
+				<%=request.getAttribute("error")%>
+			</div>
+			<%
+			}
+			%>
+
 			<div class="form-group">
 				<label class="form-label" for="username">Username:</label> <input
 					class="form-control" type="text" id="username" name="username"
