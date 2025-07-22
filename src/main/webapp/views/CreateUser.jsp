@@ -16,7 +16,8 @@
 	<div class="registration-container">
 		<h1 class="registration-header">Register New User</h1>
 
-		<form class="registration-form" action="${pageContext.request.contextPath}/create_user" method="post">
+		<form class="registration-form"
+			action="${pageContext.request.contextPath}/create-user" method="post">
 
 			<%
 			if (request.getAttribute("error") != null) {
@@ -58,10 +59,6 @@
 			</div>
 
 			<button type="submit" class="btn" onclick="return checkPasswords()">Register</button>
-
-			<c:if test="${not empty error}">
-				<p class="error-message">${error}</p>
-			</c:if>
 		</form>
 	</div>
 

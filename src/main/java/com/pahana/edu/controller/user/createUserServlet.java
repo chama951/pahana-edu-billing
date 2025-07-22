@@ -1,7 +1,6 @@
 package com.pahana.edu.controller.user;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 
 import javax.servlet.ServletException;
@@ -21,7 +20,6 @@ public class createUserServlet extends HttpServlet {
 
 	@Override
 	public void init() throws ServletException {
-		// Initialize DAO with a database connection
 		userDao = new UserDaoImpl(DBConnectionFactory.getConnection());
 		super.init();
 	}
@@ -29,8 +27,7 @@ public class createUserServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// Forward to JSP for registration form
-		request.getRequestDispatcher("/WEB-INF/views/RegisterNewUser.jsp").forward(request, response);
+		request.getRequestDispatcher("/views/CreateUser.jsp").forward(request, response);
 	}
 
 	@Override
@@ -39,29 +36,20 @@ public class createUserServlet extends HttpServlet {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String roleParam = request.getParameter("role");
-
-		PrintWriter printWriter = response.getWriter();
-
 		try {
-			User existingUser = userDao.getUserByUsername(username);
-			if (existingUser != null) {
-//				printWriter.print("<h2>Username already exist : " + existingUser.getUsername() + "</h2>");
+			User user = userDao.getUserByUsername(username);
+			if (user != null) {
 				request.setAttribute("error", "Username already exist");
-				request.getRequestDispatcher("/WEB-INF/views/RegisterNewUser.jsp").forward(request, response);
+				request.getRequestDispatcher("/views/CreateUser.jsp").forward(request, response);
 			} else {
 				UserRole userRole = UserRole.valueOf(roleParam.toUpperCase());
-
-				// Password is automatically hashed in User constructor
 				User newUser = new User(username, password, userRole);
-
 				userDao.createUser(newUser);
-
-				printWriter.print("<h2>New User added Successfully : " + newUser.getUsername() + "</h2>");
-				request.getRequestDispatcher("/WEB-INF/views/LoginUser.jsp").forward(request, response);
+				response.sendRedirect(request.getContextPath() + "/login");
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
+			request.getRequestDispatcher("/views/CreateUser.jsp").forward(request, response);
 		}
 
 	}

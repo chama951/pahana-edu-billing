@@ -17,12 +17,23 @@
 		<servlet-name>loginUserServlet</servlet-name>
 		<servlet-class>com.pahana.edu.controller.user.loginUserServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>dashboardServlet</display-name>
+		<servlet-name>dashboardServlet</servlet-name>
+		<servlet-class>com.pahana.edu.controller.user.dashboardServlet</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>createUserServlet</servlet-name>
-		<url-pattern>/create_user</url-pattern>
+		<url-pattern>/create-user</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>loginUserServlet</servlet-name>
 		<url-pattern>/login</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>dashboardServlet</servlet-name>
+		<url-pattern>/dashboard</url-pattern>
 	</servlet-mapping>
 </web-app>

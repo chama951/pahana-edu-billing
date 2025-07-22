@@ -21,52 +21,34 @@ public class loginUserServlet extends HttpServlet {
 
 	@Override
 	public void init() throws ServletException {
-		// Initialize DAO with a database connection
 		userDao = new UserDaoImpl(DBConnectionFactory.getConnection());
 		super.init();
 	}
-	
+
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// Forward to JSP for registration form
-		request.getRequestDispatcher("/WEB-INF/views/LoginUser.jsp").forward(request, response);
+		request.getRequestDispatcher("/views/LoginUser.jsp").forward(request, response);
 	}
 
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-
 		try {
-			// 1. Validate input
-			if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
-				request.setAttribute("error", "Username and password are required");
-				request.getRequestDispatcher("/WEB-INF/views/LoginUser.jsp").forward(request, response);
-				return;
-			}
-
-			// 2. Authenticate user
-			User userLoggedIn = userDao.getUserByUsername(username);
-
-			if (userLoggedIn == null || !PasswordUtil.checkPassword(password, userLoggedIn.getHashedPassword())) {
+			User user = userDao.getUserByUsername(username);
+			if (user == null || !PasswordUtil.checkPassword(password, user.getHashedPassword())) {
 				request.setAttribute("error", "Invalid credentials");
-				request.getRequestDispatcher("/WEB-INF/views/LoginUser.jsp").forward(request, response);
-				return;
+				request.getRequestDispatcher("/views/LoginUser.jsp").forward(request, response);
+			} else {
+				HttpSession session = request.getSession();
+				session.setAttribute("currentUser", user);
+				request.getRequestDispatcher("/Dashboard.jsp").forward(request, response);
 			}
-
-			// 3. Create session
-			HttpSession session = request.getSession();
-			session.setAttribute("currentUser", userLoggedIn);
-
-			// 4. Redirect to home page
-			response.sendRedirect("/WEB-INF/views/DashBoard.jsp");
-
 		} catch (SQLException e) {
 			e.printStackTrace();
-			request.setAttribute("error", "Database error occurred");
-			request.getRequestDispatcher("/WEB-INF/views/LoginUser.jsp").forward(request, response);
+			request.getRequestDispatcher("/views/LoginUser.jsp").forward(request, response);
 		}
 	}
 

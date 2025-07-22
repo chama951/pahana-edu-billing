@@ -7,29 +7,22 @@ public enum UserRole {
 	
     ADMIN("Manage everything", 
         EnumSet.of(
-            Privilege.MANAGE_USERS,
-            Privilege.SYSTEM_CONFIG
+            Privilege.ALL
             // All other privileges...
         )),
         
-    CLERK("Handle customers and billing",
+    CASHIER("Manage customers",
         EnumSet.of(
-            Privilege.VIEW_CUSTOMERS,
-            Privilege.CREATE_CUSTOMERS
+            Privilege.CREATE_BILLS,
+            Privilege.VIEW_BILLS,
+            Privilege.CANCEL_BILLS
             // Clerk privileges...
         )),
         
     INVENTORY_MANAGER("Manage product inventory",
         EnumSet.of(
-            Privilege.VIEW_ITEMS,
-            Privilege.CREATE_ITEMS
+            Privilege.MANAGE_ITEMS
             // Inventory privileges...
-        )),
-        
-    GUEST("View-only access",
-        EnumSet.of(
-            Privilege.VIEW_ITEMS,
-            Privilege.VIEW_CUSTOMERS
         ));
     
     private final String description;

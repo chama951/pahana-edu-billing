@@ -30,20 +30,20 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public User getUserByUsername(String username) throws SQLException {
-		 String sql = "SELECT * FROM users WHERE username = ?";
-	        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-	            stmt.setString(1, username);
-	            ResultSet rs = stmt.executeQuery();
-	            if (rs.next()) {
-	            	User user = new User();
-	            	user.setId( rs.getLong("id"));
-	            	user.setUsername(rs.getString("username"));
-	            	user.setHashedPassword(rs.getString("hashedPassword"));
-					user.setRole(UserRole.valueOf(rs.getString("role")));
-	            	return user;
-	            }
-	            return null;
-	        }
+		String sql = "SELECT * FROM users WHERE username = ?";
+		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+			stmt.setString(1, username);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				User user = new User();
+				user.setId(rs.getLong("id"));
+				user.setUsername(rs.getString("username"));
+				user.setHashedPassword(rs.getString("hashedPassword"));
+				user.setRole(UserRole.valueOf(rs.getString("role")));
+				return user;
+			}
+			return null;
+		}
 	}
 
 }

@@ -52,7 +52,7 @@
 
 		<div class="login-footer">
 			<p>
-				Don't have an account? <a href="${pageContext.request.contextPath}/create_user">Register
+				Don't have an account? <a href="${pageContext.request.contextPath}/create-user">Register
 					here</a>
 			</p>
 		</div>
