@@ -19,18 +19,29 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public void createUser(User user) throws SQLException {
-		String sql = "INSERT INTO users (username, hashedPassword, role) VALUES (?, ?, ?)";
+		String sql = "INSERT INTO user ("
+				+ "username, "
+				+ "hashedPassword, "
+				+ "role, "
+				+ "isActive, "
+				+ "createdAt, " 
+				+ "updatedAt, " 
+				+ "lastLogin) VALUES (?, ?, ?, ?, ?, ?, ?)";
 		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 			stmt.setString(1, user.getUsername());
 			stmt.setString(2, user.getHashedPassword()); // Already hashed
 			stmt.setString(3, user.getRole().name());
+			stmt.setBoolean(4, user.getIsActive());
+			stmt.setDate(5, user.getCreatedAt());
+			stmt.setDate(6, user.getUpdatedAt());
+			stmt.setDate(7, user.getLastLogin());
 			stmt.executeUpdate();
 		}
 	}
 
 	@Override
 	public User getUserByUsername(String username) throws SQLException {
-		String sql = "SELECT * FROM users WHERE username = ?";
+		String sql = "SELECT * FROM user WHERE username = ?";
 		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 			stmt.setString(1, username);
 			ResultSet rs = stmt.executeQuery();

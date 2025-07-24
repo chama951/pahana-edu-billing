@@ -1,4 +1,5 @@
 /META-INF/
 /com/
 /db.properties
+/hibernate.cfg.xml
 /schema.sql

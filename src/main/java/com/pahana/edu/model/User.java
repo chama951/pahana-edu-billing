@@ -1,54 +1,63 @@
 package com.pahana.edu.model;
 
-import javax.persistence.*;
+import java.sql.Date;
+
+import jakarta.persistence.*;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import com.pahana.edu.model.enums.Privilege;
 import com.pahana.edu.model.enums.UserRole;
 import com.pahana.edu.utill.PasswordUtil;
 
 @Entity
-@Table(name = "users")
 public class User {
 
 	@Id
-    @Column(columnDefinition = "INT AUTO_INCREMENT")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(unique = true, nullable = false)
 	private String username;
 
-	@Column(nullable = false)
-	private String hashedPassword;
+	private String hashedPassword; // Consider using @Transient for plain password if needed
 
 	@Enumerated(EnumType.STRING)
-	@Column(nullable = false)
 	private UserRole role;
 
-	// Constructors
-	public User(int id, String username, String hashedPassword, UserRole userRole) {
-	}
+	private Boolean isActive = true;
 
-	public User(String username, String plainPassword, UserRole role) {
+	@CreationTimestamp
+	private Date createdAt;
+
+	@UpdateTimestamp
+	private Date updatedAt;
+
+	private Date lastLogin;
+
+	public User(String username, String plainPassword, UserRole role, Boolean isActive, Date currentDate,
+			Date currentDate2, Date currentDate3) {
+		super();
 		this.username = username;
 		this.hashedPassword = PasswordUtil.hashPassword(plainPassword);
 		this.role = role;
+		this.isActive = isActive;
+		this.createdAt = currentDate;
+		this.updatedAt = currentDate2;
+		this.lastLogin = currentDate3;
 	}
-	
+
 	public User() {
-		// TODO Auto-generated constructor stub
 	}
 
-	// Verify password
-    public boolean verifyPassword(String plainPassword) {
-        return PasswordUtil.checkPassword(plainPassword, this.hashedPassword);
-    }
+	public boolean verifyPassword(String plainPassword) {
+		return PasswordUtil.checkPassword(plainPassword, this.hashedPassword);
+	}
 
-	// Privilege check
 	public boolean hasPrivilege(Privilege privilege) {
 		return role.hasPrivilege(privilege);
 	}
 
-	// Getters and setters
 	public Long getId() {
 		return id;
 	}
@@ -80,4 +89,37 @@ public class User {
 	public void setRole(UserRole role) {
 		this.role = role;
 	}
+
+	public Boolean getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(Boolean isActive) {
+		this.isActive = isActive;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public Date getLastLogin() {
+		return lastLogin;
+	}
+
+	public void setLastLogin(Date lastLogin) {
+		this.lastLogin = lastLogin;
+	}
+
 }

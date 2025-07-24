@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login</title>
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/login.css">
+	href="${pageContext.request.contextPath}/css/LoginUser.css">
 </head>
 <body>
 	<div class="login-container">
@@ -43,7 +43,7 @@
 			</div>
 
 			<div class="form-group">
-				<label for="password">Password</label> <input type="password"a
+				<label for="password">Password</label> <input type="password"
 					id="password" name="password" required>
 			</div>
 
@@ -52,7 +52,7 @@
 
 		<div class="login-footer">
 			<p>
-				Don't have an account? <a href="${pageContext.request.contextPath}/create-user">Register
+				<a href="${pageContext.request.contextPath}/create-user">Register
 					here</a>
 			</p>
 		</div>
