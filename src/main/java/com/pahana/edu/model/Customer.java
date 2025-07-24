@@ -1,7 +1,6 @@
 package com.pahana.edu.model;
 
-import java.sql.Date;
-
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,10 +30,10 @@ public class Customer {
 	private Integer unitsConsumed;
 
 	@CreationTimestamp
-	private Date createdAt;
+	private LocalDateTime createdAt = LocalDateTime.now();
 
 	@UpdateTimestamp
-	private Date updatedAt;
+	private LocalDateTime updatedAt = LocalDateTime.now();
 
 	@OneToMany(mappedBy = "customer")
 	private List<Bill> billList = new ArrayList<>();
@@ -44,7 +43,7 @@ public class Customer {
 	}
 
 	public Customer(Long id, Long accountNumber, String firstName, String lastName, String address, String phoneNumber,
-			String email, Integer unitsConsumed, Date createdAt, Date updatedAt,
+			String email, Integer unitsConsumed, LocalDateTime createdAt, LocalDateTime updatedAt,
 			List<Bill> billList) {
 		super();
 		this.id = id;
@@ -124,19 +123,19 @@ public class Customer {
 		this.unitsConsumed = unitsConsumed;
 	}
 
-	public Date getCreatedAt() {
+	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(Date createdAt) {
+	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 
-	public Date getUpdatedAt() {
+	public LocalDateTime getUpdatedAt() {
 		return updatedAt;
 	}
 
-	public void setUpdatedAt(Date updatedAt) {
+	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 

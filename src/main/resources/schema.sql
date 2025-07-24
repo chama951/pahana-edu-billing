@@ -1,38 +1,37 @@
 
     create table Bill (
-        billDate date,
-        createdAt date,
         discountAmount decimal(38,2),
-        dueDate date,
         taxAmount decimal(38,2),
         totalAmount decimal(38,2),
-        updatedAt date,
+        billDate datetime(6),
+        createdAt datetime(6),
         customerId bigint,
         id bigint not null auto_increment,
+        updatedAt datetime(6),
         primary key (id)
     ) engine=InnoDB;
 
     create table BillItem (
-        createdAt date,
         discountPercentage float(53) not null,
         quantity integer,
         subTotal float(53) not null,
         taxAmount float(53) not null,
         unitPrice float(53) not null,
-        updatedAt date,
         billId bigint,
+        createdAt datetime(6),
         id bigint not null auto_increment,
         itemId bigint,
+        updatedAt datetime(6),
         description varchar(255),
         primary key (id)
     ) engine=InnoDB;
 
     create table Customer (
-        createdAt date,
         unitsConsumed integer,
-        updatedAt date,
         accountNumber bigint,
+        createdAt datetime(6),
         id bigint not null auto_increment,
+        updatedAt datetime(6),
         address varchar(255),
         email varchar(255),
         firstName varchar(255),
@@ -42,12 +41,12 @@
     ) engine=InnoDB;
 
     create table Item (
-        createdAt date,
         price float(53) not null,
         publicationYear integer,
         quantityInStock integer,
-        updatedAt date,
+        createdAt datetime(6),
         id bigint not null auto_increment,
+        updatedAt datetime(6),
         author varchar(255),
         description varchar(255),
         isbn varchar(255),
@@ -58,11 +57,11 @@
 
     create table Payment (
         amount float(53) not null,
-        createdAt date,
-        paymentDate date,
-        updatedAt date,
         billId bigint,
+        createdAt datetime(6),
         id bigint not null auto_increment,
+        paymentDate datetime(6),
+        updatedAt datetime(6),
         notes varchar(255),
         paymentMethod enum ('CARD','CASH','ONLINE'),
         transactionReference varchar(255),
@@ -70,11 +69,11 @@
     ) engine=InnoDB;
 
     create table User (
-        createdAt date,
         isActive bit,
-        lastLogin date,
-        updatedAt date,
+        createdAt datetime(6),
         id bigint not null auto_increment,
+        lastLogin datetime(6),
+        updatedAt datetime(6),
         hashedPassword varchar(255),
         role enum ('ADMIN','CASHIER','INVENTORY_MANAGER'),
         username varchar(255),

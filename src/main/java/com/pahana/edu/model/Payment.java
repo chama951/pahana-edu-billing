@@ -1,6 +1,6 @@
 package com.pahana.edu.model;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
 
@@ -22,7 +22,7 @@ public class Payment {
 
 	private double amount;
 
-	private Date paymentDate;
+	private LocalDateTime paymentDate;
 
 	private String transactionReference;
 
@@ -32,13 +32,13 @@ public class Payment {
 	private PaymentMethod paymentMethod;
 
 	@CreationTimestamp
-	private Date createdAt;
+	private LocalDateTime createdAt = LocalDateTime.now();
 
 	@UpdateTimestamp
-	private Date updatedAt;
+	private LocalDateTime updatedAt = LocalDateTime.now();
 
-	private Payment(Long id, Bill bill, double amount, Date paymentDate, String transactionReference, String notes,
-			PaymentMethod paymentMethod, Date createdAt, Date updatedAt) {
+	private Payment(Long id, Bill bill, double amount, LocalDateTime paymentDate, String transactionReference, String notes,
+			PaymentMethod paymentMethod, LocalDateTime createdAt, LocalDateTime updatedAt) {
 		super();
 		this.id = id;
 		this.bill = bill;
@@ -75,11 +75,11 @@ public class Payment {
 		this.amount = amount;
 	}
 
-	public Date getPaymentDate() {
+	public LocalDateTime getPaymentDate() {
 		return paymentDate;
 	}
 
-	public void setPaymentDate(Date paymentDate) {
+	public void setPaymentDate(LocalDateTime paymentDate) {
 		this.paymentDate = paymentDate;
 	}
 
@@ -107,19 +107,19 @@ public class Payment {
 		this.paymentMethod = paymentMethod;
 	}
 
-	public Date getCreatedAt() {
+	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(Date createdAt) {
+	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 
-	public Date getUpdatedAt() {
+	public LocalDateTime getUpdatedAt() {
 		return updatedAt;
 	}
 
-	public void setUpdatedAt(Date updatedAt) {
+	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 

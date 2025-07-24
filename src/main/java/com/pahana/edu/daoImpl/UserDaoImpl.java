@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 
 import com.pahana.edu.dao.UserDao;
 import com.pahana.edu.model.User;
@@ -24,17 +25,15 @@ public class UserDaoImpl implements UserDao {
 				+ "hashedPassword, "
 				+ "role, "
 				+ "isActive, "
-				+ "createdAt, " 
-				+ "updatedAt, " 
-				+ "lastLogin) VALUES (?, ?, ?, ?, ?, ?, ?)";
+				+ "createdAt, "
+				+ "lastLogin) VALUES (?, ?, ?, ?, ?, ?)";
 		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 			stmt.setString(1, user.getUsername());
 			stmt.setString(2, user.getHashedPassword()); // Already hashed
 			stmt.setString(3, user.getRole().name());
 			stmt.setBoolean(4, user.getIsActive());
-			stmt.setDate(5, user.getCreatedAt());
-			stmt.setDate(6, user.getUpdatedAt());
-			stmt.setDate(7, user.getLastLogin());
+			stmt.setObject(5, user.getCreatedAt());
+			stmt.setObject(6, user.getLastLogin());
 			stmt.executeUpdate();
 		}
 	}
@@ -51,6 +50,57 @@ public class UserDaoImpl implements UserDao {
 				user.setUsername(rs.getString("username"));
 				user.setHashedPassword(rs.getString("hashedPassword"));
 				user.setRole(UserRole.valueOf(rs.getString("role")));
+				user.setIsActive(rs.getBoolean("isActive"));
+
+				LocalDateTime rtrvdTime;
+				rtrvdTime = rs.getObject("createdAt", LocalDateTime.class);
+				user.setCreatedAt(rtrvdTime);
+
+				rtrvdTime = rs.getObject("lastLogin", LocalDateTime.class);
+				user.setLastLogin(rtrvdTime);
+
+				rtrvdTime = rs.getObject("updatedAt", LocalDateTime.class);
+				user.setUpdatedAt(rtrvdTime);
+				return user;
+			}
+			return null;
+		}
+	}
+
+	@Override
+	public void updateLastLogin(Long loggedInUserId) throws SQLException {
+		String sql = "UPDATE user SET lastLogin = ? WHERE id = ?";
+		LocalDateTime lastLoginTime = LocalDateTime.now();
+		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+			stmt.setObject(1, lastLoginTime);
+			stmt.setObject(2, loggedInUserId);
+			stmt.executeUpdate();
+		}
+	}
+
+	@Override
+	public User getUserById(Long id) throws SQLException {
+		String sql = "SELECT * FROM user WHERE id = ?";
+		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+			stmt.setLong(1, id);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				User user = new User();
+				user.setId(rs.getLong("id"));
+				user.setUsername(rs.getString("username"));
+				user.setHashedPassword(rs.getString("hashedPassword"));
+				user.setRole(UserRole.valueOf(rs.getString("role")));
+				user.setIsActive(rs.getBoolean("isActive"));
+
+				LocalDateTime rtrvdTime;
+				rtrvdTime = rs.getObject("createdAt", LocalDateTime.class);
+				user.setCreatedAt(rtrvdTime);
+
+				rtrvdTime = rs.getObject("lastLogin", LocalDateTime.class);
+				user.setLastLogin(rtrvdTime);
+
+				rtrvdTime = rs.getObject("updatedAt", LocalDateTime.class);
+				user.setUpdatedAt(rtrvdTime);
 				return user;
 			}
 			return null;

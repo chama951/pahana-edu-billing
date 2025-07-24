@@ -1,6 +1,6 @@
 package com.pahana.edu.model;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
 
@@ -28,23 +28,32 @@ public class User {
 	private Boolean isActive = true;
 
 	@CreationTimestamp
-	private Date createdAt;
+	private LocalDateTime createdAt = LocalDateTime.now();
 
 	@UpdateTimestamp
-	private Date updatedAt;
+	private LocalDateTime updatedAt = LocalDateTime.now();
 
-	private Date lastLogin;
+	private LocalDateTime lastLogin;
 
-	public User(String username, String plainPassword, UserRole role, Boolean isActive, Date currentDate,
-			Date currentDate2, Date currentDate3) {
+	public User(String username, String plainPassword, UserRole role, Boolean isActive, LocalDateTime createdAt,
+			LocalDateTime updatedAt, LocalDateTime lastLogin) {
 		super();
 		this.username = username;
 		this.hashedPassword = PasswordUtil.hashPassword(plainPassword);
 		this.role = role;
 		this.isActive = isActive;
-		this.createdAt = currentDate;
-		this.updatedAt = currentDate2;
-		this.lastLogin = currentDate3;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+		this.lastLogin = lastLogin;
+	}
+
+	public User(String username, String plainPassword, UserRole role, Boolean isActive, LocalDateTime lastLogin) {
+		super();
+		this.username = username;
+		this.hashedPassword = PasswordUtil.hashPassword(plainPassword);
+		this.role = role;
+		this.isActive = isActive;
+		this.lastLogin = lastLogin;
 	}
 
 	public User() {
@@ -98,28 +107,27 @@ public class User {
 		this.isActive = isActive;
 	}
 
-	public Date getCreatedAt() {
+	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(Date createdAt) {
+	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 
-	public Date getUpdatedAt() {
+	public LocalDateTime getUpdatedAt() {
 		return updatedAt;
 	}
 
-	public void setUpdatedAt(Date updatedAt) {
+	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 
-	public Date getLastLogin() {
+	public LocalDateTime getLastLogin() {
 		return lastLogin;
 	}
 
-	public void setLastLogin(Date lastLogin) {
+	public void setLastLogin(LocalDateTime lastLogin) {
 		this.lastLogin = lastLogin;
 	}
-
 }

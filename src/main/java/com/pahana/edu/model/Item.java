@@ -1,6 +1,6 @@
 package com.pahana.edu.model;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
 
@@ -23,10 +23,10 @@ public class Item {
 	private Integer quantityInStock;
 
 	@CreationTimestamp
-	private Date createdAt;
+	private LocalDateTime createdAt = LocalDateTime.now();
 
 	@UpdateTimestamp
-	private Date updatedAt;
+	private LocalDateTime updatedAt = LocalDateTime.now();
 
 	private String description;
 
@@ -36,8 +36,8 @@ public class Item {
 
 	private String publisher;
 
-	private Item(Long id, String title, String isbn, double price, Integer quantityInStock, Date createdAt,
-			Date updatedAt, String description, String author, Integer publicationYear, String publisher) {
+	private Item(Long id, String title, String isbn, double price, Integer quantityInStock, LocalDateTime createdAt,
+			LocalDateTime updatedAt, String description, String author, Integer publicationYear, String publisher) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -92,19 +92,19 @@ public class Item {
 		this.quantityInStock = quantityInStock;
 	}
 
-	public Date getCreatedAt() {
+	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(Date createdAt) {
+	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 
-	public Date getUpdatedAt() {
+	public LocalDateTime getUpdatedAt() {
 		return updatedAt;
 	}
 
-	public void setUpdatedAt(Date updatedAt) {
+	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 

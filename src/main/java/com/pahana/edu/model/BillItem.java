@@ -1,6 +1,6 @@
 package com.pahana.edu.model;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
 
@@ -27,10 +27,10 @@ public class BillItem {
 	private String description;
 
 	@CreationTimestamp
-	private Date createdAt;
+	private LocalDateTime createdAt = LocalDateTime.now();
 
 	@UpdateTimestamp
-	private Date updatedAt;
+	private LocalDateTime updatedAt = LocalDateTime.now();
 
 	@ManyToOne
 	@JoinColumn(name = "billId")
@@ -41,7 +41,7 @@ public class BillItem {
 	private Item item;
 
 	private BillItem(Long id, Integer quantity, double unitPrice, double subTotal, double discountPercentage,
-			double taxAmount, String description, Date createdAt, Date updatedAt, Bill bill,
+			double taxAmount, String description, LocalDateTime createdAt, LocalDateTime updatedAt, Bill bill,
 			Item item) {
 		super();
 		this.id = id;
@@ -113,19 +113,19 @@ public class BillItem {
 		this.description = description;
 	}
 
-	public Date getCreatedAt() {
+	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(Date createdAt) {
+	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 
-	public Date getUpdatedAt() {
+	public LocalDateTime getUpdatedAt() {
 		return updatedAt;
 	}
 
-	public void setUpdatedAt(Date updatedAt) {
+	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 

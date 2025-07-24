@@ -9,4 +9,8 @@ public interface UserDao {
 	void createUser(User user) throws SQLException;
 
 	User getUserByUsername(String username) throws SQLException;
+	
+	User getUserById(Long id) throws SQLException;
+	
+	void updateLastLogin(Long loggedInUserId) throws SQLException;
 }

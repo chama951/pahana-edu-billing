@@ -35,11 +35,14 @@ public class dashboardServlet extends HttpServlet {
 		response.setContentType("text/html; charset=utf-8");
 		PrintWriter printWriter = response.getWriter();
 		HttpSession session = request.getSession();
+
 		try {
 			User user = (User) session.getAttribute("currentUser");
-			printWriter.print("<h2> Logged in username : " + user.getUsername() + "</h>");
-			printWriter.print("<h2> Logged in password : " + user.getHashedPassword() + "</h>");
-			printWriter.print("<h2> Logged in userRole : " + user.getRole() + "</h>");
+			user = userDao.getUserById(user.getId());
+			printWriter.print("<h2> Logged in username : " + user.getUsername() + "</h2>");
+			printWriter.print("<h2> Logged in userRole : " + user.getRole() + "</h2>");
+			printWriter.print("<h2> User created at : " + user.getCreatedAt() + "</h2>");
+			printWriter.print("<h2> User last LoggedIn at : " + user.getLastLogin() + "</h2>");
 			if (user.getUsername() != userDao.getUserByUsername(user.getUsername()).getUsername()) {
 				// Just added for compile the sqlexception without errors
 			}

@@ -1,9 +1,8 @@
 package com.pahana.edu.controller.user;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.SQLException;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -38,7 +37,9 @@ public class createUserServlet extends HttpServlet {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String roleParam = request.getParameter("role");
-		Date currentDate = Date.valueOf(LocalDate.now());
+		
+		LocalDateTime now = LocalDateTime.now();
+		
 		try {
 			User user = userDao.getUserByUsername(username);
 			if (user != null) {
@@ -51,9 +52,7 @@ public class createUserServlet extends HttpServlet {
 						password,
 						userRole,
 						true,
-						currentDate,
-						currentDate,
-						currentDate);
+						now);
 				userDao.createUser(newUser);
 				request.setAttribute("successMessage", "User created successfully!");
 				request.getRequestDispatcher("/views/ProcessDone.jsp").forward(request, response);

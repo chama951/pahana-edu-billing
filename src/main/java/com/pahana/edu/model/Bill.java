@@ -2,8 +2,7 @@ package com.pahana.edu.model;
 
 import java.math.BigDecimal;
 
-import java.sql.Date;
-
+import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.*;
@@ -19,21 +18,19 @@ public class Bill {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private Date billDate;
+	private LocalDateTime billDate;
 
 	private BigDecimal totalAmount;
-
-	private Date dueDate;
 
 	private BigDecimal taxAmount;
 
 	private BigDecimal discountAmount;
 
 	@CreationTimestamp
-	private Date createdAt;
+	private LocalDateTime createdAt = LocalDateTime.now();
 
 	@UpdateTimestamp
-	private Date updatedAt;
+	private LocalDateTime updatedAt = LocalDateTime.now();
 
 	@ManyToOne
 	@JoinColumn(name = "customerId")
@@ -45,14 +42,13 @@ public class Bill {
 	@OneToOne(mappedBy = "bill", cascade = ALL, orphanRemoval = true)
 	private Payment payment;
 
-	private Bill(Long id, Date billDate, BigDecimal totalAmount, Date dueDate, BigDecimal taxAmount,
-			BigDecimal discountAmount, Date createdAt, Date updatedAt, Customer customer, List<BillItem> billItems,
+	private Bill(Long id, LocalDateTime billDate, BigDecimal totalAmount,BigDecimal taxAmount,
+			BigDecimal discountAmount, LocalDateTime createdAt, LocalDateTime updatedAt, Customer customer, List<BillItem> billItems,
 			Payment payment) {
 		super();
 		this.id = id;
 		this.billDate = billDate;
 		this.totalAmount = totalAmount;
-		this.dueDate = dueDate;
 		this.taxAmount = taxAmount;
 		this.discountAmount = discountAmount;
 		this.createdAt = createdAt;
@@ -70,11 +66,11 @@ public class Bill {
 		this.id = id;
 	}
 
-	public Date getBillDate() {
+	public LocalDateTime getBillDate() {
 		return billDate;
 	}
 
-	public void setBillDate(Date billDate) {
+	public void setBillDate(LocalDateTime billDate) {
 		this.billDate = billDate;
 	}
 
@@ -84,14 +80,6 @@ public class Bill {
 
 	public void setTotalAmount(BigDecimal totalAmount) {
 		this.totalAmount = totalAmount;
-	}
-
-	public Date getDueDate() {
-		return dueDate;
-	}
-
-	public void setDueDate(Date dueDate) {
-		this.dueDate = dueDate;
 	}
 
 	public BigDecimal getTaxAmount() {
@@ -110,19 +98,19 @@ public class Bill {
 		this.discountAmount = discountAmount;
 	}
 
-	public Date getCreatedAt() {
+	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(Date createdAt) {
+	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 
-	public Date getUpdatedAt() {
+	public LocalDateTime getUpdatedAt() {
 		return updatedAt;
 	}
 
-	public void setUpdatedAt(Date updatedAt) {
+	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 
