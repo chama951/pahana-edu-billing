@@ -4,7 +4,7 @@
 <title>Process Completed</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/ProcessDone.css">
+	href="${pageContext.request.contextPath}/css/ErrorMessege.css">
 </head>
 <!-- Font Awesome for icons (optional) -->
 <link rel="stylesheet"
@@ -26,7 +26,7 @@
 		}
 		%>
 
-		<a href="${pageContext.request.contextPath}/login" class="btn">Continue</a>
-	</div>
+		<a href="${pageContext.request.contextPath}${buttonPath}" class="btn">
+			Continue </a>
 </body>
 </html>

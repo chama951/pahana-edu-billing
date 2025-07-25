@@ -59,6 +59,11 @@ public class User {
 	public User() {
 	}
 
+	public User(UserRole userRole, boolean isActive) {
+		this.role = userRole;
+		this.isActive = isActive;
+	}
+
 	public boolean verifyPassword(String plainPassword) {
 		return PasswordUtil.checkPassword(plainPassword, this.hashedPassword);
 	}

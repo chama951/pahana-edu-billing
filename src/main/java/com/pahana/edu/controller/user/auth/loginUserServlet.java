@@ -40,12 +40,19 @@ public class loginUserServlet extends HttpServlet {
 			User user = userDao.getUserByUsername(username);
 			if (user == null || !PasswordUtil.checkPassword(password, user.getHashedPassword())) {
 				// set error to the jsp
-				request.setAttribute("error", "Invalid credentials");
+				request.setAttribute("error", "Invalid credentials!");
+				request.setAttribute("errorMessage", "Invalid credentials!");
+				//passing the next page as argument
+				request.setAttribute("buttonPath", "/login");
+				request.getRequestDispatcher("/views/ErrorMessege.jsp").forward(request, response);
 				// calling jsp and show the error to the client
-				request.getRequestDispatcher("/views/LoginUser.jsp").forward(request, response);
+//				request.getRequestDispatcher("/views/LoginUser.jsp").forward(request, response);
 			} else if (!user.getIsActive()) {
-				request.setAttribute("error", "User is not active");
-				request.getRequestDispatcher("/views/LoginUser.jsp").forward(request, response);
+				request.setAttribute("error", "User is not active!");
+				request.setAttribute("errorMessage", "User is not active!");
+				//passing the next page as argument
+				request.setAttribute("buttonPath", "/login");
+				request.getRequestDispatcher("/views/ErrorMessege.jsp").forward(request, response);
 			} else {
 				userDao.updateLastLogin(user.getId());
 				HttpSession session = request.getSession();

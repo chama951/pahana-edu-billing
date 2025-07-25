@@ -24,6 +24,13 @@
 		<servlet-name>dashboardServlet</servlet-name>
 		<servlet-class>com.pahana.edu.controller.dashboard.dashboardServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>updateUserServlet</display-name>
+		<servlet-name>updateUserServlet</servlet-name>
+		<servlet-class>com.pahana.edu.controller.user.updateUserServlet</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>createUserServlet</servlet-name>
 		<url-pattern>/create-user</url-pattern>
@@ -35,5 +42,9 @@
 	<servlet-mapping>
 		<servlet-name>dashboardServlet</servlet-name>
 		<url-pattern>/dashboard</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>updateUserServlet</servlet-name>
+		<url-pattern>/updateUserServlet</url-pattern>
 	</servlet-mapping>
 </web-app>

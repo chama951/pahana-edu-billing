@@ -107,4 +107,31 @@ public class UserDaoImpl implements UserDao {
 		}
 	}
 
+	@Override
+	public void updateUserByAdmin(User userToUpdate) throws SQLException {
+		String sql = "UPDATE user SET "
+				+ "username = ?, "
+				+ "role = ?, "
+				+ "isActive = ? , "
+				+ "updatedAt = ? WHERE id = ?";
+		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+			stmt.setString(1, userToUpdate.getUsername());
+			stmt.setString(2, userToUpdate.getRole().name());
+			stmt.setBoolean(3, userToUpdate.getIsActive());
+			stmt.setObject(4, userToUpdate.getUpdatedAt());
+			stmt.setObject(5, userToUpdate.getId());
+			stmt.executeUpdate();
+		}
+	}
+
+	@Override
+	public void updateUsernameBySelf(User userToUpdate) throws SQLException {
+		
+	}
+
+	@Override
+	public void changePasswordBySelf(User loggedIn) throws SQLException {
+		
+	}
+
 }
