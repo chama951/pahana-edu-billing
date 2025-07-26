@@ -75,7 +75,7 @@
 
 				<div class="dashboard-grid">
 					<!-- User Management Card -->
-					<a href="${pageContext.request.contextPath}/user-management"
+					<a href="${pageContext.request.contextPath}/display-users"
 						class="dashboard-card">
 						<div class="card-icon">
 							<i class="fas fa-users"></i>

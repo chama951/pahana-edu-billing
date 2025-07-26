@@ -16,7 +16,7 @@ import com.pahana.edu.model.User;
 import com.pahana.edu.model.enums.Privilege;
 import com.pahana.edu.utill.database.DBConnectionFactory;
 
-public class GetUsersList extends HttpServlet {
+public class DisplayUsers extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private UserDao userDao;
 
@@ -26,7 +26,7 @@ public class GetUsersList extends HttpServlet {
 		super.init();
 	}
 
-	public GetUsersList() {
+	public DisplayUsers() {
 		super();
 	}
 
