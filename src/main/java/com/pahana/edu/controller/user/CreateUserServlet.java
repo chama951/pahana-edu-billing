@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.pahana.edu.dao.UserDao;
 import com.pahana.edu.daoImpl.UserDaoImpl;
@@ -15,7 +16,7 @@ import com.pahana.edu.model.User;
 import com.pahana.edu.model.enums.UserRole;
 import com.pahana.edu.utill.database.DBConnectionFactory;
 
-public class createUserServlet extends HttpServlet {
+public class CreateUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private UserDao userDao;
 
@@ -28,7 +29,15 @@ public class createUserServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		request.getRequestDispatcher("/views/CreateUser.jsp").forward(request, response);
+		HttpSession session = request.getSession();
+		User userLoggedIn = (User) session.getAttribute("currentUser");
+
+		try {
+			request.setAttribute("currentUsername", userLoggedIn.getUsername());
+			request.getRequestDispatcher("/views/CreateUser.jsp").forward(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -38,15 +47,12 @@ public class createUserServlet extends HttpServlet {
 		String password = request.getParameter("password");
 		String roleParam = request.getParameter("role");
 
-		LocalDateTime now = LocalDateTime.now();
-
 		try {
-			User user = userDao.getUserByUsername(username);
-			if (user != null) {
-				request.setAttribute("error", "Username already exist!");
+			User userInDb = userDao.getUserByUsername(username);
+			if (userInDb != null) {
 				request.setAttribute("errorMessage", "Username already exist!");
-				// passing the next page as argument
 				request.setAttribute("buttonPath", "/create-user");
+				request.setAttribute("buttonValue", "Go Back");
 				request.getRequestDispatcher("/views/ErrorMessege.jsp").forward(request, response);
 			} else {
 				UserRole userRole = UserRole.valueOf(roleParam.toUpperCase());
@@ -55,17 +61,30 @@ public class createUserServlet extends HttpServlet {
 						password,
 						userRole,
 						true,
-						now);
+						LocalDateTime.now());
 				userDao.createUser(newUser);
-				request.setAttribute("successMessage", "User created successfully!");
-				// passing the next page as argument
-				request.setAttribute("buttonPath", "/login");
-				request.getRequestDispatcher("/views/ProcessDone.jsp").forward(request, response);
-//				response.sendRedirect(request.getContextPath() + "/login");
+
+				HttpSession session = request.getSession();
+				User userLoggedIn = (User) session.getAttribute("currentUser");
+
+				if (!userLoggedIn.equals(null)) {
+					request.setAttribute("successMessage", "User created successfully!");
+					request.setAttribute("buttonPath", "/user-management");
+					request.setAttribute("buttonValue", "Continue");
+					request.getRequestDispatcher("/views/ProcessDone.jsp").forward(request, response);
+				} else {
+					request.setAttribute("successMessage", "User created successfully!");
+					request.setAttribute("buttonPath", "/login");
+					request.setAttribute("buttonValue", "Login");
+					request.getRequestDispatcher("/views/ProcessDone.jsp").forward(request, response);
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			request.getRequestDispatcher("/views/CreateUser.jsp").forward(request, response);
+		}catch (NullPointerException e) {
+			e.printStackTrace();
+			return;
 		}
 
 	}

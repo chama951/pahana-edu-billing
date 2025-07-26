@@ -26,7 +26,7 @@
 		}
 		%>
 
-		<a href="${pageContext.request.contextPath}${buttonPath}" class="btn">Try Again
+		<a href="${pageContext.request.contextPath}${buttonPath}" class="btn">${buttonValue}
 			${buttonAction} </a>
 	</div>
 </body>

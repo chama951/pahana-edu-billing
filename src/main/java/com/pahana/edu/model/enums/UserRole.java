@@ -7,7 +7,13 @@ public enum UserRole {
 	
     ADMIN("Manage everything", 
         EnumSet.of(
-            Privilege.ALL
+            Privilege.MANAGE_CUSTOMERS,
+            Privilege.MANAGE_ITEMS,
+            Privilege.CREATE_BILLS,
+            Privilege.VIEW_BILLS,
+            Privilege.CANCEL_BILLS,
+            Privilege.MANAGE_USERS,
+            Privilege.VIEW_REPORTS
         )),
         
     CASHIER("Manage customers",

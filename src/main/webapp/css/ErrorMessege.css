@@ -91,20 +91,6 @@ to {
 
 }
 
-/* Responsive design */
-@media ( max-width : 600px) {
-	.container {
-		padding: 1.5rem;
-		margin: 1rem;
-	}
-	.success-icon {
-		font-size: 60px;
-	}
-	h2 {
-		font-size: 1.5rem;
-	}
-}
-
 /* Error page specific styles */
 .error-icon {
 	color: var(--error-color);
@@ -142,4 +128,19 @@ to {
 
 .error-container .btn:hover {
 	background-color: #c82333;
+}
+
+
+/* Responsive design */
+@media ( max-width : 600px) {
+	.container {
+		padding: 1.5rem;
+		margin: 1rem;
+	}
+	.success-icon {
+		font-size: 60px;
+	}
+	h2 {
+		font-size: 1.5rem;
+	}
 }

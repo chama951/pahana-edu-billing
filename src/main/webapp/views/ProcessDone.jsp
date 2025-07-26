@@ -28,5 +28,6 @@
 
 		<a href="${pageContext.request.contextPath}${buttonPath}" class="btn">
 			Continue </a>
+	</div>
 </body>
 </html>

@@ -1,6 +1,8 @@
 package com.pahana.edu.dao;
 
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.List;
 
 import com.pahana.edu.model.User;
 
@@ -12,11 +14,15 @@ public interface UserDao {
 
 	User getUserById(Long id) throws SQLException;
 
-	void updateLastLogin(Long loggedInUserId) throws SQLException;
+	void updateLastLogin(Long loggedInUserId, LocalDateTime lastLoginTime) throws SQLException;
 
 	void updateUserByAdmin(User userToUpdate) throws SQLException;
 	
-	void updateUsernameBySelf(User userToUpdate) throws SQLException;
+	void updateUsername(Long id, String newUsername) throws SQLException;
 	
-	void changePasswordBySelf(User loggedIn) throws SQLException;
+	List<User> getAllUsers()throws SQLException;
+	
+	void deleteUser(Long userId) throws SQLException;
+
+	boolean updatePassword(Long id, String hashPassword)throws SQLException;
 }

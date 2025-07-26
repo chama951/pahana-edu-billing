@@ -11,9 +11,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/CreateUser.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 </head>
 <body>
 	<div class="registration-container">
+		<!-- Close button conditionally rendered -->
+		<c:if test="${not empty username}">
+			<button class="close-btn"
+				onclick="window.location.href='${pageContext.request.contextPath}/user-management'">
+				<i class="fas fa-times"></i>
+			</button>
+		</c:if>
+
 		<h1 class="registration-header">Register New User</h1>
 
 		<form class="registration-form"
@@ -70,9 +81,10 @@
 
 			if (password !== confirmPassword) {
 				errorElement.style.display = "block";
-				return false; // prevent form submission
+				return false;
 			}
-			return true; // allow form submission
+			errorElement.style.display = "none";
+			return true;
 		}
 	</script>
 </body>

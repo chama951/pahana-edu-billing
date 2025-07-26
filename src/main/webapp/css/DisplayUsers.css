@@ -1,0 +1,401 @@
+/* users-table.css - Styles for user management table and modal */
+:root {
+	--primary-color: #4a6fa5;
+	--primary-dark: #3a5a8f;
+	--secondary-color: #6c757d;
+	--success-color: #28a745;
+	--error-color: #dc3545;
+	--light-color: #f8f9fa;
+	--dark-color: #343a40;
+	--border-radius: 8px;
+	--box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	--transition: all 0.3s ease;
+}
+
+/* Base Styles */
+body {
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	line-height: 1.6;
+	background-color: #f5f5f5;
+	color: #333;
+	margin: 0;
+	padding: 2rem;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center; /* Added to center content horizontally */
+}
+
+/* Table Container */
+.users-container {
+	width: 100%;
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 2rem;
+	background: white;
+	border-radius: var(--border-radius);
+	box-shadow: var(--box-shadow);
+}
+
+.users-header {
+	color: var(--primary-color);
+	text-align: center;
+	margin-bottom: 1.5rem;
+	font-weight: 600;
+	font-size: 1.8rem;
+	width: 100%; /* Added to ensure full width */
+}
+
+/* Table Styles */
+.users-table {
+	width: 100%;
+	border-collapse: collapse;
+	margin: 1.5rem auto; /* Changed to center table */
+	font-size: 0.95rem;
+}
+
+.users-table th {
+	background-color: var(--primary-color);
+	color: white;
+	padding: 1rem;
+	text-align: left;
+	position: sticky;
+	top: 0;
+}
+
+.users-table td {
+	padding: 0.75rem 1rem;
+	border-bottom: 1px solid #eee;
+}
+
+.users-table tr:nth-child(even) {
+	background-color: var(--light-color);
+}
+
+.users-table tr:hover {
+	background-color: rgba(74, 111, 165, 0.05);
+}
+
+/* Action Buttons */
+.action-btn {
+	padding: 0.5rem 1rem;
+	border-radius: var(--border-radius);
+	font-size: 0.85rem;
+	font-weight: 500;
+	cursor: pointer;
+	transition: var(--transition);
+	text-decoration: none;
+	display: inline-block;
+	text-align: center;
+	margin-right: 0.5rem;
+}
+
+.edit-btn {
+	background-color: var(--primary-color);
+	color: white;
+	border: 1px solid var(--primary-color);
+}
+
+.edit-btn:hover {
+	background-color: var(--primary-dark);
+	transform: translateY(-1px);
+}
+
+.delete-btn {
+	background-color: var(--error-color);
+	color: white;
+	border: 1px solid var(--error-color);
+}
+
+.delete-btn:hover {
+	background-color: #c82333;
+	transform: translateY(-1px);
+}
+
+/* Status Indicators */
+.status-active {
+	color: var(--success-color);
+	font-weight: 500;
+}
+
+.status-inactive {
+	color: var(--error-color);
+	font-weight: 500;
+}
+
+/* Empty State */
+.empty-state {
+	text-align: center;
+	padding: 2rem;
+	color: var(--secondary-color);
+}
+
+.empty-state i {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+	color: var(--secondary-color);
+}
+
+/* Modal Styles */
+.modal {
+	display: none;
+	position: fixed;
+	z-index: 1000;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	overflow: auto;
+}
+
+.modal-content {
+	background-color: white;
+	margin: 5% auto;
+	padding: 2rem;
+	border-radius: var(--border-radius);
+	box-shadow: var(--box-shadow);
+	width: 90%;
+	max-width: 450px;
+	position: relative;
+	animation: modalFadeIn 0.3s;
+}
+
+.modal-header {
+	color: var(--primary-color);
+	text-align: center;
+	margin-bottom: 1.5rem;
+	font-weight: 600;
+	font-size: 1.5rem;
+}
+
+/* Modal Button Styles */
+.modal .btn {
+	width: 100%;
+	padding: 0.75rem;
+	background-color: var(--primary-color);
+	color: white;
+	border: none;
+	border-radius: var(--border-radius);
+	font-size: 1rem;
+	font-weight: 500;
+	cursor: pointer;
+	transition: var(--transition);
+	margin-top: 1rem;
+}
+
+.modal .btn:hover {
+	background-color: var(--primary-dark);
+	transform: translateY(-2px);
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.modal .btn:active {
+	transform: translateY(0);
+}
+
+/* Close button specific styles */
+.close-btn {
+	position: absolute;
+	right: 1.5rem;
+	top: 1.5rem;
+	font-size: 1.8rem;
+	color: var(--secondary-color);
+	cursor: pointer;
+	background: none;
+	border: none;
+	transition: var(--transition);
+}
+
+.close-btn:hover {
+	color: var(--dark-color);
+	transform: scale(1.1);
+}
+
+/* Modal Form Styles */
+.modal .form-group {
+	margin-bottom: 1.25rem;
+}
+
+.modal .form-label {
+	display: block;
+	margin-bottom: 0.5rem;
+	font-weight: 500;
+	color: var(--dark-color);
+}
+
+.modal .form-control {
+	width: 100%;
+	padding: 0.75rem;
+	border: 1px solid #ddd;
+	border-radius: var(--border-radius);
+	font-size: 1rem;
+	transition: var(--transition);
+}
+
+.modal .form-control:focus {
+	border-color: var(--primary-color);
+	outline: none;
+	box-shadow: 0 0 0 2px rgba(74, 111, 165, 0.2);
+}
+
+/* Uneditable Field Styles */
+.uneditable-field {
+	background-color: var(--light-color);
+	padding: 1rem;
+	border-radius: var(--border-radius);
+	margin: 0 auto 1.5rem auto;
+	border: 1px solid #ddd;
+	text-align: center;
+	width: fit-content;
+	min-width: 300px;
+	box-shadow: var(--box-shadow);
+}
+
+.uneditable-field span {
+	color: var(--primary-color);
+	font-weight: 600;
+}
+
+.modal-content h3 {
+	margin-bottom: 0.5rem;
+	color: var(--dark-color);
+	font-size: 1.1rem;
+}
+
+.delete-form {
+	display: inline;
+}
+
+.delete-btn {
+	background: none;
+	border: none;
+	color: #e74c3c;
+	cursor: pointer;
+	padding: 5px;
+	font-size: 16px;
+	width: 30px;
+	height: 30px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 4px;
+	transition: all 0.2s ease;
+}
+
+.delete-btn:hover {
+	background-color: #e74c3c;
+	color: white;
+}
+
+.action-buttons {
+	display: flex;
+	gap: 10px;
+}
+
+/* Animations */
+keyframes modalFadeIn {from { opacity:0;
+	transform: translateY(-20px);
+}
+
+to {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+}
+.page-header {
+	display: flex;
+	align-items: center;
+	margin-bottom: 20px;
+	gap: 20px;
+}
+
+.back-button {
+	background-color: #3498db;
+	color: white;
+	border: none;
+	padding: 8px 16px;
+	border-radius: 4px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	text-decoration: none;
+	font-size: 14px;
+}
+
+.back-button:hover {
+	background-color: #2980b9;
+}
+
+.users-header {
+	margin: 0;
+	flex-grow: 1;
+}
+
+.add-user-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	background-color: #4a6fa5;
+	color: white;
+	border-radius: 50%;
+	margin-left: 10px;
+	transition: all 0.3s ease;
+	text-decoration: none;
+}
+
+.add-user-icon:hover {
+	background-color: #3a5a8f;
+	transform: scale(1.1);
+}
+
+/* ====================== */
+/* MEDIA QUERIES - MOVED TO BOTTOM */
+/* ====================== */
+@media ( max-width : 768px) {
+	body {
+		padding: 1rem;
+		align-items: flex-start; /* Adjusted for mobile */
+	}
+	.users-container {
+		padding: 1rem;
+		margin: 1rem auto;
+		width: calc(100% - 2rem);
+	}
+	.users-table {
+		display: block;
+		overflow-x: auto;
+		margin: 1rem 0;
+	}
+	.action-btn {
+		margin-bottom: 0.5rem;
+	}
+	.modal-content {
+		margin: 10% auto;
+		padding: 1.5rem;
+	}
+	.uneditable-field {
+		min-width: 250px;
+		padding: 0.75rem;
+	}
+}
+
+@media ( max-width : 480px) {
+	body {
+		padding: 0.5rem;
+	}
+	.modal-content {
+		width: 95%;
+		padding: 1rem;
+	}
+	.modal-header {
+		font-size: 1.3rem;
+	}
+	.users-header {
+		font-size: 1.5rem;
+	}
+}

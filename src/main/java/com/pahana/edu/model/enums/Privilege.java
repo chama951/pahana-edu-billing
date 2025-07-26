@@ -2,7 +2,6 @@ package com.pahana.edu.model.enums;
 
 public enum Privilege {
 	
-	ALL("All Privileges"),
 
     MANAGE_CUSTOMERS("manage:customers"),
     

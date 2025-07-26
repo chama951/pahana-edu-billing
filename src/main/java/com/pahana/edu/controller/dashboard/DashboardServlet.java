@@ -1,9 +1,6 @@
 package com.pahana.edu.controller.dashboard;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.SQLException;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,11 +12,11 @@ import com.pahana.edu.daoImpl.UserDaoImpl;
 import com.pahana.edu.model.User;
 import com.pahana.edu.utill.database.DBConnectionFactory;
 
-public class dashboardServlet extends HttpServlet {
+public class DashboardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	public UserDao userDao;
 
-	public dashboardServlet() {
+	public DashboardServlet() {
 		super();
 	}
 
@@ -33,24 +30,14 @@ public class dashboardServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("text/html; charset=utf-8");
-		PrintWriter printWriter = response.getWriter();
+
 		HttpSession session = request.getSession();
+		User currentUser = (User) session.getAttribute("currentUser");
 
-		try {
-			User user = (User) session.getAttribute("currentUser");
-			user = userDao.getUserById(user.getId());
-			printWriter.print("<h2> Logged in username : " + user.getUsername() + "</h2>");
-			printWriter.print("<h2> Logged in userRole : " + user.getRole() + "</h2>");
-			printWriter.print("<h2> User created at : " + user.getCreatedAt() + "</h2>");
-			printWriter.print("<h2> User last LoggedIn at : " + user.getLastLogin() + "</h2>");
-			if (user.getUsername() != userDao.getUserByUsername(user.getUsername()).getUsername()) {
-				// Just added for compile the sqlexception without errors
-			}
-//			request.getRequestDispatcher("/views/Dashboard.jsp").forward(request, response);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+        request.setAttribute("loggedInUsername", currentUser.getUsername());
+        request.setAttribute("userRole", currentUser.getRole());
 
+		request.getRequestDispatcher("/views/Dashboard.jsp").forward(request, response);
 	}
 
 	@Override

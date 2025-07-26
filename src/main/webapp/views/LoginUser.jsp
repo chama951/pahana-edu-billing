@@ -8,6 +8,16 @@
 <title>Login</title>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/LoginUser.css">
+<meta http-equiv="Cache-Control"
+	content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<script>
+	if (window.history.replaceState) {
+		window.history.replaceState(null, null, window.location.href);
+	}
+</script>
+<!-- Other head elements -->
 </head>
 <body>
 	<div class="login-container">

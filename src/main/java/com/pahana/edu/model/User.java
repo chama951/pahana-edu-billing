@@ -28,10 +28,10 @@ public class User {
 	private Boolean isActive = true;
 
 	@CreationTimestamp
-	private LocalDateTime createdAt = LocalDateTime.now();
+	private LocalDateTime createdAt;
 
 	@UpdateTimestamp
-	private LocalDateTime updatedAt = LocalDateTime.now();
+	private LocalDateTime updatedAt;
 
 	private LocalDateTime lastLogin;
 
@@ -47,13 +47,13 @@ public class User {
 		this.lastLogin = lastLogin;
 	}
 
-	public User(String username, String plainPassword, UserRole role, Boolean isActive, LocalDateTime lastLogin) {
+	public User(String username, String plainPassword, UserRole role, Boolean isActive, LocalDateTime createdAt) {
 		super();
 		this.username = username;
 		this.hashedPassword = PasswordUtil.hashPassword(plainPassword);
 		this.role = role;
 		this.isActive = isActive;
-		this.lastLogin = lastLogin;
+		this.createdAt = createdAt;
 	}
 
 	public User() {

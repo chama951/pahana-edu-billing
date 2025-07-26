@@ -2,6 +2,7 @@ package com.pahana.edu.controller.user.auth;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -15,7 +16,7 @@ import com.pahana.edu.model.User;
 import com.pahana.edu.utill.PasswordUtil;
 import com.pahana.edu.utill.database.DBConnectionFactory;
 
-public class loginUserServlet extends HttpServlet {
+public class LoginUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private UserDao userDao;
 
@@ -28,6 +29,15 @@ public class loginUserServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		HttpSession session = request.getSession(false);
+		if (session != null) {
+			session.invalidate();
+		}
+
+		response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+		response.setHeader("Pragma", "no-cache");
+		response.setDateHeader("Expires", 0);
+
 		request.getRequestDispatcher("/views/LoginUser.jsp").forward(request, response);
 	}
 
@@ -37,32 +47,36 @@ public class loginUserServlet extends HttpServlet {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		try {
-			User user = userDao.getUserByUsername(username);
-			if (user == null || !PasswordUtil.checkPassword(password, user.getHashedPassword())) {
-				// set error to the jsp
-				request.setAttribute("error", "Invalid credentials!");
-				request.setAttribute("errorMessage", "Invalid credentials!");
-				//passing the next page as argument
+			User userInDb = userDao.getUserByUsername(username);
+			if (userInDb == null) {
+				request.setAttribute("errorMessage", "User not found");
 				request.setAttribute("buttonPath", "/login");
+				request.setAttribute("buttonValue", "Go Back");
 				request.getRequestDispatcher("/views/ErrorMessege.jsp").forward(request, response);
-				// calling jsp and show the error to the client
-//				request.getRequestDispatcher("/views/LoginUser.jsp").forward(request, response);
-			} else if (!user.getIsActive()) {
-				request.setAttribute("error", "User is not active!");
-				request.setAttribute("errorMessage", "User is not active!");
-				//passing the next page as argument
+			} else if (userInDb == null || !PasswordUtil.checkPassword(password, userInDb.getHashedPassword())) {
+				request.setAttribute("errorMessage", "Invalid credentials!");
 				request.setAttribute("buttonPath", "/login");
+				request.setAttribute("buttonValue", "Try Again");
+				request.getRequestDispatcher("/views/ErrorMessege.jsp").forward(request, response);
+			} else if (!userInDb.getIsActive()) {
+				request.setAttribute("errorMessage", "User is not active!");
+				request.setAttribute("buttonPath", "/login");
+				request.setAttribute("buttonValue", "Go Back");
 				request.getRequestDispatcher("/views/ErrorMessege.jsp").forward(request, response);
 			} else {
-				userDao.updateLastLogin(user.getId());
+				LocalDateTime lastLoginTime = LocalDateTime.now();
+				userDao.updateLastLogin(userInDb.getId(), lastLoginTime);
 				HttpSession session = request.getSession();
-				session.setAttribute("currentUser", user);
-				// redirect to the dashboard by accessing the DashboardServlet
-				response.sendRedirect(request.getContextPath() + "/dashboard");
+				session.setAttribute("currentUser", userInDb);
+//				response.sendRedirect(request.getContextPath() + "/get-user-list");
+				request.getRequestDispatcher("/dashboard").forward(request, response);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			request.getRequestDispatcher("/views/LoginUser.jsp").forward(request, response);
+		}catch (NullPointerException e) {
+			e.printStackTrace();
+			return;
 		}
 	}
 
