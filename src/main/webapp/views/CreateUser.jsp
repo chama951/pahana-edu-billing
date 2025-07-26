@@ -18,7 +18,7 @@
 <body>
 	<div class="registration-container">
 		<!-- Close button conditionally rendered -->
-		<c:if test="${not empty username}">
+		<c:if test="${not empty currentUser}">
 			<button class="close-btn"
 				onclick="window.location.href='${pageContext.request.contextPath}/user-management'">
 				<i class="fas fa-times"></i>

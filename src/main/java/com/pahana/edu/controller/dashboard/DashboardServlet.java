@@ -29,15 +29,19 @@ public class DashboardServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setContentType("text/html; charset=utf-8");
 
 		HttpSession session = request.getSession();
 		User currentUser = (User) session.getAttribute("currentUser");
 
-        request.setAttribute("loggedInUsername", currentUser.getUsername());
-        request.setAttribute("userRole", currentUser.getRole());
+		try {
+			request.setAttribute("loggedInUsername", currentUser.getUsername());
+			request.setAttribute("userRole", currentUser.getRole());
 
-		request.getRequestDispatcher("/views/Dashboard.jsp").forward(request, response);
+			request.getRequestDispatcher("/views/Dashboard.jsp").forward(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	@Override

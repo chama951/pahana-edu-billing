@@ -31,13 +31,17 @@ public class CreateUserServlet extends HttpServlet {
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		User userLoggedIn = (User) session.getAttribute("currentUser");
-
-		try {
-			request.setAttribute("currentUsername", userLoggedIn.getUsername());
+		if (userLoggedIn != null) {
+			try {
+				request.setAttribute("currentUsername", userLoggedIn.getUsername());
+				request.getRequestDispatcher("/views/CreateUser.jsp").forward(request, response);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else {
 			request.getRequestDispatcher("/views/CreateUser.jsp").forward(request, response);
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
+
 	}
 
 	@Override
@@ -82,7 +86,7 @@ public class CreateUserServlet extends HttpServlet {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			request.getRequestDispatcher("/views/CreateUser.jsp").forward(request, response);
-		}catch (NullPointerException e) {
+		} catch (NullPointerException e) {
 			e.printStackTrace();
 			return;
 		}

@@ -33,9 +33,9 @@ public class GetUsersList extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setContentType("text/html; charset=utf-8");
 		HttpSession session = request.getSession();
 		User userLoggedIn = (User) session.getAttribute("currentUser");
+		request.setAttribute("username", userLoggedIn.getUsername());
 		try {
 			if (!userLoggedIn.getRole().hasPrivilege(Privilege.MANAGE_USERS)) {
 				request.setAttribute("errorMessage", "You don't have permission to access User Management");
@@ -50,7 +50,7 @@ public class GetUsersList extends HttpServlet {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}catch (NullPointerException e) {
+		} catch (NullPointerException e) {
 			e.printStackTrace();
 			return;
 		}
