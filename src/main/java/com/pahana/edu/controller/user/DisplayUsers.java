@@ -50,6 +50,7 @@ public class DisplayUsers extends HttpServlet {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return;
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 			return;

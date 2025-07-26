@@ -8,6 +8,8 @@
 	href="${pageContext.request.contextPath}/css/Dashboard.css">
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
 </head>
 <body>
 	<div class="dashboard-container">
@@ -59,7 +61,7 @@
 						<div class="dropdown-divider"></div>
 
 						<!-- Logout Button -->
-						<a href="${pageContext.request.contextPath}/login"
+						<a href="${pageContext.request.contextPath}/logout-user"
 							class="dropdown-item logout-item"> <i
 							class="fas fa-sign-out-alt dropdown-icon"></i> <span>Logout</span>
 						</a>
@@ -68,6 +70,7 @@
 			</div>
 
 			<!-- Dynamic Content Area with Grid Buttons -->
+			<
 			<div class="content-area">
 				<div class="content-header">
 					<h2>Admin Dashboard</h2>
@@ -78,14 +81,46 @@
 					<a href="${pageContext.request.contextPath}/display-users"
 						class="dashboard-card">
 						<div class="card-icon">
-							<i class="fas fa-users"></i>
+							<i class="fa-solid fa-user-check"></i>
 						</div>
-						<div class="card-title">User Management</div>
-						<div class="card-description">Manage system users and
-							permissions</div>
+						<div class="card-title">Users</div>
 					</a>
 
-					<!-- ... other dashboard cards ... -->
+					<!-- Customer Management Card -->
+					<a href="${pageContext.request.contextPath}/display-custommers"
+						class="dashboard-card">
+						<div class="card-icon">
+							<i class="fa-solid fa-handshake"></i>
+						</div>
+						<div class="card-title">Customers</div>
+					</a>
+
+					<!-- Items Management Card -->
+					<a href="${pageContext.request.contextPath}/display-items"
+						class="dashboard-card">
+						<div class="card-icon">
+							<i class="fa-solid fa-book-open"></i>
+						</div>
+						<div class="card-title">Items</div>
+					</a>
+
+					<!-- Cashier Card -->
+					<a href="${pageContext.request.contextPath}/bill-print"
+						class="dashboard-card">
+						<div class="card-icon">
+							<i class="fa-solid fa-cash-register"></i>
+						</div>
+						<div class="card-title">Cashier</div>
+					</a>
+
+					<!-- Invoices Card -->
+					<a href="${pageContext.request.contextPath}/invoice-history"
+						class="dashboard-card">
+						<div class="card-icon">
+							<i class="fa-solid fa-receipt"></i>
+						</div>
+						<div class="card-title">Invoice</div>
+					</a>
 				</div>
 			</div>
 		</div>
