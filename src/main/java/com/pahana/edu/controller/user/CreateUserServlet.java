@@ -8,7 +8,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.pahana.edu.dao.UserDao;
 import com.pahana.edu.daoImpl.UserDaoImpl;
@@ -34,9 +33,6 @@ public class CreateUserServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		User userLoggedIn = (User) session.getAttribute("currentUser");
-
 		AuthHelper.isUserLoggedIn(request, response);
 
 		request.getRequestDispatcher("/views/CreateUser.jsp").forward(request, response);
@@ -46,9 +42,6 @@ public class CreateUserServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		User userLoggedIn = (User) session.getAttribute("currentUser");
-
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String roleParam = request.getParameter("role");

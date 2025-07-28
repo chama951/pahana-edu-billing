@@ -2,24 +2,24 @@ package com.pahana.edu.controller.user;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.pahana.edu.dao.UserDao;
 import com.pahana.edu.daoImpl.UserDaoImpl;
 import com.pahana.edu.model.User;
-import com.pahana.edu.utill.AuthHelper;
+import com.pahana.edu.model.enums.UserRole;
 import com.pahana.edu.utill.ButtonValues;
 import com.pahana.edu.utill.EndpointValues;
 import com.pahana.edu.utill.MessageConstants;
 import com.pahana.edu.utill.ResponseHandler;
 import com.pahana.edu.utill.database.DBConnectionFactory;
 
-public class ChangeUsername extends HttpServlet {
+public class CreateFirstUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private UserDao userDao;
 
@@ -29,42 +29,37 @@ public class ChangeUsername extends HttpServlet {
 		super.init();
 	}
 
-	public ChangeUsername() {
-		super();
-	}
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		User userLoggedIn = (User) session.getAttribute("currentUser");
-
-		AuthHelper.isUserLoggedIn(request, response);
-
-		request.setAttribute("currentUsername", userLoggedIn.getUsername());
-		request.getRequestDispatcher("/views/ChangeUsername.jsp").forward(request, response);
+		request.getRequestDispatcher("/views/CreateUser.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		User userLoggedIn = (User) session.getAttribute("currentUser");
-
-		AuthHelper.isUserLoggedIn(request, response);
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		String roleParam = request.getParameter("role");
 
 		try {
-			String newUsername = request.getParameter("newUsername");
-
-			if (userDao.getUserByUsername(newUsername) != null) {
+			User userInDb = userDao.getUserByUsername(username);
+			if (userInDb != null) {
 				ResponseHandler.handleError(request, response,
-						MessageConstants.USERNAME_EXISTS, EndpointValues.CHANGE_USERNAME, ButtonValues.TRY_AGAIN);
+						MessageConstants.USERNAME_EXISTS,
+						EndpointValues.CREATE_USER, ButtonValues.TRY_AGAIN);
 			} else {
-				userDao.updateUsername(userLoggedIn.getId(), newUsername);
+				UserRole userRole = UserRole.valueOf(roleParam.toUpperCase());
+				User newUser = new User(
+						username,
+						password,
+						userRole,
+						true,
+						LocalDateTime.now());
+				userDao.createUser(newUser);
 
-				session.invalidate();
 				ResponseHandler.handleSuccess(request, response,
-						MessageConstants.USERNAME_UPDATED, EndpointValues.LOGIN, ButtonValues.CONTINUE);
+						MessageConstants.FIRST_USER_CREATED,
+						EndpointValues.LOGIN, ButtonValues.CONTINUE);
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return;

@@ -39,9 +39,6 @@ public class UpdateUserServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		User userLoggedIn = (User) session.getAttribute("currentUser");
-
 		AuthHelper.isUserLoggedIn(request, response);
 
 	}
@@ -76,9 +73,11 @@ public class UpdateUserServlet extends HttpServlet {
 					ResponseHandler.handleError(request, response,
 							MessageConstants.USER_UPDATE_BY_SELF, EndpointValues.GET_USERS, ButtonValues.BACK);
 				} else {
+					userToUpdate.setRole(loggedInuserRole);
+					userToUpdate.setIsActive(isActiveLoggedIn);
 					userDao.updateUser(userToUpdate);
 					ResponseHandler.handleSuccess(request, response,
-							MessageConstants.USER_UPDATED, EndpointValues.DASHBOARD, ButtonValues.CONTINUE);
+							MessageConstants.USER_UPDATED, EndpointValues.GET_USERS, ButtonValues.CONTINUE);
 				}
 			}
 

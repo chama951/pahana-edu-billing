@@ -16,11 +16,10 @@ import com.pahana.edu.utill.AuthHelper;
 import com.pahana.edu.utill.ButtonValues;
 import com.pahana.edu.utill.EndpointValues;
 import com.pahana.edu.utill.MessageConstants;
-import com.pahana.edu.utill.PasswordUtil;
 import com.pahana.edu.utill.ResponseHandler;
 import com.pahana.edu.utill.database.DBConnectionFactory;
 
-public class ChangePassword extends HttpServlet {
+public class ChangeUsernameServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private UserDao userDao;
 
@@ -30,6 +29,10 @@ public class ChangePassword extends HttpServlet {
 		super.init();
 	}
 
+	public ChangeUsernameServlet() {
+		super();
+	}
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
@@ -37,31 +40,31 @@ public class ChangePassword extends HttpServlet {
 
 		AuthHelper.isUserLoggedIn(request, response);
 
-		request.getRequestDispatcher("/views/ChangePassword.jsp").forward(request, response);
+		request.setAttribute("currentUsername", userLoggedIn.getUsername());
+		request.getRequestDispatcher("/views/ChangeUsername.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
 		HttpSession session = request.getSession();
 		User userLoggedIn = (User) session.getAttribute("currentUser");
 
 		AuthHelper.isUserLoggedIn(request, response);
 
 		try {
+			String newUsername = request.getParameter("newUsername");
 
-			String currentPassword = request.getParameter("currentPassword");
-			String newPassword = request.getParameter("newPassword");
-			if (!PasswordUtil.checkPassword(currentPassword, userLoggedIn.getHashedPassword())) {
+			if (userDao.getUserByUsername(newUsername) != null) {
 				ResponseHandler.handleError(request, response,
-						MessageConstants.INCORRECT_CURRENT_PASSWORD, EndpointValues.CHANGE_PASSWORD,
-						ButtonValues.TRY_AGAIN);
-				return;
+						MessageConstants.USERNAME_EXISTS, EndpointValues.CHANGE_USERNAME, ButtonValues.TRY_AGAIN);
+			} else {
+				userDao.updateUsername(userLoggedIn.getId(), newUsername);
+
+				session.invalidate();
+				ResponseHandler.handleSuccess(request, response,
+						MessageConstants.USERNAME_UPDATED, EndpointValues.LOGIN, ButtonValues.CONTINUE);
 			}
-			userDao.updatePassword(userLoggedIn.getId(), PasswordUtil.hashPassword(newPassword));
-			session.invalidate();
-			ResponseHandler.handleSuccess(request, response,
-					MessageConstants.PASSWORD_UPDATED, EndpointValues.LOGIN, ButtonValues.CONTINUE);
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return;
@@ -70,4 +73,5 @@ public class ChangePassword extends HttpServlet {
 			return;
 		}
 	}
+
 }

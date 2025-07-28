@@ -12,10 +12,10 @@ import com.pahana.edu.utill.EndpointValues;
 import com.pahana.edu.utill.MessageConstants;
 import com.pahana.edu.utill.ResponseHandler;
 
-public class LogoutUser extends HttpServlet {
+public class LogoutUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public LogoutUser() {
+	public LogoutUserServlet() {
 		super();
 
 	}

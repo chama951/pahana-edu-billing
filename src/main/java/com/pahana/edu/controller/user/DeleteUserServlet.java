@@ -55,12 +55,12 @@ public class DeleteUserServlet extends HttpServlet {
 
 			if (userLoggedIn.getId().equals(userIdToDelete)) {
 				ResponseHandler.handleError(request, response, MessageConstants.CANNOT_DELETE_BY_SELF,
-						EndpointValues.DASHBOARD, ButtonValues.BACK);
+						EndpointValues.GET_USERS, ButtonValues.BACK);
 			} else {
 				userDao.deleteUser(userIdToDelete);
 
 				ResponseHandler.handleSuccess(request, response,
-						MessageConstants.USER_DELETED, EndpointValues.DASHBOARD, ButtonValues.CONTINUE);
+						MessageConstants.USER_DELETED, EndpointValues.GET_USERS, ButtonValues.CONTINUE);
 			}
 
 		} catch (SQLException e) {
