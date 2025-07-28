@@ -12,7 +12,12 @@ import javax.servlet.http.HttpSession;
 import com.pahana.edu.dao.UserDao;
 import com.pahana.edu.daoImpl.UserDaoImpl;
 import com.pahana.edu.model.User;
+import com.pahana.edu.utill.AuthHelper;
+import com.pahana.edu.utill.ButtonValues;
+import com.pahana.edu.utill.EndpointValues;
+import com.pahana.edu.utill.MessageConstants;
 import com.pahana.edu.utill.PasswordUtil;
+import com.pahana.edu.utill.ResponseHandler;
 import com.pahana.edu.utill.database.DBConnectionFactory;
 
 public class ChangePassword extends HttpServlet {
@@ -25,22 +30,14 @@ public class ChangePassword extends HttpServlet {
 		super.init();
 	}
 
-	public ChangePassword() {
-		super();
-	}
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		User userLoggedIn = (User) session.getAttribute("currentUser");
 
-		try {
-			request.setAttribute("currentUsername", userLoggedIn.getUsername());
-			request.getRequestDispatcher("/views/ChangePassword.jsp").forward(request, response);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		AuthHelper.isUserLoggedIn(request, response);
 
+		request.getRequestDispatcher("/views/ChangePassword.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -49,27 +46,25 @@ public class ChangePassword extends HttpServlet {
 		HttpSession session = request.getSession();
 		User userLoggedIn = (User) session.getAttribute("currentUser");
 
+		AuthHelper.isUserLoggedIn(request, response);
+
 		try {
+
 			String currentPassword = request.getParameter("currentPassword");
 			String newPassword = request.getParameter("newPassword");
-			// Verify current password
 			if (!PasswordUtil.checkPassword(currentPassword, userLoggedIn.getHashedPassword())) {
-				request.setAttribute("errorMessage", "Current password is incorrect");
-				request.setAttribute("buttonPath", "/change-password");
-				request.setAttribute("buttonValue", "Go Back");
-				request.getRequestDispatcher("/views/ErrorMessege.jsp").forward(request, response);
+				ResponseHandler.handleError(request, response,
+						MessageConstants.INCORRECT_CURRENT_PASSWORD, EndpointValues.CHANGE_PASSWORD,
+						ButtonValues.TRY_AGAIN);
 				return;
 			}
-			// Update password
 			userDao.updatePassword(userLoggedIn.getId(), PasswordUtil.hashPassword(newPassword));
-			// Invalidate session and force re-login
 			session.invalidate();
-			request.setAttribute("successMessage", "Password updated successfully!");
-			request.setAttribute("buttonPath", "/login");
-			request.setAttribute("buttonValue", "Continue");
-			request.getRequestDispatcher("/views/ProcessDone.jsp").forward(request, response);
+			ResponseHandler.handleSuccess(request, response,
+					MessageConstants.PASSWORD_UPDATED, EndpointValues.LOGIN, ButtonValues.CONTINUE);
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return;
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 			return;

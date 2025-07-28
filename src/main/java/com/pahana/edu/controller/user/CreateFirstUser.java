@@ -1,4 +1,4 @@
-package com.pahana.edu.controller.user.auth;
+package com.pahana.edu.controller.user;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -8,19 +8,18 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.pahana.edu.dao.UserDao;
 import com.pahana.edu.daoImpl.UserDaoImpl;
 import com.pahana.edu.model.User;
+import com.pahana.edu.model.enums.UserRole;
 import com.pahana.edu.utill.ButtonValues;
 import com.pahana.edu.utill.EndpointValues;
 import com.pahana.edu.utill.MessageConstants;
-import com.pahana.edu.utill.PasswordUtil;
 import com.pahana.edu.utill.ResponseHandler;
 import com.pahana.edu.utill.database.DBConnectionFactory;
 
-public class LoginUserServlet extends HttpServlet {
+public class CreateFirstUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private UserDao userDao;
 
@@ -30,40 +29,40 @@ public class LoginUserServlet extends HttpServlet {
 		super.init();
 	}
 
-	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		request.getRequestDispatcher("/views/LoginUser.jsp").forward(request, response);
+		request.getRequestDispatcher("/views/CreateUser.jsp").forward(request, response);
 	}
 
-	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
+		String roleParam = request.getParameter("role");
+
 		try {
 			User userInDb = userDao.getUserByUsername(username);
-			if (userInDb == null) {
-				ResponseHandler.handleError(request, response, MessageConstants.USER_NOT_FOUND, EndpointValues.LOGIN,
-						ButtonValues.BACK);
-			} else if (!PasswordUtil.checkPassword(password, userInDb.getHashedPassword())) {
-				ResponseHandler.handleError(request, response, MessageConstants.INVALID_PASSWORD, EndpointValues.LOGIN,
-						ButtonValues.TRY_AGAIN);
-			} else if (!userInDb.getIsActive()) {
-				ResponseHandler.handleError(request, response, MessageConstants.ACCOUNT_DEACTIVATED,
-						EndpointValues.LOGIN, ButtonValues.BACK);
+			if (userInDb != null) {
+				ResponseHandler.handleError(request, response,
+						MessageConstants.USERNAME_EXISTS,
+						EndpointValues.CREATE_USER, ButtonValues.TRY_AGAIN);
 			} else {
-				LocalDateTime lastLoginTime = LocalDateTime.now();
-				userDao.updateLastLogin(userInDb.getId(), lastLoginTime);
-				HttpSession session = request.getSession();
-				session.setAttribute("currentUser", userInDb);
-				ResponseHandler.handleSuccess(request, response,
-						MessageConstants.LOGIN_SUCCESS + userInDb.getUsername(), EndpointValues.DASHBOARD,
-						ButtonValues.DASHBNOARD);
+				UserRole userRole = UserRole.valueOf(roleParam.toUpperCase());
+				User newUser = new User(
+						username,
+						password,
+						userRole,
+						true,
+						LocalDateTime.now());
+				userDao.createUser(newUser);
 
+				ResponseHandler.handleSuccess(request, response,
+						MessageConstants.FIRST_USER_CREATED,
+						EndpointValues.LOGIN, ButtonValues.CONTINUE);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return;
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 			return;

@@ -24,8 +24,6 @@ public class Payment {
 
 	private LocalDateTime paymentDate;
 
-	private String transactionReference;
-
 	private String notes;
 
 	@Enumerated(EnumType.STRING)
@@ -37,14 +35,13 @@ public class Payment {
 	@UpdateTimestamp
 	private LocalDateTime updatedAt = LocalDateTime.now();
 
-	private Payment(Long id, Bill bill, double amount, LocalDateTime paymentDate, String transactionReference, String notes,
+	private Payment(Long id, Bill bill, double amount, LocalDateTime paymentDate, String notes,
 			PaymentMethod paymentMethod, LocalDateTime createdAt, LocalDateTime updatedAt) {
 		super();
 		this.id = id;
 		this.bill = bill;
 		this.amount = amount;
 		this.paymentDate = paymentDate;
-		this.transactionReference = transactionReference;
 		this.notes = notes;
 		this.paymentMethod = paymentMethod;
 		this.createdAt = createdAt;
@@ -81,14 +78,6 @@ public class Payment {
 
 	public void setPaymentDate(LocalDateTime paymentDate) {
 		this.paymentDate = paymentDate;
-	}
-
-	public String getTransactionReference() {
-		return transactionReference;
-	}
-
-	public void setTransactionReference(String transactionReference) {
-		this.transactionReference = transactionReference;
 	}
 
 	public String getNotes() {

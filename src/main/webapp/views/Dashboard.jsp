@@ -52,12 +52,13 @@
 						</button>
 
 						<!-- Change Password Button -->
-						<button class="dropdown-item"
-							onclick="window.location.href='${pageContext.request.contextPath}/change-password'">
+						<button
+							class="dropdown-item"
+							onclick="window.location.href='${pageContext.request.contextPath}/change-password'"
+						>
 							<i class="fas fa-key dropdown-icon"></i> <span>Change
 								Password</span>
 						</button>
-
 						<div class="dropdown-divider"></div>
 
 						<!-- Logout Button -->
@@ -78,7 +79,7 @@
 
 				<div class="dashboard-grid">
 					<!-- User Management Card -->
-					<a href="${pageContext.request.contextPath}/display-users"
+					<a href="${pageContext.request.contextPath}/get-users"
 						class="dashboard-card">
 						<div class="card-icon">
 							<i class="fa-solid fa-user-check"></i>
@@ -120,6 +121,15 @@
 							<i class="fa-solid fa-receipt"></i>
 						</div>
 						<div class="card-title">Invoice</div>
+					</a>
+
+					<!-- Software Info -->
+					<a href="${pageContext.request.contextPath}/SoftwareInfo.jsp"
+						class="dashboard-card">
+						<div class="card-icon">
+							<i class="fa-solid fa-circle-info"></i>
+						</div>
+						<div class="card-title">Info</div>
 					</a>
 				</div>
 			</div>

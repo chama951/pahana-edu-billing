@@ -16,7 +16,7 @@ public interface UserDao {
 
 	void updateLastLogin(Long loggedInUserId, LocalDateTime lastLoginTime) throws SQLException;
 
-	void updateUserByAdmin(User userToUpdate) throws SQLException;
+	void updateUser(User userToUpdate) throws SQLException;
 	
 	void updateUsername(Long id, String newUsername) throws SQLException;
 	

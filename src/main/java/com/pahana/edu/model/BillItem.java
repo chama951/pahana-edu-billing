@@ -22,10 +22,6 @@ public class BillItem {
 
 	private double discountPercentage;
 
-	private double taxAmount;
-
-	private String description;
-
 	@CreationTimestamp
 	private LocalDateTime createdAt = LocalDateTime.now();
 
@@ -41,7 +37,7 @@ public class BillItem {
 	private Item item;
 
 	private BillItem(Long id, Integer quantity, double unitPrice, double subTotal, double discountPercentage,
-			double taxAmount, String description, LocalDateTime createdAt, LocalDateTime updatedAt, Bill bill,
+			LocalDateTime createdAt, LocalDateTime updatedAt, Bill bill,
 			Item item) {
 		super();
 		this.id = id;
@@ -49,8 +45,6 @@ public class BillItem {
 		this.unitPrice = unitPrice;
 		this.subTotal = subTotal;
 		this.discountPercentage = discountPercentage;
-		this.taxAmount = taxAmount;
-		this.description = description;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
 		this.bill = bill;
@@ -95,22 +89,6 @@ public class BillItem {
 
 	public void setDiscountPercentage(double discountPercentage) {
 		this.discountPercentage = discountPercentage;
-	}
-
-	public double getTaxAmount() {
-		return taxAmount;
-	}
-
-	public void setTaxAmount(double taxAmount) {
-		this.taxAmount = taxAmount;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 	public LocalDateTime getCreatedAt() {

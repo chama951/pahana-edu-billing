@@ -7,15 +7,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.pahana.edu.utill.ButtonValues;
+import com.pahana.edu.utill.EndpointValues;
+import com.pahana.edu.utill.MessageConstants;
+import com.pahana.edu.utill.ResponseHandler;
+
 public class LogoutUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    public LogoutUser() {
-        super();
+	public LogoutUser() {
+		super();
 
-    }
-    
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	}
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		HttpSession session = request.getSession(false);
 		if (session != null) {
 			session.invalidate();
@@ -25,11 +31,14 @@ public class LogoutUser extends HttpServlet {
 		response.setHeader("Pragma", "no-cache");
 		response.setDateHeader("Expires", 0);
 
-		request.getRequestDispatcher("/views/LoginUser.jsp").forward(request, response);
+		ResponseHandler.handleSuccess(request, response,
+				MessageConstants.LOGOUT_SUCCESS, EndpointValues.LOGIN, ButtonValues.LOGIN);
+
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
 		doGet(request, response);
 	}

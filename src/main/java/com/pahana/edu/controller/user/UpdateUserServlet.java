@@ -14,6 +14,11 @@ import com.pahana.edu.daoImpl.UserDaoImpl;
 import com.pahana.edu.model.User;
 import com.pahana.edu.model.enums.Privilege;
 import com.pahana.edu.model.enums.UserRole;
+import com.pahana.edu.utill.AuthHelper;
+import com.pahana.edu.utill.ButtonValues;
+import com.pahana.edu.utill.EndpointValues;
+import com.pahana.edu.utill.MessageConstants;
+import com.pahana.edu.utill.ResponseHandler;
 import com.pahana.edu.utill.database.DBConnectionFactory;
 
 public class UpdateUserServlet extends HttpServlet {
@@ -34,6 +39,11 @@ public class UpdateUserServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		User userLoggedIn = (User) session.getAttribute("currentUser");
+
+		AuthHelper.isUserLoggedIn(request, response);
+
 	}
 
 	@Override
@@ -41,51 +51,40 @@ public class UpdateUserServlet extends HttpServlet {
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		User userLoggedIn = (User) session.getAttribute("currentUser");
+
+		AuthHelper.isUserLoggedIn(request, response);
+
 		try {
+
 			if (!userLoggedIn.getRole().hasPrivilege(Privilege.MANAGE_USERS)) {
-				request.setAttribute("errorMessege", "You don't have permission to manage users");
-				request.setAttribute("buttonPath", "/dashboard");// must change to the dashdoard in the future
-				request.setAttribute("buttonValue", "Go Back");
-				request.getRequestDispatcher("/views/ErrorMessege.jsp").forward(request, response);
-			} else if (!userLoggedIn.getIsActive()) {
-				request.setAttribute("errorMessage", "User is not active!");
-				// passing the next page as argument
-				request.setAttribute("buttonPath", "/login");
-				request.setAttribute("buttonValue", "Go Back");
-				request.getRequestDispatcher("/views/ErrorMessege.jsp").forward(request, response);
+				ResponseHandler.handleError(request, response,
+						MessageConstants.PRIVILEGE_INSUFFICIENT, EndpointValues.DASHBOARD, ButtonValues.BACK);
 			} else {
 				Long idToUpdate = Long.valueOf(request.getParameter("id"));
 				User userToUpdate = userDao.getUserById(idToUpdate);
 
 				String roleParam = request.getParameter("role");
-				UserRole userRole = UserRole.valueOf(roleParam.toUpperCase());
-				boolean isActive = Boolean.parseBoolean(request.getParameter("isActive"));
+				UserRole loggedInuserRole = UserRole.valueOf(roleParam.toUpperCase());
+				boolean isActiveLoggedIn = Boolean.parseBoolean(request.getParameter("isActive"));
 
 				boolean modifyingSelf = userLoggedIn.getId().equals(idToUpdate);
-				boolean reducingPrivileges = !userRole.hasPrivilege(Privilege.MANAGE_USERS);
-				boolean deactivatingSelf = modifyingSelf && !isActive && userLoggedIn.getIsActive();
-
-				userToUpdate.setRole(userRole);
-				userToUpdate.setIsActive(isActive);
-				userDao.updateUserByAdmin(userToUpdate);
+				boolean reducingPrivileges = !loggedInuserRole.equals(userToUpdate.getRole());
+				boolean deactivatingSelf = !(isActiveLoggedIn == (userToUpdate.getIsActive()));
+				;
 
 				if (modifyingSelf && (reducingPrivileges || deactivatingSelf)) {
-					session.invalidate();
-					request.setAttribute("successMessage", "User updated successfully!");
-					request.setAttribute("buttonPath", "/login");
-					request.setAttribute("buttonValue", "Continue");
-					request.getRequestDispatcher("/views/ProcessDone.jsp").forward(request, response);
+					ResponseHandler.handleError(request, response,
+							MessageConstants.USER_UPDATE_BY_SELF, EndpointValues.GET_USERS, ButtonValues.BACK);
 				} else {
-					request.setAttribute("successMessage", "User updated successfully!");
-					request.setAttribute("buttonPath", "/user-management");
-					request.setAttribute("buttonValue", "Continue");
-					request.getRequestDispatcher("/views/ProcessDone.jsp").forward(request, response);
+					userDao.updateUser(userToUpdate);
+					ResponseHandler.handleSuccess(request, response,
+							MessageConstants.USER_UPDATED, EndpointValues.DASHBOARD, ButtonValues.CONTINUE);
 				}
 			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}catch (NullPointerException e) {
+		} catch (NullPointerException e) {
 			e.printStackTrace();
 			return;
 		}

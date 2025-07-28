@@ -81,7 +81,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public void updateUserByAdmin(User userToUpdate) throws SQLException {
+	public void updateUser(User userToUpdate) throws SQLException {
 		String sql = "UPDATE user SET "
 				+ "username = ?, "
 				+ "role = ?, "

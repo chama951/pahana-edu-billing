@@ -7,10 +7,12 @@
 <head>
 <title>User Management</title>
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/DisplayUsers.css">
+	href="${pageContext.request.contextPath}/css/DisplayUsers.css"
+>
 <!-- Font Awesome for icons -->
 <link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+>
 <style>
 </style>
 </head>
@@ -19,11 +21,11 @@
 		<div class="page-header">
 			<div style="display: flex; align-items: center;">
 				<a href="${pageContext.request.contextPath}/dashboard"
-					class="back-button"> <i class="fas fa-arrow-left"></i>
-					Dashboard
+					class="back-button"
+				> <i class="fas fa-arrow-left"></i> Dashboard
 				</a><a href="${pageContext.request.contextPath}/create-user"
-					class="add-user-icon" title="Add New User"> <i
-					class="fas fa-plus"></i>
+					class="add-user-icon" title="Add New User"
+				> <i class="fas fa-plus"></i>
 				</a>
 			</div>
 			<h1 class="users-header">User Management</h1>
@@ -46,7 +48,8 @@
 					<c:when test="${empty usersList}">
 						<tr>
 							<td colspan="7" class="empty-state"><i
-								class="fas fa-users-slash"></i> No users found</td>
+								class="fas fa-users-slash"
+							></i> No users found</td>
 						</tr>
 					</c:when>
 					<c:otherwise>
@@ -55,8 +58,8 @@
 								<td>${user.id}</td>
 								<td>${user.username}</td>
 								<td
-									class="${user.isActive ? 'status-active' : 'status-inactive'}">
-									${user.isActive ? 'Active' : 'Inactive'}</td>
+									class="${user.isActive ? 'status-active' : 'status-inactive'}"
+								>${user.isActive ? 'Active' : 'Inactive'}</td>
 								<td>${user.role}</td>
 								<td><c:choose>
 										<c:when test="${not empty user.lastLogin}">
@@ -75,8 +78,9 @@
 											<i class="fas fa-edit"></i> Edit
 										</a>
 										<form class="delete-form"
-											action="${pageContext.request.contextPath}/delete-User-Servlet"
-											method="POST">
+											action="${pageContext.request.contextPath}/delete-User"
+											method="POST"
+										>
 											<input type="hidden" name="userId" value="${user.id}">
 											<button type="submit" class="delete-btn">
 												<i class="fas fa-trash"></i>
@@ -100,27 +104,30 @@
 
 			<!-- Uneditable Username Display -->
 			<div>
-				<h3>
+				<p>
 					Username : <span id="displayUsername"></span>
-				</h3>
+				</p>
 			</div>
 
 			<form id="updateUserForm" class="registration-form"
 				action="${pageContext.request.contextPath}/update-user"
-				method="POST">
+				method="POST"
+			>
 				<input type="hidden" id="id" name="id" value="">
 
 				<div class="form-group">
 					<label class="form-label" for="isActive">Status</label> <select
-						class="form-control" id="isActive" name="isActive" required>
+						class="form-control" id="isActive" name="isActive" required
+					>
 						<option value="true">Active</option>
 						<option value="false">Inactive</option>
 					</select>
 				</div>
 
 				<div class="form-group">
-					<label class="form-label" for="role">Role</label> <select
-						class="form-control" id="role" name="role" required>
+					<label class="form-label" for="role">Privileges</label> <select
+						class="form-control" id="role" name="role" required
+					>
 						<c:forEach items="<%=UserRole.values()%>" var="role">
 							<option value="${role}">${role}</option>
 						</c:forEach>

@@ -14,6 +14,11 @@ import com.pahana.edu.dao.UserDao;
 import com.pahana.edu.daoImpl.UserDaoImpl;
 import com.pahana.edu.model.User;
 import com.pahana.edu.model.enums.UserRole;
+import com.pahana.edu.utill.AuthHelper;
+import com.pahana.edu.utill.ButtonValues;
+import com.pahana.edu.utill.EndpointValues;
+import com.pahana.edu.utill.MessageConstants;
+import com.pahana.edu.utill.ResponseHandler;
 import com.pahana.edu.utill.database.DBConnectionFactory;
 
 public class CreateUserServlet extends HttpServlet {
@@ -31,33 +36,31 @@ public class CreateUserServlet extends HttpServlet {
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		User userLoggedIn = (User) session.getAttribute("currentUser");
-		if (userLoggedIn != null) {
-			try {
-				request.setAttribute("currentUsername", userLoggedIn.getUsername());
-				request.getRequestDispatcher("/views/CreateUser.jsp").forward(request, response);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}else {
-			request.getRequestDispatcher("/views/CreateUser.jsp").forward(request, response);
-		}
+
+		AuthHelper.isUserLoggedIn(request, response);
+
+		request.getRequestDispatcher("/views/CreateUser.jsp").forward(request, response);
 
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		User userLoggedIn = (User) session.getAttribute("currentUser");
+
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String roleParam = request.getParameter("role");
 
+		AuthHelper.isUserLoggedIn(request, response);
+
 		try {
 			User userInDb = userDao.getUserByUsername(username);
 			if (userInDb != null) {
-				request.setAttribute("errorMessage", "Username already exist!");
-				request.setAttribute("buttonPath", "/create-user");
-				request.setAttribute("buttonValue", "Go Back");
-				request.getRequestDispatcher("/views/ErrorMessege.jsp").forward(request, response);
+				ResponseHandler.handleError(request, response,
+						MessageConstants.USERNAME_EXISTS,
+						EndpointValues.CREATE_FIRST_USER, ButtonValues.CONTINUE);
 			} else {
 				UserRole userRole = UserRole.valueOf(roleParam.toUpperCase());
 				User newUser = new User(
@@ -68,24 +71,13 @@ public class CreateUserServlet extends HttpServlet {
 						LocalDateTime.now());
 				userDao.createUser(newUser);
 
-				HttpSession session = request.getSession();
-				User userLoggedIn = (User) session.getAttribute("currentUser");
+				ResponseHandler.handleSuccess(request, response,
+						MessageConstants.USER_CREATED, EndpointValues.GET_USERS, ButtonValues.CONTINUE);
 
-				if (!userLoggedIn.equals(null)) {
-					request.setAttribute("successMessage", "User created successfully!");
-					request.setAttribute("buttonPath", "/user-management");
-					request.setAttribute("buttonValue", "Continue");
-					request.getRequestDispatcher("/views/ProcessDone.jsp").forward(request, response);
-				} else {
-					request.setAttribute("successMessage", "User created successfully!");
-					request.setAttribute("buttonPath", "/login");
-					request.setAttribute("buttonValue", "Login");
-					request.getRequestDispatcher("/views/ProcessDone.jsp").forward(request, response);
-				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			request.getRequestDispatcher("/views/CreateUser.jsp").forward(request, response);
+			return;
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 			return;

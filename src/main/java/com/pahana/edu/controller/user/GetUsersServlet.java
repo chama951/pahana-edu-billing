@@ -14,9 +14,14 @@ import com.pahana.edu.dao.UserDao;
 import com.pahana.edu.daoImpl.UserDaoImpl;
 import com.pahana.edu.model.User;
 import com.pahana.edu.model.enums.Privilege;
+import com.pahana.edu.utill.AuthHelper;
+import com.pahana.edu.utill.ButtonValues;
+import com.pahana.edu.utill.EndpointValues;
+import com.pahana.edu.utill.MessageConstants;
+import com.pahana.edu.utill.ResponseHandler;
 import com.pahana.edu.utill.database.DBConnectionFactory;
 
-public class DisplayUsers extends HttpServlet {
+public class GetUsersServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private UserDao userDao;
 
@@ -26,22 +31,19 @@ public class DisplayUsers extends HttpServlet {
 		super.init();
 	}
 
-	public DisplayUsers() {
-		super();
-	}
-
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
 		HttpSession session = request.getSession();
 		User userLoggedIn = (User) session.getAttribute("currentUser");
-		request.setAttribute("username", userLoggedIn.getUsername());
+
+		AuthHelper.isUserLoggedIn(request, response);
+
 		try {
 			if (!userLoggedIn.getRole().hasPrivilege(Privilege.MANAGE_USERS)) {
-				request.setAttribute("errorMessage", "You don't have permission to access User Management");
-				request.setAttribute("buttonPath", "/dashboard");// change in the dashboard
-				request.setAttribute("buttonValue", "Go back");
-				request.getRequestDispatcher("/views/ErrorMessege.jsp").forward(request, response);
+				ResponseHandler.handleError(request, response,
+						MessageConstants.PRIVILEGE_INSUFFICIENT, EndpointValues.DASHBOARD, ButtonValues.BACK);
 			} else {
 				List<User> usersList = userDao.getAllUsers();
 				request.setAttribute("usersList", usersList);

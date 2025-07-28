@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,9 +8,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login</title>
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/LoginUser.css">
+	href="${pageContext.request.contextPath}/css/LoginUser.css"
+>
 <meta http-equiv="Cache-Control"
-	content="no-cache, no-store, must-revalidate">
+	content="no-cache, no-store, must-revalidate"
+>
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <script>
@@ -24,7 +27,6 @@
 		<div class="login-header">
 			<h2>Login</h2>
 		</div>
-
 		<%-- Display error message if authentication fails --%>
 		<%
 		if (request.getParameter("error") != null) {
@@ -34,9 +36,7 @@
 		<%
 		}
 		%>
-
 		<form action="${pageContext.request.contextPath}/login" method="POST">
-
 			<%
 			if (request.getAttribute("error") != null) {
 			%>
@@ -46,23 +46,21 @@
 			<%
 			}
 			%>
-
 			<div class="form-group">
 				<label for="username">Username</label> <input type="text"
-					id="username" name="username" required>
+					id="username" name="username"
+				>
 			</div>
-
 			<div class="form-group">
 				<label for="password">Password</label> <input type="password"
-					id="password" name="password" required>
+					id="password" name="password"
+				>
 			</div>
-
 			<button type="submit" class="login-btn">Login</button>
 		</form>
-
 		<div class="login-footer">
 			<p>
-				<a href="${pageContext.request.contextPath}/create-user">Register
+				<a href="${pageContext.request.contextPath}/create-first-user">Register
 					here</a>
 			</p>
 		</div>

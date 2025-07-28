@@ -12,6 +12,11 @@ import javax.servlet.http.HttpSession;
 import com.pahana.edu.dao.UserDao;
 import com.pahana.edu.daoImpl.UserDaoImpl;
 import com.pahana.edu.model.User;
+import com.pahana.edu.utill.AuthHelper;
+import com.pahana.edu.utill.ButtonValues;
+import com.pahana.edu.utill.EndpointValues;
+import com.pahana.edu.utill.MessageConstants;
+import com.pahana.edu.utill.ResponseHandler;
 import com.pahana.edu.utill.database.DBConnectionFactory;
 
 public class ChangeUsername extends HttpServlet {
@@ -33,12 +38,10 @@ public class ChangeUsername extends HttpServlet {
 		HttpSession session = request.getSession();
 		User userLoggedIn = (User) session.getAttribute("currentUser");
 
-		try {
-			request.setAttribute("currentUsername", userLoggedIn.getUsername());
-			request.getRequestDispatcher("/views/ChangeUsername.jsp").forward(request, response);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		AuthHelper.isUserLoggedIn(request, response);
+
+		request.setAttribute("currentUsername", userLoggedIn.getUsername());
+		request.getRequestDispatcher("/views/ChangeUsername.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -46,28 +49,26 @@ public class ChangeUsername extends HttpServlet {
 		HttpSession session = request.getSession();
 		User userLoggedIn = (User) session.getAttribute("currentUser");
 
+		AuthHelper.isUserLoggedIn(request, response);
+
 		try {
-			String currentUsername = request.getParameter("currentUsername");
 			String newUsername = request.getParameter("newUsername");
 
 			if (userDao.getUserByUsername(newUsername) != null) {
-				request.setAttribute("errorMessage", "Username already exists");
-				request.setAttribute("currentUsername", currentUsername);
-				request.getRequestDispatcher("/views/ChangeUserName.jsp").forward(request, response);
-				return;
+				ResponseHandler.handleError(request, response,
+						MessageConstants.USERNAME_EXISTS, EndpointValues.CHANGE_USERNAME, ButtonValues.TRY_AGAIN);
+			} else {
+				userDao.updateUsername(userLoggedIn.getId(), newUsername);
+
+				session.invalidate();
+				ResponseHandler.handleSuccess(request, response,
+						MessageConstants.USERNAME_UPDATED, EndpointValues.LOGIN, ButtonValues.CONTINUE);
 			}
-
-			userDao.updateUsername(userLoggedIn.getId(), newUsername);
-
-			session.invalidate();
-			request.setAttribute("successMessage", "User updated successfully!");
-			request.setAttribute("buttonPath", "/login");
-			request.setAttribute("buttonValue", "Continue");
-			request.getRequestDispatcher("/views/ProcessDone.jsp").forward(request, response);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}catch (NullPointerException e) {
+			return;
+		} catch (NullPointerException e) {
 			e.printStackTrace();
 			return;
 		}
