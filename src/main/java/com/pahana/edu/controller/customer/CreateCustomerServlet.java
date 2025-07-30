@@ -30,14 +30,14 @@ public class CreateCustomerServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-//		AuthHelper.isUserLoggedIn(request, response);
+		AuthHelper.isUserLoggedIn(request, response);
 
 		request.getRequestDispatcher("/views/CreateCustomer.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-//		AuthHelper.isUserLoggedIn(request, response);
+		AuthHelper.isUserLoggedIn(request, response);
 		try {
 			Long accountNumber = Long.parseLong(request.getParameter("accountNumber"));
 			Customer customerInDb = customerDao.getUserByAccNo(accountNumber);

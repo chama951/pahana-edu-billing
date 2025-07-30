@@ -3,10 +3,8 @@ package com.pahana.edu.controller.customer;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.Enumeration;
 import java.util.List;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -37,20 +35,6 @@ public class GetCustomersServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-//		try {
-//			List<Customer> customerList = customerDao.getAllCustomers();
-//			request.setAttribute("customerList", customerList);
-//
-//			PrintWriter out = response.getWriter();
-//			for (Customer customer : customerList) {
-//				out.print("<h1>" + customer.getFirstName() + "</h1>");
-//				out.print("<h1>" + customer.getLastName() + "</h1>");
-//			}
-//
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-
 		HttpSession session = request.getSession();
 		User userLoggedIn = (User) session.getAttribute("currentUser");
 
@@ -63,7 +47,12 @@ public class GetCustomersServlet extends HttpServlet {
 			} else {
 				List<Customer> customerList = customerDao.getAllCustomers();
 				request.setAttribute("customerList", customerList);
-				request.getRequestDispatcher("/views/ManageCustomers.jsp").forward(request, response);
+				PrintWriter out = response.getWriter();
+				for (Customer customer : customerList) {
+					out.print("<h1>" + customer.getFirstName() + "</h1>");
+					out.print("<h1>" + customer.getLastName() + "</h1>");
+				}
+//				request.getRequestDispatcher("/views/ManageCustomers.jsp").forward(request, response);
 			}
 
 		} catch (SQLException e) {

@@ -78,7 +78,7 @@
 
 				<div class="dashboard-grid">
 					<!-- User Management Card -->
-					<a href="${pageContext.request.contextPath}/get-users"
+					<a href="${pageContext.request.contextPath}/manage-users"
 						class="dashboard-card">
 						<div class="card-icon">
 							<i class="fa-solid fa-user-check"></i>
@@ -87,7 +87,7 @@
 					</a>
 
 					<!-- Customer Management Card -->
-					<a href="${pageContext.request.contextPath}/display-custommers"
+					<a href="${pageContext.request.contextPath}/manage-customers"
 						class="dashboard-card">
 						<div class="card-icon">
 							<i class="fa-solid fa-handshake"></i>
@@ -96,7 +96,7 @@
 					</a>
 
 					<!-- Items Management Card -->
-					<a href="${pageContext.request.contextPath}/display-items"
+					<a href="${pageContext.request.contextPath}/manage-items"
 						class="dashboard-card">
 						<div class="card-icon">
 							<i class="fa-solid fa-book-open"></i>

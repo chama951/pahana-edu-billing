@@ -107,7 +107,7 @@
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>GetUsersServlet</servlet-name>
-		<url-pattern>/get-users</url-pattern>
+		<url-pattern>/manage-users</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>DeleteUserServlet</servlet-name>
@@ -135,6 +135,6 @@
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>GetCustomersServlet</servlet-name>
-		<url-pattern>/GetCustomersServlet</url-pattern>
+		<url-pattern>/manage-customers</url-pattern>
 	</servlet-mapping>
 </web-app>
