@@ -36,19 +36,22 @@ public class BillItem {
 	@JoinColumn(name = "itemId")
 	private Item item;
 
-	private BillItem(Long id, Integer quantity, double unitPrice, double subTotal, double discountPercentage,
-			LocalDateTime createdAt, LocalDateTime updatedAt, Bill bill,
-			Item item) {
-		super();
-		this.id = id;
-		this.quantity = quantity;
-		this.unitPrice = unitPrice;
-		this.subTotal = subTotal;
-		this.discountPercentage = discountPercentage;
-		this.createdAt = createdAt;
-		this.updatedAt = updatedAt;
-		this.bill = bill;
-		this.item = item;
+//	private BillItem(Long id, Integer quantity, double unitPrice, double subTotal, double discountPercentage,
+//			LocalDateTime createdAt, LocalDateTime updatedAt, Bill bill,
+//			Item item) {
+//		super();
+//		this.id = id;
+//		this.quantity = quantity;
+//		this.unitPrice = unitPrice;
+//		this.subTotal = subTotal;
+//		this.discountPercentage = discountPercentage;
+//		this.createdAt = createdAt;
+//		this.updatedAt = updatedAt;
+//		this.bill = bill;
+//		this.item = item;
+//	}
+
+	public BillItem() {
 	}
 
 	public Long getId() {

@@ -16,7 +16,7 @@ import com.pahana.edu.model.enums.Privilege;
 import com.pahana.edu.model.enums.UserRole;
 import com.pahana.edu.utill.AuthHelper;
 import com.pahana.edu.utill.ButtonValues;
-import com.pahana.edu.utill.EndpointValues;
+import com.pahana.edu.utill.ButtonPath;
 import com.pahana.edu.utill.MessageConstants;
 import com.pahana.edu.utill.ResponseHandler;
 import com.pahana.edu.utill.database.DBConnectionFactory;
@@ -55,7 +55,7 @@ public class UpdateUserServlet extends HttpServlet {
 
 			if (!userLoggedIn.getRole().hasPrivilege(Privilege.MANAGE_USERS)) {
 				ResponseHandler.handleError(request, response,
-						MessageConstants.PRIVILEGE_INSUFFICIENT, EndpointValues.DASHBOARD, ButtonValues.BACK);
+						MessageConstants.PRIVILEGE_INSUFFICIENT, ButtonPath.DASHBOARD, ButtonValues.BACK);
 			} else {
 				Long idToUpdate = Long.valueOf(request.getParameter("id"));
 				User userToUpdate = userDao.getUserById(idToUpdate);
@@ -71,13 +71,13 @@ public class UpdateUserServlet extends HttpServlet {
 
 				if (modifyingSelf && (reducingPrivileges || deactivatingSelf)) {
 					ResponseHandler.handleError(request, response,
-							MessageConstants.USER_UPDATE_BY_SELF, EndpointValues.GET_USERS, ButtonValues.BACK);
+							MessageConstants.USER_UPDATE_BY_SELF, ButtonPath.GET_USERS, ButtonValues.BACK);
 				} else {
 					userToUpdate.setRole(loggedInuserRole);
 					userToUpdate.setIsActive(isActiveLoggedIn);
 					userDao.updateUser(userToUpdate);
 					ResponseHandler.handleSuccess(request, response,
-							MessageConstants.USER_UPDATED, EndpointValues.GET_USERS, ButtonValues.CONTINUE);
+							MessageConstants.USER_UPDATED, ButtonPath.GET_USERS, ButtonValues.CONTINUE);
 				}
 			}
 

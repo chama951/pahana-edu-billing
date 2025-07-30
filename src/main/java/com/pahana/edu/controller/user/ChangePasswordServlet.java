@@ -14,7 +14,7 @@ import com.pahana.edu.daoImpl.UserDaoImpl;
 import com.pahana.edu.model.User;
 import com.pahana.edu.utill.AuthHelper;
 import com.pahana.edu.utill.ButtonValues;
-import com.pahana.edu.utill.EndpointValues;
+import com.pahana.edu.utill.ButtonPath;
 import com.pahana.edu.utill.MessageConstants;
 import com.pahana.edu.utill.PasswordUtil;
 import com.pahana.edu.utill.ResponseHandler;
@@ -51,14 +51,14 @@ public class ChangePasswordServlet extends HttpServlet {
 			String newPassword = request.getParameter("newPassword");
 			if (!PasswordUtil.checkPassword(currentPassword, userLoggedIn.getHashedPassword())) {
 				ResponseHandler.handleError(request, response,
-						MessageConstants.INCORRECT_CURRENT_PASSWORD, EndpointValues.CHANGE_PASSWORD,
+						MessageConstants.INCORRECT_CURRENT_PASSWORD, ButtonPath.CHANGE_PASSWORD,
 						ButtonValues.TRY_AGAIN);
 				return;
 			}
 			userDao.updatePassword(userLoggedIn.getId(), PasswordUtil.hashPassword(newPassword));
 			session.invalidate();
 			ResponseHandler.handleSuccess(request, response,
-					MessageConstants.PASSWORD_UPDATED, EndpointValues.LOGIN, ButtonValues.CONTINUE);
+					MessageConstants.PASSWORD_UPDATED, ButtonPath.LOGIN, ButtonValues.CONTINUE);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return;

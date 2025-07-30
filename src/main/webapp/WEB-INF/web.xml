@@ -75,6 +75,20 @@
 		<servlet-name>CreateFirstUserServlet</servlet-name>
 		<servlet-class>com.pahana.edu.controller.user.CreateFirstUserServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>CreateCustomerServlet</display-name>
+		<servlet-name>CreateCustomerServlet</servlet-name>
+		<servlet-class>com.pahana.edu.controller.customer.CreateCustomerServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>GetCustomersServlet</display-name>
+		<servlet-name>GetCustomersServlet</servlet-name>
+		<servlet-class>com.pahana.edu.controller.customer.GetCustomersServlet</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>CreateUserServlet</servlet-name>
 		<url-pattern>/create-user</url-pattern>
@@ -114,5 +128,13 @@
 	<servlet-mapping>
 		<servlet-name>CreateFirstUserServlet</servlet-name>
 		<url-pattern>/create-first-user</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>CreateCustomerServlet</servlet-name>
+		<url-pattern>/create-customer</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>GetCustomersServlet</servlet-name>
+		<url-pattern>/GetCustomersServlet</url-pattern>
 	</servlet-mapping>
 </web-app>

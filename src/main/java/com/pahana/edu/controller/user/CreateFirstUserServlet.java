@@ -14,7 +14,7 @@ import com.pahana.edu.daoImpl.UserDaoImpl;
 import com.pahana.edu.model.User;
 import com.pahana.edu.model.enums.UserRole;
 import com.pahana.edu.utill.ButtonValues;
-import com.pahana.edu.utill.EndpointValues;
+import com.pahana.edu.utill.ButtonPath;
 import com.pahana.edu.utill.MessageConstants;
 import com.pahana.edu.utill.ResponseHandler;
 import com.pahana.edu.utill.database.DBConnectionFactory;
@@ -45,7 +45,7 @@ public class CreateFirstUserServlet extends HttpServlet {
 			if (userInDb != null) {
 				ResponseHandler.handleError(request, response,
 						MessageConstants.USERNAME_EXISTS,
-						EndpointValues.CREATE_USER, ButtonValues.TRY_AGAIN);
+						ButtonPath.CREATE_USER, ButtonValues.TRY_AGAIN);
 			} else {
 				UserRole userRole = UserRole.valueOf(roleParam.toUpperCase());
 				User newUser = new User(
@@ -58,7 +58,7 @@ public class CreateFirstUserServlet extends HttpServlet {
 
 				ResponseHandler.handleSuccess(request, response,
 						MessageConstants.FIRST_USER_CREATED,
-						EndpointValues.LOGIN, ButtonValues.CONTINUE);
+						ButtonPath.LOGIN, ButtonValues.CONTINUE);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

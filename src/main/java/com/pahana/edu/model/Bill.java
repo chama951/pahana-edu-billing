@@ -22,8 +22,6 @@ public class Bill {
 
 	private BigDecimal totalAmount;
 
-	private BigDecimal taxAmount;
-
 	private BigDecimal discountAmount;
 
 	@CreationTimestamp
@@ -42,20 +40,23 @@ public class Bill {
 	@OneToOne(mappedBy = "bill", cascade = ALL, orphanRemoval = true)
 	private Payment payment;
 
-	private Bill(Long id, LocalDateTime billDate, BigDecimal totalAmount,BigDecimal taxAmount,
-			BigDecimal discountAmount, LocalDateTime createdAt, LocalDateTime updatedAt, Customer customer, List<BillItem> billItems,
-			Payment payment) {
-		super();
-		this.id = id;
-		this.billDate = billDate;
-		this.totalAmount = totalAmount;
-		this.taxAmount = taxAmount;
-		this.discountAmount = discountAmount;
-		this.createdAt = createdAt;
-		this.updatedAt = updatedAt;
-		this.customer = customer;
-		this.billItems = billItems;
-		this.payment = payment;
+//	private Bill(Long id, LocalDateTime billDate, BigDecimal totalAmount,
+//			BigDecimal discountAmount, LocalDateTime createdAt, LocalDateTime updatedAt, Customer customer,
+//			List<BillItem> billItems,
+//			Payment payment) {
+//		super();
+//		this.id = id;
+//		this.billDate = billDate;
+//		this.totalAmount = totalAmount;
+//		this.discountAmount = discountAmount;
+//		this.createdAt = createdAt;
+//		this.updatedAt = updatedAt;
+//		this.customer = customer;
+//		this.billItems = billItems;
+//		this.payment = payment;
+//	}
+
+	public Bill() {
 	}
 
 	public Long getId() {
@@ -80,14 +81,6 @@ public class Bill {
 
 	public void setTotalAmount(BigDecimal totalAmount) {
 		this.totalAmount = totalAmount;
-	}
-
-	public BigDecimal getTaxAmount() {
-		return taxAmount;
-	}
-
-	public void setTaxAmount(BigDecimal taxAmount) {
-		this.taxAmount = taxAmount;
 	}
 
 	public BigDecimal getDiscountAmount() {

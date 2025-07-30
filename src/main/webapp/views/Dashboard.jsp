@@ -71,7 +71,6 @@
 			</div>
 
 			<!-- Dynamic Content Area with Grid Buttons -->
-			<
 			<div class="content-area">
 				<div class="content-header">
 					<h2>Admin Dashboard</h2>

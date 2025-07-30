@@ -194,7 +194,6 @@ public class Validator {
 			throw new IllegalArgumentException("Bill date cannot be in the future");
 		}
 		validatePositiveAmount(bill.getTotalAmount(), "Total amount");
-		validateNonNegativeAmount(bill.getTaxAmount(), "Tax amount");
 		validateNonNegativeAmount(bill.getDiscountAmount(), "Discount amount");
 		if (bill.getDiscountAmount().compareTo(bill.getTotalAmount()) > 0) {
 			throw new IllegalArgumentException("Discount cannot be greater than total amount");

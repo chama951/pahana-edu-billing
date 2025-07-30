@@ -14,7 +14,7 @@ import com.pahana.edu.daoImpl.UserDaoImpl;
 import com.pahana.edu.model.User;
 import com.pahana.edu.utill.AuthHelper;
 import com.pahana.edu.utill.ButtonValues;
-import com.pahana.edu.utill.EndpointValues;
+import com.pahana.edu.utill.ButtonPath;
 import com.pahana.edu.utill.MessageConstants;
 import com.pahana.edu.utill.ResponseHandler;
 import com.pahana.edu.utill.database.DBConnectionFactory;
@@ -56,13 +56,13 @@ public class ChangeUsernameServlet extends HttpServlet {
 
 			if (userDao.getUserByUsername(newUsername) != null) {
 				ResponseHandler.handleError(request, response,
-						MessageConstants.USERNAME_EXISTS, EndpointValues.CHANGE_USERNAME, ButtonValues.TRY_AGAIN);
+						MessageConstants.USERNAME_EXISTS, ButtonPath.CHANGE_USERNAME, ButtonValues.TRY_AGAIN);
 			} else {
 				userDao.updateUsername(userLoggedIn.getId(), newUsername);
 
 				session.invalidate();
 				ResponseHandler.handleSuccess(request, response,
-						MessageConstants.USERNAME_UPDATED, EndpointValues.LOGIN, ButtonValues.CONTINUE);
+						MessageConstants.USERNAME_UPDATED, ButtonPath.LOGIN, ButtonValues.CONTINUE);
 			}
 
 		} catch (SQLException e) {

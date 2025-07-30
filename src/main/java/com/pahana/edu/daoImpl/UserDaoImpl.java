@@ -33,8 +33,10 @@ public class UserDaoImpl implements UserDao {
 			stmt.setString(2, user.getHashedPassword()); // Already hashed
 			stmt.setString(3, user.getRole().name());
 			stmt.setBoolean(4, user.getIsActive());
-			stmt.setObject(5, user.getCreatedAt());
+			stmt.setObject(5, LocalDateTime.now());
 			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -49,8 +51,10 @@ public class UserDaoImpl implements UserDao {
 				user = mapUser(rs);
 				return user;
 			}
-			return null;
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
+		return null;
 	}
 
 	@Override
@@ -94,6 +98,8 @@ public class UserDaoImpl implements UserDao {
 			stmt.setObject(4, LocalDateTime.now());
 			stmt.setObject(5, userToUpdate.getId());
 			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -120,16 +126,9 @@ public class UserDaoImpl implements UserDao {
 		user.setHashedPassword(rs.getString("hashedPassword"));
 		user.setRole(UserRole.valueOf(rs.getString("role")));
 		user.setIsActive(rs.getBoolean("isActive"));
-
-		LocalDateTime rtrvdTime;
-		rtrvdTime = rs.getObject("createdAt", LocalDateTime.class);
-		user.setCreatedAt(rtrvdTime);
-
-		rtrvdTime = rs.getObject("lastLogin", LocalDateTime.class);
-		user.setLastLogin(rtrvdTime);
-
-		rtrvdTime = rs.getObject("updatedAt", LocalDateTime.class);
-		user.setUpdatedAt(rtrvdTime);
+		user.setCreatedAt(rs.getObject("createdAt", LocalDateTime.class));
+		user.setLastLogin(rs.getObject("lastLogin", LocalDateTime.class));
+		user.setUpdatedAt(rs.getObject("updatedAt", LocalDateTime.class));
 		return user;
 	}
 
@@ -139,6 +138,8 @@ public class UserDaoImpl implements UserDao {
 		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 			stmt.setLong(1, userId);
 			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -152,6 +153,8 @@ public class UserDaoImpl implements UserDao {
 			stmt.setObject(2, LocalDateTime.now());
 			stmt.setLong(3, id);
 			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -165,6 +168,8 @@ public class UserDaoImpl implements UserDao {
 			stmt.setObject(2, LocalDateTime.now());
 			stmt.setLong(3, id);
 			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		return false;
 	}

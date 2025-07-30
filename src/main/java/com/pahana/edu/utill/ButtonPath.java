@@ -1,6 +1,6 @@
 package com.pahana.edu.utill;
 
-public final class EndpointValues {
+public final class ButtonPath {
 	public static final String LOGIN = "/login";
 	public static final String LOGOUT = "/logout";
 	public static final String DASHBOARD = "/dashboard";
@@ -12,8 +12,10 @@ public final class EndpointValues {
 	public static final String CHANGE_PASSWORD = "/change-password";
 	public static final String CHANGE_USERNAME = "/change-username";
 	public static final String CREATE_FIRST_USER = "/create-first-user";
+	public static final String CREATE_CUSTOMER = "/create-customer";
+	public static final String GET_CUSTOMERS = "/create-customer";
 
 	// Prevent instantiation
-	private EndpointValues() {
+	private ButtonPath() {
 	}
 }

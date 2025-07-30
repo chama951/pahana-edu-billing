@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.pahana.edu.utill.ButtonValues;
-import com.pahana.edu.utill.EndpointValues;
+import com.pahana.edu.utill.ButtonPath;
 import com.pahana.edu.utill.MessageConstants;
 import com.pahana.edu.utill.ResponseHandler;
 
@@ -32,7 +32,7 @@ public class LogoutUserServlet extends HttpServlet {
 		response.setDateHeader("Expires", 0);
 
 		ResponseHandler.handleSuccess(request, response,
-				MessageConstants.LOGOUT_SUCCESS, EndpointValues.LOGIN, ButtonValues.LOGIN);
+				MessageConstants.LOGOUT_SUCCESS, ButtonPath.LOGIN, ButtonValues.LOGIN);
 
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}

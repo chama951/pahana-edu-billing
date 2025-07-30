@@ -27,7 +27,7 @@ body {
 }
 
 /* Card Container */
-.registration-container {
+.my-container {
 	width: 100%;
 	max-width: 500px;
 	padding: 2.5rem;
@@ -38,7 +38,7 @@ body {
 	padding-top: 20px; /* Add space for the close button */
 }
 
-.registration-header {
+.my-header {
 	color: var(--primary-color);
 	text-align: center;
 	margin-bottom: 1.5rem;
@@ -47,7 +47,7 @@ body {
 }
 
 /* Form Elements */
-.registration-form {
+.my-form {
 	display: flex;
 	flex-direction: column;
 	gap: 1.25rem;
@@ -151,7 +151,7 @@ body {
 /* MEDIA QUERIES - MOVED TO BOTTOM */
 /* ====================== */
 @media ( max-width : 600px) {
-	.registration-container {
+	.my-container {
 		padding: 1.5rem;
 		margin: 1rem;
 	}
@@ -174,10 +174,10 @@ body {
 
 /* Additional small screen adjustments */
 @media ( max-width : 480px) {
-	.registration-container {
+	.my-container {
 		padding: 1.25rem;
 	}
-	.registration-header {
+	.my-header {
 		font-size: 1.5rem;
 	}
 	.form-control {

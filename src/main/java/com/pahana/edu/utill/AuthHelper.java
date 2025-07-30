@@ -17,7 +17,7 @@ public class AuthHelper {
 		User userLoggedIn = (User) session.getAttribute("currentUser");
 		if (userLoggedIn == null) {
 			ResponseHandler.handleError(request, response,
-					MessageConstants.MUST_BE_LOGGED_IN, EndpointValues.LOGIN, ButtonValues.LOGIN);
+					MessageConstants.MUST_BE_LOGGED_IN, ButtonPath.LOGIN, ButtonValues.LOGIN);
 			return false;
 		}
 		return true;

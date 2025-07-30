@@ -15,7 +15,7 @@ import com.pahana.edu.model.User;
 import com.pahana.edu.model.enums.UserRole;
 import com.pahana.edu.utill.AuthHelper;
 import com.pahana.edu.utill.ButtonValues;
-import com.pahana.edu.utill.EndpointValues;
+import com.pahana.edu.utill.ButtonPath;
 import com.pahana.edu.utill.MessageConstants;
 import com.pahana.edu.utill.ResponseHandler;
 import com.pahana.edu.utill.database.DBConnectionFactory;
@@ -34,27 +34,24 @@ public class CreateUserServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		AuthHelper.isUserLoggedIn(request, response);
-
 		request.getRequestDispatcher("/views/CreateUser.jsp").forward(request, response);
-
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
-		String roleParam = request.getParameter("role");
-
 		AuthHelper.isUserLoggedIn(request, response);
 
 		try {
+			String username = request.getParameter("username");
 			User userInDb = userDao.getUserByUsername(username);
 			if (userInDb != null) {
 				ResponseHandler.handleError(request, response,
 						MessageConstants.USERNAME_EXISTS,
-						EndpointValues.CREATE_FIRST_USER, ButtonValues.CONTINUE);
+						ButtonPath.CREATE_USER, ButtonValues.TRY_AGAIN);
 			} else {
+				String password = request.getParameter("password");
+				String roleParam = request.getParameter("role");
 				UserRole userRole = UserRole.valueOf(roleParam.toUpperCase());
 				User newUser = new User(
 						username,
@@ -65,7 +62,7 @@ public class CreateUserServlet extends HttpServlet {
 				userDao.createUser(newUser);
 
 				ResponseHandler.handleSuccess(request, response,
-						MessageConstants.USER_CREATED, EndpointValues.GET_USERS, ButtonValues.CONTINUE);
+						MessageConstants.USER_CREATED, ButtonPath.GET_USERS, ButtonValues.CONTINUE);
 
 			}
 		} catch (SQLException e) {

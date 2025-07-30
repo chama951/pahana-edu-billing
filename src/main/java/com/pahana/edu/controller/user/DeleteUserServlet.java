@@ -14,7 +14,7 @@ import com.pahana.edu.daoImpl.UserDaoImpl;
 import com.pahana.edu.model.User;
 import com.pahana.edu.model.enums.Privilege;
 import com.pahana.edu.utill.ButtonValues;
-import com.pahana.edu.utill.EndpointValues;
+import com.pahana.edu.utill.ButtonPath;
 import com.pahana.edu.utill.MessageConstants;
 import com.pahana.edu.utill.ResponseHandler;
 import com.pahana.edu.utill.database.DBConnectionFactory;
@@ -48,19 +48,19 @@ public class DeleteUserServlet extends HttpServlet {
 		try {
 			if (!userLoggedIn.getRole().hasPrivilege(Privilege.MANAGE_USERS)) {
 				ResponseHandler.handleError(request, response,
-						MessageConstants.PRIVILEGE_INSUFFICIENT, EndpointValues.DASHBOARD, ButtonValues.BACK);
+						MessageConstants.PRIVILEGE_INSUFFICIENT, ButtonPath.DASHBOARD, ButtonValues.BACK);
 			}
 
 			Long userIdToDelete = Long.valueOf(request.getParameter("userId"));
 
 			if (userLoggedIn.getId().equals(userIdToDelete)) {
 				ResponseHandler.handleError(request, response, MessageConstants.CANNOT_DELETE_BY_SELF,
-						EndpointValues.GET_USERS, ButtonValues.BACK);
+						ButtonPath.GET_USERS, ButtonValues.BACK);
 			} else {
 				userDao.deleteUser(userIdToDelete);
 
 				ResponseHandler.handleSuccess(request, response,
-						MessageConstants.USER_DELETED, EndpointValues.GET_USERS, ButtonValues.CONTINUE);
+						MessageConstants.USER_DELETED, ButtonPath.GET_USERS, ButtonValues.CONTINUE);
 			}
 
 		} catch (SQLException e) {

@@ -1,39 +1,55 @@
-package com.pahana.edu.controller.user;
+package com.pahana.edu.controller.customer;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.Enumeration;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.pahana.edu.dao.UserDao;
-import com.pahana.edu.daoImpl.UserDaoImpl;
+import com.pahana.edu.dao.CustomerDao;
+import com.pahana.edu.daoImpl.CustomerDaoImpl;
+import com.pahana.edu.model.Customer;
 import com.pahana.edu.model.User;
 import com.pahana.edu.model.enums.Privilege;
 import com.pahana.edu.utill.AuthHelper;
-import com.pahana.edu.utill.ButtonValues;
 import com.pahana.edu.utill.ButtonPath;
+import com.pahana.edu.utill.ButtonValues;
 import com.pahana.edu.utill.MessageConstants;
 import com.pahana.edu.utill.ResponseHandler;
 import com.pahana.edu.utill.database.DBConnectionFactory;
 
-public class GetUsersServlet extends HttpServlet {
+public class GetCustomersServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private UserDao userDao;
+	private CustomerDao customerDao;
 
-	@Override
-	public void init() throws ServletException {
-		userDao = new UserDaoImpl(DBConnectionFactory.getConnection());
-		super.init();
+	public GetCustomersServlet() {
+		super();
+		customerDao = new CustomerDaoImpl(DBConnectionFactory.getConnection());
 	}
 
-	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
+//		try {
+//			List<Customer> customerList = customerDao.getAllCustomers();
+//			request.setAttribute("customerList", customerList);
+//
+//			PrintWriter out = response.getWriter();
+//			for (Customer customer : customerList) {
+//				out.print("<h1>" + customer.getFirstName() + "</h1>");
+//				out.print("<h1>" + customer.getLastName() + "</h1>");
+//			}
+//
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
 
 		HttpSession session = request.getSession();
 		User userLoggedIn = (User) session.getAttribute("currentUser");
@@ -45,9 +61,9 @@ public class GetUsersServlet extends HttpServlet {
 				ResponseHandler.handleError(request, response,
 						MessageConstants.PRIVILEGE_INSUFFICIENT, ButtonPath.DASHBOARD, ButtonValues.BACK);
 			} else {
-				List<User> usersList = userDao.getAllUsers();
-				request.setAttribute("usersList", usersList);
-				request.getRequestDispatcher("/views/ManageUsers.jsp").forward(request, response);
+				List<Customer> customerList = customerDao.getAllCustomers();
+				request.setAttribute("customerList", customerList);
+				request.getRequestDispatcher("/views/ManageCustomers.jsp").forward(request, response);
 			}
 
 		} catch (SQLException e) {
@@ -59,10 +75,8 @@ public class GetUsersServlet extends HttpServlet {
 		}
 	}
 
-	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
 		doGet(request, response);
 	}
 

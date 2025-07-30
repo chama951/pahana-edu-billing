@@ -37,6 +37,10 @@ public final class MessageConstants {
 	// Privilege Messages
 	public static final String PRIVILEGE_INSUFFICIENT = "You do not have sufficient privileges to perform this action";
 
+	// Customer Management Messeges
+	public static final String CUSTOMER_NUMBER_EXISTS = "Customer Number already exists. Please choose a different Number";
+	public static final String CUSTOMER_CREATED = "Customer created successfully";
+
 	// Prevent instantiation
 	private MessageConstants() {
 	}

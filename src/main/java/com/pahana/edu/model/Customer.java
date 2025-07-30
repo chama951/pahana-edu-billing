@@ -30,10 +30,10 @@ public class Customer {
 	private Integer unitsConsumed;
 
 	@CreationTimestamp
-	private LocalDateTime createdAt = LocalDateTime.now();
+	private LocalDateTime createdAt;
 
 	@UpdateTimestamp
-	private LocalDateTime updatedAt = LocalDateTime.now();
+	private LocalDateTime updatedAt;
 
 	@OneToMany(mappedBy = "customer")
 	private List<Bill> billList = new ArrayList<>();
@@ -57,6 +57,18 @@ public class Customer {
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
 		this.billList = billList;
+	}
+
+	public Customer(Long accountNumber, String firstName, String lastName, String address, String phoneNumber,
+			String email, Integer unitsConsumed) {
+		super();
+		this.accountNumber = accountNumber;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.address = address;
+		this.phoneNumber = phoneNumber;
+		this.email = email;
+		this.unitsConsumed = unitsConsumed;
 	}
 
 	public Long getId() {
