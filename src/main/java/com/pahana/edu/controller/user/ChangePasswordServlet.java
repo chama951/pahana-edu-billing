@@ -57,8 +57,7 @@ public class ChangePasswordServlet extends HttpServlet {
 			}
 			userDao.updatePassword(userLoggedIn.getId(), PasswordUtil.hashPassword(newPassword));
 			session.invalidate();
-			ResponseHandler.handleSuccess(request, response,
-					MessageConstants.PASSWORD_UPDATED, ButtonPath.LOGIN, ButtonValues.CONTINUE);
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return;
@@ -66,5 +65,7 @@ public class ChangePasswordServlet extends HttpServlet {
 			e.printStackTrace();
 			return;
 		}
+		ResponseHandler.handleSuccess(request, response,
+				MessageConstants.PASSWORD_UPDATED, ButtonPath.LOGIN, ButtonValues.CONTINUE);
 	}
 }

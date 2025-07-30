@@ -52,7 +52,7 @@ public class CustomerDaoImpl implements CustomerDao {
 	public List<Customer> getAllCustomers() throws SQLException {
 		String sql = "SELECT  "
 				+ "/* Customer fields */"
-				+ " c.id AS customerid,"
+				+ " c.id AS id,"
 				+ " c.accountNumber AS accountNumber, "
 				+ " c.firstName AS firstName, "
 				+ " c.lastName AS lastName, "
@@ -103,7 +103,7 @@ public class CustomerDaoImpl implements CustomerDao {
 			Long lastBillId = null;
 
 			while (rs.next()) {
-				Long customerId = rs.getLong("customerid");
+				Long customerId = rs.getLong("id");
 
 				// Handle new customer
 				if (!customerId.equals(lastCustomerId)) {
@@ -144,26 +144,9 @@ public class CustomerDaoImpl implements CustomerDao {
 		return null;
 	}
 
-	@Override
-	public Customer getUserByAccNo(Long accNo) throws SQLException {
-		String sql = "SELECT * FROM customer WHERE accountNumber = ?";
-		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-			stmt.setLong(1, accNo);
-			ResultSet rs = stmt.executeQuery();
-			if (rs.next()) {
-				Customer customer = new Customer();
-				customer = mapCustomer(rs);
-				return customer;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
 	private Customer mapCustomer(ResultSet rs) throws SQLException {
 		Customer customer = new Customer();
-		customer.setId(rs.getLong("customerid"));
+		customer.setId(rs.getLong("id"));
 		customer.setAccountNumber(rs.getLong("accountNumber"));
 		customer.setFirstName(rs.getString("firstName"));
 		customer.setLastName(rs.getString("lastName"));
@@ -179,7 +162,7 @@ public class CustomerDaoImpl implements CustomerDao {
 
 	private Bill mapBill(ResultSet rs) throws SQLException {
 		Bill bill = new Bill();
-		bill.setId(rs.getLong("id"));
+		bill.setId(rs.getLong("billId"));
 		bill.setBillDate(rs.getObject("billDate", LocalDateTime.class));
 		bill.setTotalAmount(rs.getBigDecimal("totalAmount"));
 		bill.setDiscountAmount(rs.getBigDecimal("discountAmount"));
@@ -191,7 +174,6 @@ public class CustomerDaoImpl implements CustomerDao {
 
 	private BillItem mapBillItem(ResultSet rs) throws SQLException {
 		BillItem item = new BillItem();
-		item.setId(rs.getLong("id"));
 		item.setQuantity(rs.getInt("quantity"));
 		item.setUnitPrice(rs.getDouble("unitPrice"));
 		item.setSubTotal(rs.getDouble("subTotal"));
@@ -203,7 +185,6 @@ public class CustomerDaoImpl implements CustomerDao {
 
 	private Item mapItem(ResultSet rs) throws SQLException {
 		Item item = new Item();
-		item.setId(rs.getLong("id"));
 		item.setTitle(rs.getString("title"));
 		item.setDescription(rs.getString("description"));
 		item.setPrice(rs.getDouble("price"));
@@ -218,20 +199,169 @@ public class CustomerDaoImpl implements CustomerDao {
 
 	@Override
 	public Customer getCustomerById(Long id) throws SQLException {
-		// TODO Auto-generated method stub
+		String sql = "SELECT * FROM customer WHERE id = ?";
+		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+			stmt.setLong(1, id);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				Customer customer = new Customer();
+				customer = mapCustomer(rs);
+				return customer;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 
 	@Override
-	public void updateCustomer(Customer customer) throws SQLException {
-		// TODO Auto-generated method stub
+	public void updateCustomer(Customer customerToUpdate) throws SQLException {
+		String sql = "UPDATE customer SET "
+				+ "accountNumber = ?, "
+				+ "firstName = ?, "
+				+ "lastName = ?, "
+				+ "address = ? , "
+				+ "phoneNumber = ?, "
+				+ "email = ?, "
+				+ "updatedAt = ?, "
+				+ "unitsConsumed =? WHERE id = ?";
+		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+			stmt.setLong(1, customerToUpdate.getAccountNumber());
+			stmt.setString(2, customerToUpdate.getFirstName());
+			stmt.setString(3, customerToUpdate.getLastName());
+			stmt.setString(4, customerToUpdate.getAddress());
+			stmt.setString(5, customerToUpdate.getPhoneNumber());
+			stmt.setString(6, customerToUpdate.getEmail());
+			stmt.setObject(7, LocalDateTime.now());
+			stmt.setInt(8, customerToUpdate.getUnitsConsumed());
+			stmt.setObject(9, customerToUpdate.getId());
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 	}
 
 	@Override
 	public void deleteCustomer(Long id) throws SQLException {
-		// TODO Auto-generated method stub
+		String sql = "DELETE FROM customer WHERE id=?";
+		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+			stmt.setLong(1, id);
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
+	}
+
+	@Override
+	public boolean checkCustomerByIdAndAccNo(Long accNo, Long customerId) throws SQLException {
+
+		String sql = "SELECT * FROM customer WHERE accountNumber = ? AND id != ?";
+		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+			stmt.setLong(1, accNo);
+			stmt.setLong(2, customerId);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				Customer customer = new Customer();
+				customer = mapCustomer(rs);
+
+				return customer != null;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	@Override
+	public boolean checkCustomerByIdAndPhoneNo(String phoneNo, Long customerId) throws SQLException {
+		String sql = "SELECT * FROM customer WHERE phoneNumber = ? AND id != ?";
+		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+			stmt.setString(1, phoneNo);
+			stmt.setLong(2, customerId);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				Customer customer = new Customer();
+				customer = mapCustomer(rs);
+
+				return customer != null;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	@Override
+	public boolean checkCustomerByIdAndEmail(String email, Long customerId) throws SQLException {
+		String sql = "SELECT * FROM customer WHERE email = ? AND id != ?";
+		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+			stmt.setString(1, email);
+			stmt.setLong(2, customerId);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				Customer customer = new Customer();
+				customer = mapCustomer(rs);
+				return customer != null;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	@Override
+	public boolean checkCustomerByAccNo(Long accountNumber) throws SQLException {
+		String sql = "SELECT * FROM customer WHERE accountNumber = ?";
+		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+			stmt.setLong(1, accountNumber);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				Customer customer = new Customer();
+				customer = mapCustomer(rs);
+
+				return customer != null;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	@Override
+	public boolean checkCustomerByPhoneNo(String phoneNumber) throws SQLException {
+		String sql = "SELECT * FROM customer WHERE phoneNumber = ?";
+		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+			stmt.setString(1, phoneNumber);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				Customer customer = new Customer();
+				customer = mapCustomer(rs);
+
+				return customer != null;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	@Override
+	public boolean checkCustomerByAccNo(String email) throws SQLException {
+		String sql = "SELECT * FROM customer WHERE email = ?";
+		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+			stmt.setString(1, email);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				Customer customer = new Customer();
+				customer = mapCustomer(rs);
+				return customer != null;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 }

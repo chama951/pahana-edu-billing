@@ -40,6 +40,10 @@ public final class MessageConstants {
 	// Customer Management Messeges
 	public static final String CUSTOMER_NUMBER_EXISTS = "Customer Number already exists. Please choose a different Number";
 	public static final String CUSTOMER_CREATED = "Customer created successfully";
+	public static final String CUSTOMER_UPDATED = "Customer updated successfully";
+	public static final String CUSTOMER_EMAIL_EXISTS = "Customer email already exists. Please choose a different Number";
+	public static final String CUSTOMER_PHONENO_EXISTS = "Customer phone number already exists. Please choose a different Number";
+	public static final String CUSTOMER_DELETED = "Customer deleted successfully";
 
 	// Prevent instantiation
 	private MessageConstants() {

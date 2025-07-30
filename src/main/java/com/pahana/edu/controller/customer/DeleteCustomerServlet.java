@@ -1,4 +1,4 @@
-package com.pahana.edu.controller.user;
+package com.pahana.edu.controller.customer;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -9,34 +9,32 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.pahana.edu.dao.UserDao;
-import com.pahana.edu.daoImpl.UserDaoImpl;
+import com.pahana.edu.dao.CustomerDao;
+import com.pahana.edu.daoImpl.CustomerDaoImpl;
 import com.pahana.edu.model.User;
 import com.pahana.edu.model.enums.Privilege;
-import com.pahana.edu.utill.ButtonValues;
 import com.pahana.edu.utill.ButtonPath;
+import com.pahana.edu.utill.ButtonValues;
 import com.pahana.edu.utill.MessageConstants;
 import com.pahana.edu.utill.ResponseHandler;
 import com.pahana.edu.utill.database.DBConnectionFactory;
 
-public class DeleteUserServlet extends HttpServlet {
+public class DeleteCustomerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private UserDao userDao;
+	private CustomerDao customerDao;
 
 	@Override
 	public void init() throws ServletException {
-		userDao = new UserDaoImpl(DBConnectionFactory.getConnection());
+		customerDao = new CustomerDaoImpl(DBConnectionFactory.getConnection());
 		super.init();
 	}
 
-	public DeleteUserServlet() {
-
+	public DeleteCustomerServlet() {
 		super();
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -49,15 +47,9 @@ public class DeleteUserServlet extends HttpServlet {
 			if (!userLoggedIn.getRole().hasPrivilege(Privilege.MANAGE_USERS)) {
 				ResponseHandler.handleError(request, response,
 						MessageConstants.PRIVILEGE_INSUFFICIENT, ButtonPath.DASHBOARD, ButtonValues.BACK);
-			}
-
-			Long userIdToDelete = Long.valueOf(request.getParameter("userId"));
-
-			if (userLoggedIn.getId().equals(userIdToDelete)) {
-				ResponseHandler.handleError(request, response, MessageConstants.CANNOT_DELETE_BY_SELF,
-						ButtonPath.MANAGE_USERS, ButtonValues.BACK);
 			} else {
-				userDao.deleteUser(userIdToDelete);
+				Long customerId = Long.valueOf(request.getParameter("id"));
+				customerDao.deleteCustomer(customerId);
 			}
 
 		} catch (SQLException e) {
@@ -68,6 +60,6 @@ public class DeleteUserServlet extends HttpServlet {
 			return;
 		}
 		ResponseHandler.handleSuccess(request, response,
-				MessageConstants.USER_DELETED, ButtonPath.MANAGE_USERS, ButtonValues.CONTINUE);
+				MessageConstants.CUSTOMER_DELETED, ButtonPath.MANAGE_CUSTOMERS, ButtonValues.CONTINUE);
 	}
 }

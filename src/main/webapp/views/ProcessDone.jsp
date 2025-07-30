@@ -4,11 +4,13 @@
 <title>Process Completed</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/ErrorMessege.css">
+	href="${pageContext.request.contextPath}/css/ErrorMessege.css"
+>
 </head>
 <!-- Font Awesome for icons (optional) -->
 <link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+>
 </head>
 <body>
 	<div class="container">
@@ -26,8 +28,8 @@
 		}
 		%>
 
-		<a href="${pageContext.request.contextPath}${buttonPath}" class="btn">
-			Continue </a>
+		<a href="${pageContext.request.contextPath}${buttonPath}" class="btn">${buttonValue}
+			${buttonAction} </a>
 	</div>
 </body>
 </html>

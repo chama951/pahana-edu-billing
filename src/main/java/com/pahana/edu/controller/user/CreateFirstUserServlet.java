@@ -56,9 +56,6 @@ public class CreateFirstUserServlet extends HttpServlet {
 						LocalDateTime.now());
 				userDao.createUser(newUser);
 
-				ResponseHandler.handleSuccess(request, response,
-						MessageConstants.FIRST_USER_CREATED,
-						ButtonPath.LOGIN, ButtonValues.CONTINUE);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -67,6 +64,9 @@ public class CreateFirstUserServlet extends HttpServlet {
 			e.printStackTrace();
 			return;
 		}
+		ResponseHandler.handleSuccess(request, response,
+				MessageConstants.FIRST_USER_CREATED,
+				ButtonPath.LOGIN, ButtonValues.CONTINUE);
 	}
 
 }

@@ -57,9 +57,6 @@ public class LoginUserServlet extends HttpServlet {
 				userDao.updateLastLogin(userInDb.getId(), lastLoginTime);
 				HttpSession session = request.getSession();
 				session.setAttribute("currentUser", userInDb);
-				ResponseHandler.handleSuccess(request, response,
-						MessageConstants.LOGIN_SUCCESS + userInDb.getUsername(), ButtonPath.DASHBOARD,
-						ButtonValues.DASHBNOARD);
 
 			}
 		} catch (SQLException e) {
@@ -68,6 +65,9 @@ public class LoginUserServlet extends HttpServlet {
 			e.printStackTrace();
 			return;
 		}
+		ResponseHandler.handleSuccess(request, response,
+				MessageConstants.LOGIN_SUCCESS + username, ButtonPath.DASHBOARD,
+				ButtonValues.DASHBNOARD);
 	}
 
 }

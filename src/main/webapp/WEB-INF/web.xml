@@ -89,6 +89,20 @@
 		<servlet-name>GetCustomersServlet</servlet-name>
 		<servlet-class>com.pahana.edu.controller.customer.GetCustomersServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>UpdateCustomerServlet</display-name>
+		<servlet-name>UpdateCustomerServlet</servlet-name>
+		<servlet-class>com.pahana.edu.controller.customer.UpdateCustomerServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>DeleteCustomerServlet</display-name>
+		<servlet-name>DeleteCustomerServlet</servlet-name>
+		<servlet-class>com.pahana.edu.controller.customer.DeleteCustomerServlet</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>CreateUserServlet</servlet-name>
 		<url-pattern>/create-user</url-pattern>
@@ -136,5 +150,13 @@
 	<servlet-mapping>
 		<servlet-name>GetCustomersServlet</servlet-name>
 		<url-pattern>/manage-customers</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>UpdateCustomerServlet</servlet-name>
+		<url-pattern>/update-customer</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>DeleteCustomerServlet</servlet-name>
+		<url-pattern>/delete-customer</url-pattern>
 	</servlet-mapping>
 </web-app>

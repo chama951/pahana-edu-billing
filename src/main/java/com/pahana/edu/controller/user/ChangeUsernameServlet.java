@@ -59,10 +59,7 @@ public class ChangeUsernameServlet extends HttpServlet {
 						MessageConstants.USERNAME_EXISTS, ButtonPath.CHANGE_USERNAME, ButtonValues.TRY_AGAIN);
 			} else {
 				userDao.updateUsername(userLoggedIn.getId(), newUsername);
-
 				session.invalidate();
-				ResponseHandler.handleSuccess(request, response,
-						MessageConstants.USERNAME_UPDATED, ButtonPath.LOGIN, ButtonValues.CONTINUE);
 			}
 
 		} catch (SQLException e) {
@@ -72,6 +69,8 @@ public class ChangeUsernameServlet extends HttpServlet {
 			e.printStackTrace();
 			return;
 		}
+		ResponseHandler.handleSuccess(request, response,
+				MessageConstants.USERNAME_UPDATED, ButtonPath.LOGIN, ButtonValues.CONTINUE);
 	}
 
 }

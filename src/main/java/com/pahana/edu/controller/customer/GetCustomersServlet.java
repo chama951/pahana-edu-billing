@@ -52,7 +52,7 @@ public class GetCustomersServlet extends HttpServlet {
 					out.print("<h1>" + customer.getFirstName() + "</h1>");
 					out.print("<h1>" + customer.getLastName() + "</h1>");
 				}
-//				request.getRequestDispatcher("/views/ManageCustomers.jsp").forward(request, response);
+				request.getRequestDispatcher("/views/ManageCustomers.jsp").forward(request, response);
 			}
 
 		} catch (SQLException e) {

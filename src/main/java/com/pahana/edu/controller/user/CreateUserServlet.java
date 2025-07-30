@@ -48,7 +48,7 @@ public class CreateUserServlet extends HttpServlet {
 			if (userInDb != null) {
 				ResponseHandler.handleError(request, response,
 						MessageConstants.USERNAME_EXISTS,
-						ButtonPath.CREATE_USER, ButtonValues.TRY_AGAIN);
+						ButtonPath.MANAGE_USERS, ButtonValues.TRY_AGAIN);
 			} else {
 				String password = request.getParameter("password");
 				String roleParam = request.getParameter("role");
@@ -61,9 +61,6 @@ public class CreateUserServlet extends HttpServlet {
 						LocalDateTime.now());
 				userDao.createUser(newUser);
 
-				ResponseHandler.handleSuccess(request, response,
-						MessageConstants.USER_CREATED, ButtonPath.GET_USERS, ButtonValues.CONTINUE);
-
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -72,6 +69,8 @@ public class CreateUserServlet extends HttpServlet {
 			e.printStackTrace();
 			return;
 		}
+		ResponseHandler.handleSuccess(request, response,
+				MessageConstants.USER_CREATED, ButtonPath.MANAGE_USERS, ButtonValues.CONTINUE);
 
 	}
 }

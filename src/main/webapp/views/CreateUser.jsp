@@ -23,7 +23,7 @@
 		<!-- Close button conditionally rendered -->
 		<c:if test="${not empty currentUser}">
 			<button class="close-btn"
-				onclick="window.location.href='${pageContext.request.contextPath}/get-users'"
+				onclick="window.location.href='${pageContext.request.contextPath}/manage-users'"
 			>
 				<i class="fas fa-times"></i>
 			</button>

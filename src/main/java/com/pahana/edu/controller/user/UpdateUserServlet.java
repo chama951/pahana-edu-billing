@@ -71,13 +71,12 @@ public class UpdateUserServlet extends HttpServlet {
 
 				if (modifyingSelf && (reducingPrivileges || deactivatingSelf)) {
 					ResponseHandler.handleError(request, response,
-							MessageConstants.USER_UPDATE_BY_SELF, ButtonPath.GET_USERS, ButtonValues.BACK);
+							MessageConstants.USER_UPDATE_BY_SELF, ButtonPath.MANAGE_USERS, ButtonValues.BACK);
 				} else {
 					userToUpdate.setRole(loggedInuserRole);
 					userToUpdate.setIsActive(isActiveLoggedIn);
 					userDao.updateUser(userToUpdate);
-					ResponseHandler.handleSuccess(request, response,
-							MessageConstants.USER_UPDATED, ButtonPath.GET_USERS, ButtonValues.CONTINUE);
+
 				}
 			}
 
@@ -87,6 +86,8 @@ public class UpdateUserServlet extends HttpServlet {
 			e.printStackTrace();
 			return;
 		}
+		ResponseHandler.handleSuccess(request, response,
+				MessageConstants.USER_UPDATED, ButtonPath.MANAGE_USERS, ButtonValues.CONTINUE);
 	}
 
 }

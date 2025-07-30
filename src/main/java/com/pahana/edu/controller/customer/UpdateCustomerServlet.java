@@ -21,7 +21,7 @@ import com.pahana.edu.utill.MessageConstants;
 import com.pahana.edu.utill.ResponseHandler;
 import com.pahana.edu.utill.database.DBConnectionFactory;
 
-public class CreateCustomerServlet extends HttpServlet {
+public class UpdateCustomerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private CustomerDao customerDao;
 
@@ -31,11 +31,14 @@ public class CreateCustomerServlet extends HttpServlet {
 		super.init();
 	}
 
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		AuthHelper.isUserLoggedIn(request, response);
+
 	}
 
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
@@ -44,17 +47,19 @@ public class CreateCustomerServlet extends HttpServlet {
 		AuthHelper.isUserLoggedIn(request, response);
 
 		try {
+
 			if (!userLoggedIn.getRole().hasPrivilege(Privilege.MANAGE_USERS)) {
 				ResponseHandler.handleError(request, response,
 						MessageConstants.PRIVILEGE_INSUFFICIENT, ButtonPath.DASHBOARD, ButtonValues.BACK);
 			}
+			Long customerId = Long.parseLong(request.getParameter("id"));
 
 			Long accountNumber = Long.parseLong(request.getParameter("accountNumber"));
-			boolean customerByAccNo = customerDao.checkCustomerByAccNo(accountNumber);
+			boolean customerByAccNo = customerDao.checkCustomerByIdAndAccNo(accountNumber, customerId);
 			String email = request.getParameter("email");
-			boolean customerByemail = customerDao.checkCustomerByAccNo(email);
+			boolean customerByemail = customerDao.checkCustomerByIdAndEmail(email, customerId);
 			String phoneNumber = request.getParameter("phoneNumber");
-			boolean customerByPhoneNo = customerDao.checkCustomerByPhoneNo(phoneNumber);
+			boolean customerByPhoneNo = customerDao.checkCustomerByIdAndPhoneNo(phoneNumber, customerId);
 
 			if (customerByAccNo) {
 				ResponseHandler.handleError(request, response, MessageConstants.CUSTOMER_NUMBER_EXISTS,
@@ -68,11 +73,13 @@ public class CreateCustomerServlet extends HttpServlet {
 				ResponseHandler.handleError(request, response, MessageConstants.CUSTOMER_PHONENO_EXISTS,
 						ButtonPath.MANAGE_CUSTOMERS, ButtonValues.TRY_AGAIN);
 			} else {
+				Long id = Long.parseLong(request.getParameter("id"));
 				String firstName = request.getParameter("firstName");
 				String lastname = request.getParameter("lastName");
 				String address = request.getParameter("address");
 				Integer unitsConsumed = Integer.valueOf(request.getParameter("unitsConsumed"));
-				Customer newCustomer = new Customer(
+				Customer customerToUpdate = new Customer(
+						id,
 						accountNumber,
 						firstName,
 						lastname,
@@ -80,18 +87,18 @@ public class CreateCustomerServlet extends HttpServlet {
 						phoneNumber,
 						email,
 						unitsConsumed);
-				customerDao.createCustomer(newCustomer);
+				customerDao.updateCustomer(customerToUpdate);
 
 			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return;
+
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 			return;
 		}
-		ResponseHandler.handleSuccess(request, response, MessageConstants.CUSTOMER_CREATED,
+		ResponseHandler.handleSuccess(request, response, MessageConstants.CUSTOMER_UPDATED,
 				ButtonPath.MANAGE_CUSTOMERS, ButtonValues.CONTINUE);
 	}
 

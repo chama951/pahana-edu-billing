@@ -16,21 +16,21 @@ public class ResponseHandler {
 
 	// Generic error handler
 	public static void handleError(HttpServletRequest request, HttpServletResponse response,
-			String errorMessage, String redirectPath, String buttonText)
+			String errorMessage, String redirectPath, String buttonValue)
 			throws ServletException, IOException {
 		request.setAttribute("errorMessage", errorMessage);
 		request.setAttribute("buttonPath", redirectPath);
-		request.setAttribute("buttonValue", buttonText);
+		request.setAttribute("buttonValue", buttonValue);
 		request.getRequestDispatcher("/views/ErrorMessege.jsp").forward(request, response);
 	}
 
 	// Generic success handler
 	public static void handleSuccess(HttpServletRequest request, HttpServletResponse response,
-			String successMessage, String redirectPath, String buttonText)
+			String successMessage, String redirectPath, String buttonValue)
 			throws ServletException, IOException {
 		request.setAttribute("successMessage", successMessage);
 		request.setAttribute("buttonPath", redirectPath);
-		request.setAttribute("buttonValue", buttonText);
+		request.setAttribute("buttonValue", buttonValue);
 		request.getRequestDispatcher("/views/ProcessDone.jsp").forward(request, response);
 	}
 

@@ -59,6 +59,19 @@ public class Customer {
 		this.billList = billList;
 	}
 
+	public Customer(Long id, Long accountNumber, String firstName, String lastName, String address, String phoneNumber,
+			String email, Integer unitsConsumed) {
+		super();
+		this.id = id;
+		this.accountNumber = accountNumber;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.address = address;
+		this.phoneNumber = phoneNumber;
+		this.email = email;
+		this.unitsConsumed = unitsConsumed;
+	}
+
 	public Customer(Long accountNumber, String firstName, String lastName, String address, String phoneNumber,
 			String email, Integer unitsConsumed) {
 		super();

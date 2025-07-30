@@ -174,4 +174,25 @@ public class UserDaoImpl implements UserDao {
 		return false;
 	}
 
+	@Override
+	public boolean checkUserByUsername(String username, Long userId) {
+		boolean isUser = false;
+		String sql = "SELECT * FROM user WHERE username = ? AND id != ?";
+		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+			stmt.setString(1, username);
+			stmt.setLong(2, userId);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				User user = new User();
+				user = mapUser(rs);
+				isUser = user != null;
+				System.out.println(isUser);
+				return isUser;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
 }
