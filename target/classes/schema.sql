@@ -76,8 +76,26 @@
         primary key (id)
     ) engine=InnoDB;
 
+    alter table Customer 
+       add constraint UK_e0io5hnj4fk3pci4bfrstmw2r unique (accountNumber);
+
+    alter table Customer 
+       add constraint UK_3qgg01qojcmbdp47dkaom9x45 unique (email);
+
+    alter table Customer 
+       add constraint UK_5q3ft6rvlr5mafopt4f6kb0bn unique (phoneNumber);
+
+    alter table Item 
+       add constraint UK_65yqvfgpn9cg1setjaihr08qf unique (isbn);
+
+    alter table Item 
+       add constraint UK_dp2x1lasb798ua1955wpae6ac unique (title);
+
     alter table Payment 
        add constraint UK_nfkx8kvj9pwq3clkqt43f4vam unique (billId);
+
+    alter table User 
+       add constraint UK_jreodf78a7pl5qidfh43axdfb unique (username);
 
     alter table Bill 
        add constraint FKb3a5w3ubttehxt3nfes3eonly 

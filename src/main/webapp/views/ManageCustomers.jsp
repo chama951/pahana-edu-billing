@@ -203,7 +203,7 @@
 										> <i class="fas fa-edit"></i> Edit
 										</a>
 										<form class="delete-form"
-											action="${pageContext.request.contextPath}/delete-customer"
+											action="${pageContext.request.contextPath}/customer/delete-customer"
 											method="POST"
 										>
 											<input type="hidden" name="id"
@@ -230,7 +230,7 @@
 			<h2 class="modal-header" id="modalTitle">Add New Customer</h2>
 
 			<form id="customerForm" class="registration-form"
-				action="${pageContext.request.contextPath}/create-customer"
+				action="${pageContext.request.contextPath}/customer/create-customer"
 				method="POST"
 			>
 				<input type="hidden" id="id" name="id" value="">
@@ -321,7 +321,7 @@
         // Reset form
         document.getElementById('customerForm').reset();
         // Change form action for adding
-        document.getElementById('customerForm').action = "${pageContext.request.contextPath}/create-customer";
+        document.getElementById('customerForm').action = "${pageContext.request.contextPath}/customer/create-customer";
         // Update modal title
         document.getElementById('modalTitle').textContent = "Add New Customer";
         // Update submit button text
@@ -344,7 +344,7 @@
         document.getElementById('email').value = email;
         document.getElementById('unitsConsumed').value = unitsConsumed;
         // Change form action for updating
-        document.getElementById('customerForm').action = "${pageContext.request.contextPath}/update-customer";
+        document.getElementById('customerForm').action = "${pageContext.request.contextPath}/customer/update-customer";
         // Update modal title
         document.getElementById('modalTitle').textContent = "Update Customer";
         // Update submit button text

@@ -1,4 +1,4 @@
-package com.pahana.edu.utill;
+package com.pahana.edu.utill.responseHandling;
 
 import java.io.IOException;
 import java.sql.SQLException;

@@ -13,12 +13,12 @@ import javax.servlet.http.HttpSession;
 import com.pahana.edu.dao.UserDao;
 import com.pahana.edu.daoImpl.UserDaoImpl;
 import com.pahana.edu.model.User;
-import com.pahana.edu.utill.ButtonValues;
-import com.pahana.edu.utill.ButtonPath;
-import com.pahana.edu.utill.MessageConstants;
 import com.pahana.edu.utill.PasswordUtil;
-import com.pahana.edu.utill.ResponseHandler;
 import com.pahana.edu.utill.database.DBConnectionFactory;
+import com.pahana.edu.utill.responseHandling.ButtonPath;
+import com.pahana.edu.utill.responseHandling.ButtonValues;
+import com.pahana.edu.utill.responseHandling.MessageConstants;
+import com.pahana.edu.utill.responseHandling.ResponseHandler;
 
 public class LoginUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;

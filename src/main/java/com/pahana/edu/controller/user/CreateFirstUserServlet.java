@@ -9,23 +9,26 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.pahana.edu.dao.UserDao;
-import com.pahana.edu.daoImpl.UserDaoImpl;
 import com.pahana.edu.model.User;
 import com.pahana.edu.model.enums.UserRole;
-import com.pahana.edu.utill.ButtonValues;
-import com.pahana.edu.utill.ButtonPath;
-import com.pahana.edu.utill.MessageConstants;
-import com.pahana.edu.utill.ResponseHandler;
-import com.pahana.edu.utill.database.DBConnectionFactory;
+import com.pahana.edu.service.UserService;
+import com.pahana.edu.serviceImpl.UserServiceImpl;
+import com.pahana.edu.utill.responseHandling.ButtonPath;
+import com.pahana.edu.utill.responseHandling.ButtonValues;
+import com.pahana.edu.utill.responseHandling.MessageConstants;
+import com.pahana.edu.utill.responseHandling.ResponseHandler;
 
 public class CreateFirstUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private UserDao userDao;
+	private UserService userService;
+
+	public CreateFirstUserServlet() {
+		super();
+		userService = new UserServiceImpl();
+	}
 
 	@Override
 	public void init() throws ServletException {
-		userDao = new UserDaoImpl(DBConnectionFactory.getConnection());
 		super.init();
 	}
 
@@ -36,37 +39,43 @@ public class CreateFirstUserServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
-		String roleParam = request.getParameter("role");
-
 		try {
-			User userInDb = userDao.getUserByUsername(username);
-			if (userInDb != null) {
-				ResponseHandler.handleError(request, response,
-						MessageConstants.USERNAME_EXISTS,
-						ButtonPath.CREATE_USER, ButtonValues.TRY_AGAIN);
-			} else {
-				UserRole userRole = UserRole.valueOf(roleParam.toUpperCase());
-				User newUser = new User(
-						username,
-						password,
-						userRole,
-						true,
-						LocalDateTime.now());
-				userDao.createUser(newUser);
+			String username = request.getParameter("username");
+			String password = request.getParameter("password");
+			String roleParam = request.getParameter("role");
+			UserRole userRole = UserRole.valueOf(roleParam.toUpperCase());
+			User firstUser = new User(
+					username,
+					password,
+					userRole,
+					true,
+					LocalDateTime.now());
 
-			}
+			userService.createUser(firstUser);
+
+			ResponseHandler.handleSuccess(
+					request,
+					response,
+					MessageConstants.USER_CREATED,
+					ButtonPath.LOGIN,
+					ButtonValues.CONTINUE);
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return;
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 			return;
+		} catch (Exception e) {
+			// Handle unexpected errors
+			e.printStackTrace();
+			ResponseHandler.handleError(
+					request,
+					response,
+					e.getMessage(),
+					ButtonPath.LOGIN,
+					ButtonValues.TRY_AGAIN);
 		}
-		ResponseHandler.handleSuccess(request, response,
-				MessageConstants.FIRST_USER_CREATED,
-				ButtonPath.LOGIN, ButtonValues.CONTINUE);
 	}
 
 }

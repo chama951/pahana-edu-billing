@@ -78,7 +78,7 @@
 
 				<div class="dashboard-grid">
 					<!-- User Management Card -->
-					<a href="${pageContext.request.contextPath}/manage-users"
+					<a href="${pageContext.request.contextPath}/user/*"
 						class="dashboard-card">
 						<div class="card-icon">
 							<i class="fa-solid fa-user-check"></i>
@@ -87,7 +87,7 @@
 					</a>
 
 					<!-- Customer Management Card -->
-					<a href="${pageContext.request.contextPath}/manage-customers"
+					<a href="${pageContext.request.contextPath}/customer/*"
 						class="dashboard-card">
 						<div class="card-icon">
 							<i class="fa-solid fa-handshake"></i>

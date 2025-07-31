@@ -45,6 +45,7 @@ public class CustomerDaoImpl implements CustomerDao {
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new RuntimeException("Database error occurred", e);
 		}
 	}
 
@@ -140,8 +141,8 @@ public class CustomerDaoImpl implements CustomerDao {
 			return customers;
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new RuntimeException("Database error occurred", e);
 		}
-		return null;
 	}
 
 	private Customer mapCustomer(ResultSet rs) throws SQLException {
@@ -210,6 +211,7 @@ public class CustomerDaoImpl implements CustomerDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new RuntimeException("Database error occurred", e);
 		}
 		return null;
 	}
@@ -238,6 +240,7 @@ public class CustomerDaoImpl implements CustomerDao {
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new RuntimeException("Database error occurred", e);
 		}
 
 	}
@@ -250,118 +253,104 @@ public class CustomerDaoImpl implements CustomerDao {
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new RuntimeException("Database error occurred", e);
 		}
 
 	}
 
 	@Override
-	public boolean checkCustomerByIdAndAccNo(Long accNo, Long customerId) throws SQLException {
-
-		String sql = "SELECT * FROM customer WHERE accountNumber = ? AND id != ?";
-		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-			stmt.setLong(1, accNo);
-			stmt.setLong(2, customerId);
-			ResultSet rs = stmt.executeQuery();
-			if (rs.next()) {
-				Customer customer = new Customer();
-				customer = mapCustomer(rs);
-
-				return customer != null;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+	public boolean existByAccNo(Long accountNumber, Long customerId) throws SQLException {
+		boolean isUpdate = false;
+		String sql = "";
+		if (customerId != null) {
+			isUpdate = true;
+			sql = "SELECT COUNT(*) FROM customer WHERE accountNumber = ? AND id != ?";
+		} else {
+			sql = "SELECT COUNT(*) FROM customer WHERE accountNumber = ?";
 		}
-		return false;
-	}
 
-	@Override
-	public boolean checkCustomerByIdAndPhoneNo(String phoneNo, Long customerId) throws SQLException {
-		String sql = "SELECT * FROM customer WHERE phoneNumber = ? AND id != ?";
 		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-			stmt.setString(1, phoneNo);
-			stmt.setLong(2, customerId);
-			ResultSet rs = stmt.executeQuery();
-			if (rs.next()) {
-				Customer customer = new Customer();
-				customer = mapCustomer(rs);
 
-				return customer != null;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return false;
-	}
-
-	@Override
-	public boolean checkCustomerByIdAndEmail(String email, Long customerId) throws SQLException {
-		String sql = "SELECT * FROM customer WHERE email = ? AND id != ?";
-		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-			stmt.setString(1, email);
-			stmt.setLong(2, customerId);
-			ResultSet rs = stmt.executeQuery();
-			if (rs.next()) {
-				Customer customer = new Customer();
-				customer = mapCustomer(rs);
-				return customer != null;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return false;
-	}
-
-	@Override
-	public boolean checkCustomerByAccNo(Long accountNumber) throws SQLException {
-		String sql = "SELECT * FROM customer WHERE accountNumber = ?";
-		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 			stmt.setLong(1, accountNumber);
-			ResultSet rs = stmt.executeQuery();
-			if (rs.next()) {
-				Customer customer = new Customer();
-				customer = mapCustomer(rs);
 
-				return customer != null;
+			if (isUpdate) {
+				stmt.setLong(2, customerId);
 			}
+
+			ResultSet rs = stmt.executeQuery();
+
+			if (rs.next()) {
+				return rs.getInt(1) > 0; // Returns true if count > 0
+			}
+			return false;
+
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new RuntimeException("Database error occurred", e);
 		}
-		return false;
 	}
 
 	@Override
-	public boolean checkCustomerByPhoneNo(String phoneNumber) throws SQLException {
-		String sql = "SELECT * FROM customer WHERE phoneNumber = ?";
+	public boolean existByPhoneNumber(String phoneNumber, Long customerId) throws SQLException {
+
+		boolean isUpdate = false;
+		String sql = "";
+
+		if (customerId != null) {
+			isUpdate = true;
+			sql = "SELECT COUNT(*) FROM customer WHERE phoneNumber = ? AND id != ?";
+		} else {
+			sql = "SELECT COUNT(*) FROM customer WHERE phoneNumber = ?";
+		}
 		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+
 			stmt.setString(1, phoneNumber);
-			ResultSet rs = stmt.executeQuery();
-			if (rs.next()) {
-				Customer customer = new Customer();
-				customer = mapCustomer(rs);
-
-				return customer != null;
+			if (isUpdate) {
+				stmt.setLong(2, customerId);
 			}
+			ResultSet rs = stmt.executeQuery();
+
+			if (rs.next()) {
+				return rs.getInt(1) > 0; // Returns true if count > 0
+			}
+			return false;
+
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new RuntimeException("Database error occurred", e);
 		}
-		return false;
 	}
 
 	@Override
-	public boolean checkCustomerByAccNo(String email) throws SQLException {
-		String sql = "SELECT * FROM customer WHERE email = ?";
+	public boolean existByEmail(String email, Long customerId) throws SQLException {
+
+		boolean isUpdate = false;
+		String sql = "";
+
+		if (customerId != null) {
+			isUpdate = true;
+			sql = "SELECT COUNT(*) FROM customer WHERE email = ? AND id != ?";
+		} else {
+			sql = "SELECT COUNT(*) FROM customer WHERE email = ?";
+		}
+
 		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+
 			stmt.setString(1, email);
-			ResultSet rs = stmt.executeQuery();
-			if (rs.next()) {
-				Customer customer = new Customer();
-				customer = mapCustomer(rs);
-				return customer != null;
+
+			if (isUpdate) {
+				stmt.setLong(2, customerId);
 			}
+			ResultSet rs = stmt.executeQuery();
+
+			if (rs.next()) {
+				return rs.getInt(1) > 0; // Returns true if count > 0
+			}
+			return false;
+
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new RuntimeException("Database error occurred", e);
 		}
-		return false;
 	}
-
 }

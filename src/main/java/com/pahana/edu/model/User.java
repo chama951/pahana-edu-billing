@@ -18,6 +18,7 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Column(unique = true)
 	private String username;
 
 	private String hashedPassword; // Consider using @Transient for plain password if needed
@@ -61,6 +62,13 @@ public class User {
 
 	public User(UserRole userRole, boolean isActive) {
 		this.role = userRole;
+		this.isActive = isActive;
+	}
+
+	public User(Long id, UserRole role, Boolean isActive) {
+		super();
+		this.id = id;
+		this.role = role;
 		this.isActive = isActive;
 	}
 

@@ -13,19 +13,13 @@ public interface CustomerDao {
 
 	Customer getCustomerById(Long id) throws SQLException;
 
-	boolean checkCustomerByIdAndPhoneNo(String phoneNo, Long customerId) throws SQLException;
-
-	boolean checkCustomerByIdAndEmail(String email, Long customerId) throws SQLException;
-
-	boolean checkCustomerByIdAndAccNo(Long accNo, Long customerId) throws SQLException;
-
 	void updateCustomer(Customer customer) throws SQLException;
 
 	void deleteCustomer(Long id) throws SQLException;
 
-	boolean checkCustomerByAccNo(Long accountNumber) throws SQLException;
+	boolean existByAccNo(Long accountNumber, Long customerId) throws SQLException;
 
-	boolean checkCustomerByPhoneNo(String phoneNumber) throws SQLException;
+	boolean existByPhoneNumber(String phoneNumber, Long customerId) throws SQLException;
 
-	boolean checkCustomerByAccNo(String email) throws SQLException;
+	boolean existByEmail(String email, Long customerId) throws SQLException;
 }

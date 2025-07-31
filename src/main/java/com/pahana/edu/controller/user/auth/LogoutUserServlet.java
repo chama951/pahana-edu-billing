@@ -7,10 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.pahana.edu.utill.ButtonValues;
-import com.pahana.edu.utill.ButtonPath;
-import com.pahana.edu.utill.MessageConstants;
-import com.pahana.edu.utill.ResponseHandler;
+import com.pahana.edu.utill.responseHandling.ButtonPath;
+import com.pahana.edu.utill.responseHandling.ButtonValues;
+import com.pahana.edu.utill.responseHandling.MessageConstants;
+import com.pahana.edu.utill.responseHandling.ResponseHandler;
 
 public class LogoutUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -32,7 +32,7 @@ public class LogoutUserServlet extends HttpServlet {
 		response.setDateHeader("Expires", 0);
 
 		ResponseHandler.handleSuccess(request, response,
-				MessageConstants.LOGOUT_SUCCESS, ButtonPath.LOGIN, ButtonValues.LOGIN);
+				MessageConstants.LOGOUT_SUCCESS, ButtonPath.LOGIN, ButtonValues.DONE);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

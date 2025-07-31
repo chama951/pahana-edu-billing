@@ -21,76 +21,59 @@
 <body>
 	<div class="registration-container">
 		<!-- Close button conditionally rendered -->
-		<c:if test="${not empty currentUser}">
-			<button class="close-btn"
-				onclick="window.location.href='${pageContext.request.contextPath}/manage-users'"
-			>
-				<i class="fas fa-times"></i>
-			</button>
-		</c:if>
 
 		<h1 class="registration-header">Register New User</h1>
 
-		<!-- Registration form -->
-		<c:choose>
-			<c:when test="${not empty currentUser}">
-				<form class="registration-form"
-					action="${pageContext.request.contextPath}/create-user"
-					method="post"
+		<form class="registration-form"
+			action="${pageContext.request.contextPath}/create-first-user"
+			method="post"
+		>
+
+
+			<%
+			if (request.getAttribute("error") != null) {
+			%>
+			<div class="error-message">
+				<%=request.getAttribute("error")%>
+			</div>
+			<%
+			}
+			%>
+
+			<div class="form-group">
+				<label class="form-label" for="username">Username:</label> <input
+					class="form-control" type="text" id="username" name="username"
+					required
 				>
-			</c:when>
-			<c:otherwise>
-				<form class="registration-form"
-					action="${pageContext.request.contextPath}/create-first-user"
-					method="post"
+			</div>
+
+			<div class="form-group">
+				<label class="form-label" for="password">Password:</label> <input
+					class="form-control" type="password" id="password" name="password"
+					required
 				>
-			</c:otherwise>
-		</c:choose>
+			</div>
 
-		<%
-		if (request.getAttribute("error") != null) {
-		%>
-		<div class="error-message">
-			<%=request.getAttribute("error")%>
-		</div>
-		<%
-		}
-		%>
+			<div class="form-group">
+				<label class="form-label" for="confirmPassword">Confirm
+					Password:</label> <input class="form-control" type="password"
+					id="confirmPassword" required
+				>
+				<p id="passwordError" style="color: red; display: none;">Passwords
+					don't match!</p>
+			</div>
 
-		<div class="form-group">
-			<label class="form-label" for="username">Username:</label> <input
-				class="form-control" type="text" id="username" name="username"
-				required
-			>
-		</div>
+			<div class="form-group">
+				<label class="form-label" for="role">Role:</label> <select
+					class="form-control" id="role" name="role" required
+				>
+					<c:forEach items="<%=UserRole.values()%>" var="role">
+						<option value="${role}">${role}</option>
+					</c:forEach>
+				</select>
+			</div>
 
-		<div class="form-group">
-			<label class="form-label" for="password">Password:</label> <input
-				class="form-control" type="password" id="password" name="password"
-				required
-			>
-		</div>
-
-		<div class="form-group">
-			<label class="form-label" for="confirmPassword">Confirm
-				Password:</label> <input class="form-control" type="password"
-				id="confirmPassword" required
-			>
-			<p id="passwordError" style="color: red; display: none;">Passwords
-				don't match!</p>
-		</div>
-
-		<div class="form-group">
-			<label class="form-label" for="role">Role:</label> <select
-				class="form-control" id="role" name="role" required
-			>
-				<c:forEach items="<%=UserRole.values()%>" var="role">
-					<option value="${role}">${role}</option>
-				</c:forEach>
-			</select>
-		</div>
-
-		<button type="submit" class="btn" onclick="return checkPasswords()">Register</button>
+			<button type="submit" class="btn" onclick="return checkPasswords()">Register</button>
 		</form>
 	</div>
 

@@ -37,6 +37,7 @@ public class UserDaoImpl implements UserDao {
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new RuntimeException("Database error occurred", e);
 		}
 	}
 
@@ -53,6 +54,7 @@ public class UserDaoImpl implements UserDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new RuntimeException("Database error occurred", e);
 		}
 		return null;
 	}
@@ -80,26 +82,27 @@ public class UserDaoImpl implements UserDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new RuntimeException("Database error occurred", e);
 		}
 		return null;
 	}
 
 	@Override
 	public void updateUser(User userToUpdate) throws SQLException {
+// Username is not here to update because of there are a single servlet class to update loggedIn username by them self
 		String sql = "UPDATE user SET "
-				+ "username = ?, "
 				+ "role = ?, "
 				+ "isActive = ? , "
 				+ "updatedAt = ? WHERE id = ?";
 		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-			stmt.setString(1, userToUpdate.getUsername());
-			stmt.setString(2, userToUpdate.getRole().name());
-			stmt.setBoolean(3, userToUpdate.getIsActive());
-			stmt.setObject(4, LocalDateTime.now());
-			stmt.setObject(5, userToUpdate.getId());
+			stmt.setString(1, userToUpdate.getRole().name());
+			stmt.setBoolean(2, userToUpdate.getIsActive());
+			stmt.setObject(3, LocalDateTime.now());
+			stmt.setObject(4, userToUpdate.getId());
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new RuntimeException("Database error occurred", e);
 		}
 	}
 
@@ -140,11 +143,12 @@ public class UserDaoImpl implements UserDao {
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new RuntimeException("Database error occurred", e);
 		}
 	}
 
 	@Override
-	public void updateUsername(Long id, String newUsername) throws SQLException {
+	public void changeUsername(Long id, String newUsername) throws SQLException {
 		String sql = "UPDATE user SET "
 				+ "username = ?, "
 				+ "updatedAt = ? WHERE id = ?";
@@ -155,11 +159,12 @@ public class UserDaoImpl implements UserDao {
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new RuntimeException("Database error occurred", e);
 		}
 	}
 
 	@Override
-	public boolean updatePassword(Long id, String hashPassword) throws SQLException {
+	public boolean changePassword(Long id, String hashPassword) throws SQLException {
 		String sql = "UPDATE user SET "
 				+ "hashedPassword = ?, "
 				+ "updatedAt = ? WHERE id = ?";
@@ -170,29 +175,42 @@ public class UserDaoImpl implements UserDao {
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new RuntimeException("Database error occurred", e);
 		}
 		return false;
 	}
 
 	@Override
-	public boolean checkUserByUsername(String username, Long userId) {
-		boolean isUser = false;
-		String sql = "SELECT * FROM user WHERE username = ? AND id != ?";
+	public boolean existByUsername(String username, Long userId) {
+
+		boolean isUpdate = false;
+		String sql = "";
+
+		if (userId != null) {
+			isUpdate = true;
+			sql = "SELECT COUNT(*) FROM user WHERE username = ? AND id != ?";
+		} else {
+			sql = "SELECT COUNT(*) FROM user WHERE username = ?";
+		}
+
 		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+
 			stmt.setString(1, username);
-			stmt.setLong(2, userId);
-			ResultSet rs = stmt.executeQuery();
-			if (rs.next()) {
-				User user = new User();
-				user = mapUser(rs);
-				isUser = user != null;
-				System.out.println(isUser);
-				return isUser;
+
+			if (isUpdate) {
+				stmt.setLong(2, userId);
 			}
+			ResultSet rs = stmt.executeQuery();
+
+			if (rs.next()) {
+				return rs.getInt(1) > 0; // Returns true if count > 0
+			}
+			return false;
+
 		} catch (SQLException e) {
 			e.printStackTrace();
+			throw new RuntimeException("Database error occurred", e);
 		}
-		return false;
 	}
 
 }

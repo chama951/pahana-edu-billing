@@ -1,4 +1,4 @@
-package com.pahana.edu.utill;
+package com.pahana.edu.utill.responseHandling;
 
 public final class MessageConstants {
 
@@ -38,12 +38,13 @@ public final class MessageConstants {
 	public static final String PRIVILEGE_INSUFFICIENT = "You do not have sufficient privileges to perform this action";
 
 	// Customer Management Messeges
-	public static final String CUSTOMER_NUMBER_EXISTS = "Customer Number already exists. Please choose a different Number";
+	public static final String CUSTOMER_NUMBER_EXISTS = "Customer Number already exists. Please choose a different Customer Number";
 	public static final String CUSTOMER_CREATED = "Customer created successfully";
 	public static final String CUSTOMER_UPDATED = "Customer updated successfully";
-	public static final String CUSTOMER_EMAIL_EXISTS = "Customer email already exists. Please choose a different Number";
-	public static final String CUSTOMER_PHONENO_EXISTS = "Customer phone number already exists. Please choose a different Number";
+	public static final String CUSTOMER_EMAIL_EXISTS = "Customer email already exists. Please choose a different email";
+	public static final String CUSTOMER_PHONENO_EXISTS = "Customer phone number already exists. Please choose a different phone number";
 	public static final String CUSTOMER_DELETED = "Customer deleted successfully";
+	public static final String ALREADY_EXIST = " is already exist";
 
 	// Prevent instantiation
 	private MessageConstants() {

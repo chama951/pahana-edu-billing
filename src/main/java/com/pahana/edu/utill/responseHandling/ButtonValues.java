@@ -1,4 +1,4 @@
-package com.pahana.edu.utill;
+package com.pahana.edu.utill.responseHandling;
 
 public final class ButtonValues {
 
@@ -8,6 +8,7 @@ public final class ButtonValues {
 	public static final String CONTINUE = "Continue";
 	public static final String TRY_AGAIN = "Try Again";
 	public static final String DASHBNOARD = "Dashboard";
+	public static final String DONE = "Login";
 
 	private ButtonValues() {
 		// Prevent instantiation

@@ -203,7 +203,7 @@
 										> <i class="fas fa-edit"></i> Edit
 										</a>
 										<form class="delete-form"
-											action="${pageContext.request.contextPath}/delete-User"
+											action="${pageContext.request.contextPath}/user/delete-user"
 											method="POST"
 										>
 											<input type="hidden" name="userId" value="${user.id}">
@@ -235,7 +235,7 @@
 			</div>
 
 			<form id="updateUserForm" class="registration-form"
-				action="${pageContext.request.contextPath}/update-user"
+				action="${pageContext.request.contextPath}/user/update-user"
 				method="POST"
 			>
 				<input type="hidden" id="id" name="id" value="">
@@ -271,7 +271,7 @@
 			<h2 class="modal-header">Add New User</h2>
 
 			<form id="addUserForm" class="registration-form"
-				action="${pageContext.request.contextPath}/create-user"
+				action="${pageContext.request.contextPath}/user/create-user"
 				method="POST" onsubmit="return validatePassword()"
 			>
 
