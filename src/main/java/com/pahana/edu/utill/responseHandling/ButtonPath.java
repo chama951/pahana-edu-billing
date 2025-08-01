@@ -3,7 +3,7 @@ package com.pahana.edu.utill.responseHandling;
 public final class ButtonPath {
 	public static final String LOGIN = "/login";
 	public static final String LOGOUT = "/logout";
-	public static final String DASHBOARD = "/dashboard";
+	public static final String DASHBOARD = "/views/Dashboard.jsp";
 	public static final String CREATE_USER = "/create-user";
 	public static final String UPDATE_USER = "/update-user";
 	public static final String DELETE_USER = "/deleteUser";

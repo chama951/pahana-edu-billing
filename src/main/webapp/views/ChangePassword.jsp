@@ -14,7 +14,7 @@
 <body>
 	<div class="container">
 		<button class="close-btn"
-			onclick="window.location.href='${pageContext.request.contextPath}/dashboard'">×</button>
+			onclick="window.location.href='${pageContext.request.contextPath}/views/Dashboard.jsp'">×</button>
 		<h2>Change Password</h2>
 
 		<%-- Error message positioned below title --%>
@@ -29,7 +29,7 @@
 		%>
 
 		<form id="passwordForm"
-			action="${pageContext.request.contextPath}/change-password"
+			action="${pageContext.request.contextPath}/user/change-password"
 			method="post">
 
 			<div class="form-group" style="margin-top: 0;">

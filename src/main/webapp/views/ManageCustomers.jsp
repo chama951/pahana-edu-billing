@@ -147,7 +147,7 @@
 
 		<div class="header-row">
 			<div class="header-actions">
-				<a href="${pageContext.request.contextPath}/dashboard"
+				<a href="${pageContext.request.contextPath}/views/Dashboard.jsp"
 					class="back-button"
 				> <i class="fas fa-arrow-left"></i> Dashboard
 				</a>

@@ -18,7 +18,7 @@
 			<!-- Top Navigation Bar -->
 			<div class="topnav">
 				<div class="greeting">
-					Hi, <strong>${loggedInUsername}</strong> <span
+					Hi, <strong>${username}</strong> <span
 						class="user-role-badge">${userRole}</span>
 				</div>
 
@@ -27,7 +27,7 @@
 						<div class="user-avatar">
 							<i class="fas fa-user-circle"></i>
 						</div>
-						<span>${loggedInUsername}</span> <i
+						<span>${username}</span> <i
 							class="fas fa-chevron-down dropdown-icon"></i>
 					</button>
 
@@ -37,7 +37,7 @@
 								<i class="fas fa-user-circle"></i>
 							</div>
 							<div class="user-details">
-								<div class="user-name">${loggedInUsername}</div>
+								<div class="user-name">${username}</div>
 								<div class="user-role">${userRole}</div>
 							</div>
 						</div>
@@ -46,7 +46,7 @@
 
 						<!-- Change Username Button -->
 						<button class="dropdown-item"
-							onclick="window.location.href='${pageContext.request.contextPath}/change-username'">
+							onclick="window.location.href='${pageContext.request.contextPath}/views/ChangeUsername.jsp'">
 							<i class="fas fa-user-edit dropdown-icon"></i> <span>Change
 								Username</span>
 						</button>
@@ -54,7 +54,7 @@
 						<!-- Change Password Button -->
 						<button
 							class="dropdown-item"
-							onclick="window.location.href='${pageContext.request.contextPath}/change-password'"
+							onclick="window.location.href='${pageContext.request.contextPath}/views/ChangePassword.jsp'"
 						>
 							<i class="fas fa-key dropdown-icon"></i> <span>Change
 								Password</span>

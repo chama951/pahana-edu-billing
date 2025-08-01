@@ -40,6 +40,7 @@ public class LoginUserServlet extends HttpServlet {
 			throws ServletException, IOException {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
+
 		try {
 			User userInDb = userDao.getUserByUsername(username);
 			if (userInDb == null) {
@@ -63,14 +64,19 @@ public class LoginUserServlet extends HttpServlet {
 			} else {
 				LocalDateTime lastLoginTime = LocalDateTime.now();
 				userDao.updateLastLogin(userInDb.getId(), lastLoginTime);
+
 				HttpSession session = request.getSession();
 				session.setAttribute("currentUser", userInDb);
+				session.setAttribute("username", userInDb.getUsername());
+				session.setAttribute("userRole", userInDb.getRole());
+				session.setAttribute("isActive", userInDb.getIsActive());
 
 				ResponseHandler.handleSuccess(
 						request,
 						response,
 						MessageConstants.LOGIN_SUCCESS + username,
 						ButtonPath.DASHBOARD);
+//				request.getRequestDispatcher("/views/Dashboard.jsp");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

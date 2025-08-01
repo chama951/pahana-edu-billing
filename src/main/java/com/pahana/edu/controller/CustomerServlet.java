@@ -33,12 +33,12 @@ public class CustomerServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setContentType("text/html; charset=utf-8");
-		HttpSession session = request.getSession();
-		User userLoggedIn = (User) session.getAttribute("currentUser");
 
 		AuthHelper.isUserLoggedIn(request, response);
+
 		try {
+			HttpSession session = request.getSession();
+			User userLoggedIn = (User) session.getAttribute("currentUser");
 			if (!userLoggedIn.getRole().hasPrivilege(Privilege.MANAGE_CUSTOMERS)) {
 				ResponseHandler.handleError(
 						request,
@@ -84,6 +84,8 @@ public class CustomerServlet extends HttpServlet {
 	private void getCustomers(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 
+		AuthHelper.isUserLoggedIn(request, response);
+
 		try {
 			List<Customer> customerList = customerService.getAllCustomers();
 			request.setAttribute("customerList", customerList);
@@ -108,6 +110,7 @@ public class CustomerServlet extends HttpServlet {
 
 	private void deleteCustomer(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
+		AuthHelper.isUserLoggedIn(request, response);
 
 		try {
 			Long customerId = Long.valueOf(request.getParameter("id"));
@@ -140,6 +143,8 @@ public class CustomerServlet extends HttpServlet {
 
 	private void updateCustomer(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException, PahanaEduException {
+
+		AuthHelper.isUserLoggedIn(request, response);
 
 		try {
 			Long id = Long.parseLong(request.getParameter("id"));
@@ -194,6 +199,9 @@ public class CustomerServlet extends HttpServlet {
 
 	private void createCustomer(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
+
+		AuthHelper.isUserLoggedIn(request, response);
+
 		try {
 			Long accountNumber = Long.parseLong(request.getParameter("accountNumber"));
 			String email = request.getParameter("email");

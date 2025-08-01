@@ -25,7 +25,7 @@
 		<h1 class="registration-header">Register New User</h1>
 
 		<form class="registration-form"
-			action="${pageContext.request.contextPath}/create-first-user"
+			action="${pageContext.request.contextPath}/user/create-first-user"
 			method="post"
 		>
 

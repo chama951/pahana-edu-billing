@@ -60,7 +60,7 @@
 		</form>
 		<div class="login-footer">
 			<p>
-				<a href="${pageContext.request.contextPath}/create-first-user">Register
+				<a href="${pageContext.request.contextPath}/views/CreateUser.jsp">Register
 					here</a>
 			</p>
 		</div>
