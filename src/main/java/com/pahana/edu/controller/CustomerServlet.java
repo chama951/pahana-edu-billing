@@ -16,9 +16,8 @@ import com.pahana.edu.model.enums.Privilege;
 import com.pahana.edu.service.CustomerService;
 import com.pahana.edu.serviceImpl.CustomerServiceImpl;
 import com.pahana.edu.utill.AuthHelper;
-import com.pahana.edu.utill.exception.DuplicateEntryException;
+import com.pahana.edu.utill.exception.PahanaEduException;
 import com.pahana.edu.utill.responseHandling.ButtonPath;
-import com.pahana.edu.utill.responseHandling.ButtonValues;
 import com.pahana.edu.utill.responseHandling.MessageConstants;
 import com.pahana.edu.utill.responseHandling.ResponseHandler;
 
@@ -26,7 +25,6 @@ public class CustomerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private CustomerService customerService;
 
-	@Override
 	public void init() throws ServletException {
 		customerService = new CustomerServiceImpl();
 		super.init();
@@ -41,13 +39,12 @@ public class CustomerServlet extends HttpServlet {
 
 		AuthHelper.isUserLoggedIn(request, response);
 		try {
-			if (!userLoggedIn.getRole().hasPrivilege(Privilege.MANAGE_USERS)) {
+			if (!userLoggedIn.getRole().hasPrivilege(Privilege.MANAGE_CUSTOMERS)) {
 				ResponseHandler.handleError(
 						request,
 						response,
 						MessageConstants.PRIVILEGE_INSUFFICIENT,
-						ButtonPath.DASHBOARD,
-						ButtonValues.BACK);
+						ButtonPath.DASHBOARD);
 			} else {
 				doPost(request, response);
 			}
@@ -91,7 +88,6 @@ public class CustomerServlet extends HttpServlet {
 			List<Customer> customerList = customerService.getAllCustomers();
 			request.setAttribute("customerList", customerList);
 			request.getRequestDispatcher("/views/ManageCustomers.jsp").forward(request, response);
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return;
@@ -105,8 +101,7 @@ public class CustomerServlet extends HttpServlet {
 					request,
 					response,
 					e.getMessage(),
-					ButtonPath.MANAGE_USERS,
-					ButtonValues.TRY_AGAIN);
+					ButtonPath.MANAGE_USERS);
 		}
 
 	}
@@ -123,8 +118,7 @@ public class CustomerServlet extends HttpServlet {
 					request,
 					response,
 					MessageConstants.CUSTOMER_DELETED,
-					ButtonPath.MANAGE_CUSTOMERS,
-					ButtonValues.CONTINUE);
+					ButtonPath.MANAGE_CUSTOMERS);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -139,14 +133,13 @@ public class CustomerServlet extends HttpServlet {
 					request,
 					response,
 					e.getMessage(),
-					ButtonPath.MANAGE_CUSTOMERS,
-					ButtonValues.TRY_AGAIN);
+					ButtonPath.MANAGE_CUSTOMERS);
 		}
 
 	}
 
 	private void updateCustomer(HttpServletRequest request, HttpServletResponse response)
-			throws IOException, ServletException, DuplicateEntryException {
+			throws IOException, ServletException, PahanaEduException {
 
 		try {
 			Long id = Long.parseLong(request.getParameter("id"));
@@ -173,21 +166,19 @@ public class CustomerServlet extends HttpServlet {
 					request,
 					response,
 					MessageConstants.CUSTOMER_UPDATED,
-					ButtonPath.MANAGE_CUSTOMERS,
-					ButtonValues.CONTINUE);
+					ButtonPath.MANAGE_CUSTOMERS);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (NullPointerException e) {
 			e.printStackTrace();
-		} catch (DuplicateEntryException e) {
+		} catch (PahanaEduException e) {
 			// Handle known duplicate cases
 			ResponseHandler.handleError(
 					request,
 					response,
 					e.getMessage(),
-					e.getRedirectPath(),
-					e.getButtonLabel());
+					e.getRedirectPath());
 
 		} catch (Exception e) {
 			// Handle unexpected errors
@@ -196,8 +187,7 @@ public class CustomerServlet extends HttpServlet {
 					request,
 					response,
 					e.getMessage(),
-					ButtonPath.MANAGE_CUSTOMERS,
-					ButtonValues.TRY_AGAIN);
+					ButtonPath.MANAGE_CUSTOMERS);
 		}
 
 	}
@@ -227,21 +217,19 @@ public class CustomerServlet extends HttpServlet {
 					request,
 					response,
 					MessageConstants.CUSTOMER_CREATED,
-					ButtonPath.MANAGE_CUSTOMERS,
-					ButtonValues.CONTINUE);
+					ButtonPath.MANAGE_CUSTOMERS);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (NullPointerException e) {
 			e.printStackTrace();
-		} catch (DuplicateEntryException e) {
+		} catch (PahanaEduException e) {
 			// Handle known duplicate cases
 			ResponseHandler.handleError(
 					request,
 					response,
 					e.getMessage(),
-					e.getRedirectPath(),
-					e.getButtonLabel());
+					e.getRedirectPath());
 
 		} catch (Exception e) {
 			// Handle unexpected errors
@@ -250,8 +238,7 @@ public class CustomerServlet extends HttpServlet {
 					request,
 					response,
 					e.getMessage(),
-					ButtonPath.MANAGE_CUSTOMERS,
-					ButtonValues.TRY_AGAIN);
+					ButtonPath.MANAGE_CUSTOMERS);
 		}
 
 	}

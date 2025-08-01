@@ -69,24 +69,37 @@
 
 .modal-content {
 	background-color: #fefefe;
-	margin: 15% auto;
-	padding: 20px;
+	margin: 10% auto; /* Reduced top margin for better centering */
+	padding: 30px 40px; /* Increased side padding from 20px to 40px */
 	border: 1px solid #888;
 	width: 80%;
-	max-width: 500px;
-	border-radius: 5px;
+	max-width: 600px; /* Slightly increased max-width */
+	border-radius: 8px; /* Slightly larger border radius */
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); /* Enhanced shadow */
 }
 
+/* Form group spacing */
+.form-group {
+	margin-bottom: 20px; /* Increased from 15px */
+}
+
+/* Input field padding */
+.form-control {
+	padding: 10px 12px; /* Increased vertical padding */
+}
+
+/* Button spacing */
+.btn {
+	margin-top: 10px;
+	padding: 12px 20px; /* Larger button */
+}
+
+/* Close button position adjustment */
 .close-btn {
-	color: #aaa;
-	float: right;
-	font-size: 28px;
-	font-weight: bold;
-	cursor: pointer;
-}
-
-.close-btn:hover {
-	color: black;
+	position: absolute;
+	top: 20px; /* Increased from default */
+	right: 25px; /* Increased from default */
+	font-size: 30px; /* Slightly larger */
 }
 
 /* Form styles */

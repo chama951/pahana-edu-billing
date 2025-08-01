@@ -14,7 +14,6 @@ import com.pahana.edu.model.enums.UserRole;
 import com.pahana.edu.service.UserService;
 import com.pahana.edu.serviceImpl.UserServiceImpl;
 import com.pahana.edu.utill.responseHandling.ButtonPath;
-import com.pahana.edu.utill.responseHandling.ButtonValues;
 import com.pahana.edu.utill.responseHandling.MessageConstants;
 import com.pahana.edu.utill.responseHandling.ResponseHandler;
 
@@ -57,8 +56,7 @@ public class CreateFirstUserServlet extends HttpServlet {
 					request,
 					response,
 					MessageConstants.USER_CREATED,
-					ButtonPath.LOGIN,
-					ButtonValues.CONTINUE);
+					ButtonPath.LOGIN);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -73,8 +71,7 @@ public class CreateFirstUserServlet extends HttpServlet {
 					request,
 					response,
 					e.getMessage(),
-					ButtonPath.LOGIN,
-					ButtonValues.TRY_AGAIN);
+					ButtonPath.LOGIN);
 		}
 	}
 

@@ -18,7 +18,6 @@ import com.pahana.edu.service.UserService;
 import com.pahana.edu.serviceImpl.UserServiceImpl;
 import com.pahana.edu.utill.AuthHelper;
 import com.pahana.edu.utill.responseHandling.ButtonPath;
-import com.pahana.edu.utill.responseHandling.ButtonValues;
 import com.pahana.edu.utill.responseHandling.MessageConstants;
 import com.pahana.edu.utill.responseHandling.ResponseHandler;
 
@@ -46,8 +45,7 @@ public class UserServlet extends HttpServlet {
 						request,
 						response,
 						MessageConstants.PRIVILEGE_INSUFFICIENT,
-						ButtonPath.DASHBOARD,
-						ButtonValues.BACK);
+						ButtonPath.DASHBOARD);
 			} else {
 				doPost(request, response);
 			}
@@ -85,8 +83,29 @@ public class UserServlet extends HttpServlet {
 		} catch (Exception ex) {
 			throw new ServletException(ex);
 		}
+	}
 
-		doGet(request, response);
+	private void getUsers(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
+			List<User> usersList = userService.getAllUsers();
+			request.setAttribute("usersList", usersList);
+			request.getRequestDispatcher("/views/ManageUsers.jsp").forward(request, response);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return;
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			return;
+		} catch (Exception e) {
+			// Handle unexpected errors
+			e.printStackTrace();
+			ResponseHandler.handleError(
+					request,
+					response,
+					e.getMessage(),
+					ButtonPath.MANAGE_USERS);
+		}
 	}
 
 	private void createUser(HttpServletRequest request, HttpServletResponse response)
@@ -109,8 +128,7 @@ public class UserServlet extends HttpServlet {
 					request,
 					response,
 					MessageConstants.USER_CREATED,
-					ButtonPath.MANAGE_USERS,
-					ButtonValues.CONTINUE);
+					ButtonPath.MANAGE_USERS);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -123,33 +141,7 @@ public class UserServlet extends HttpServlet {
 					request,
 					response,
 					e.getMessage(),
-					ButtonPath.MANAGE_CUSTOMERS,
-					ButtonValues.TRY_AGAIN);
-		}
-	}
-
-	private void getUsers(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		try {
-			List<User> usersList = userService.getAllUsers();
-			request.setAttribute("usersList", usersList);
-			request.getRequestDispatcher("/views/ManageUsers.jsp").forward(request, response);
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return;
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-			return;
-		} catch (Exception e) {
-			// Handle unexpected errors
-			e.printStackTrace();
-			ResponseHandler.handleError(
-					request,
-					response,
-					e.getMessage(),
-					ButtonPath.MANAGE_USERS,
-					ButtonValues.TRY_AGAIN);
+					ButtonPath.MANAGE_CUSTOMERS);
 		}
 	}
 
@@ -175,8 +167,7 @@ public class UserServlet extends HttpServlet {
 					request,
 					response,
 					MessageConstants.USER_UPDATED,
-					ButtonPath.MANAGE_USERS,
-					ButtonValues.CONTINUE);
+					ButtonPath.MANAGE_USERS);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -191,8 +182,7 @@ public class UserServlet extends HttpServlet {
 					request,
 					response,
 					e.getMessage(),
-					ButtonPath.MANAGE_USERS,
-					ButtonValues.TRY_AGAIN);
+					ButtonPath.MANAGE_USERS);
 		}
 	}
 
@@ -215,8 +205,7 @@ public class UserServlet extends HttpServlet {
 					request,
 					response,
 					MessageConstants.USER_DELETED,
-					ButtonPath.MANAGE_USERS,
-					ButtonValues.CONTINUE);
+					ButtonPath.MANAGE_USERS);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -231,8 +220,7 @@ public class UserServlet extends HttpServlet {
 					request,
 					response,
 					e.getMessage(),
-					ButtonPath.MANAGE_USERS,
-					ButtonValues.TRY_AGAIN);
+					ButtonPath.MANAGE_USERS);
 		}
 
 	}

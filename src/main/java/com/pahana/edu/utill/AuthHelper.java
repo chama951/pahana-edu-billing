@@ -9,7 +9,6 @@ import javax.servlet.http.HttpSession;
 
 import com.pahana.edu.model.User;
 import com.pahana.edu.utill.responseHandling.ButtonPath;
-import com.pahana.edu.utill.responseHandling.ButtonValues;
 import com.pahana.edu.utill.responseHandling.MessageConstants;
 import com.pahana.edu.utill.responseHandling.ResponseHandler;
 
@@ -20,8 +19,11 @@ public class AuthHelper {
 		HttpSession session = request.getSession();
 		User userLoggedIn = (User) session.getAttribute("currentUser");
 		if (userLoggedIn == null) {
-			ResponseHandler.handleError(request, response,
-					MessageConstants.MUST_BE_LOGGED_IN, ButtonPath.LOGIN, ButtonValues.LOGIN);
+			ResponseHandler.handleError(
+					request,
+					response,
+					MessageConstants.MUST_BE_LOGGED_IN,
+					ButtonPath.LOGIN);
 			return false;
 		}
 		return true;

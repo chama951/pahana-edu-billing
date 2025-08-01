@@ -15,7 +15,6 @@ import com.pahana.edu.serviceImpl.UserServiceImpl;
 import com.pahana.edu.utill.AuthHelper;
 import com.pahana.edu.utill.PasswordUtil;
 import com.pahana.edu.utill.responseHandling.ButtonPath;
-import com.pahana.edu.utill.responseHandling.ButtonValues;
 import com.pahana.edu.utill.responseHandling.MessageConstants;
 import com.pahana.edu.utill.responseHandling.ResponseHandler;
 
@@ -31,7 +30,7 @@ public class ChangePasswordServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		AuthHelper.isUserLoggedIn(request, response);
-		request.getRequestDispatcher("/views/ChangePassword.jsp").forward(request, response);
+		response.sendRedirect(request.getContextPath() + "/views/ChangePassword.jsp");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -49,8 +48,7 @@ public class ChangePasswordServlet extends HttpServlet {
 
 			if (!PasswordUtil.checkPassword(currentPassword, userLoggedIn.getHashedPassword())) {
 				ResponseHandler.handleError(request, response,
-						MessageConstants.INCORRECT_CURRENT_PASSWORD, ButtonPath.CHANGE_PASSWORD,
-						ButtonValues.TRY_AGAIN);
+						MessageConstants.INCORRECT_CURRENT_PASSWORD, ButtonPath.CHANGE_PASSWORD);
 				return;
 			}
 			String passwordToUpdate = PasswordUtil.hashPassword(newPassword);
@@ -63,8 +61,7 @@ public class ChangePasswordServlet extends HttpServlet {
 					request,
 					response,
 					MessageConstants.PASSWORD_UPDATED,
-					ButtonPath.LOGIN,
-					ButtonValues.CONTINUE);
+					ButtonPath.LOGIN);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -79,8 +76,7 @@ public class ChangePasswordServlet extends HttpServlet {
 					request,
 					response,
 					e.getMessage(),
-					ButtonPath.DASHBOARD,
-					ButtonValues.TRY_AGAIN);
+					ButtonPath.DASHBOARD);
 		}
 
 	}

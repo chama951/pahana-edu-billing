@@ -21,57 +21,62 @@ body {
 
 .container {
 	width: 100%;
-	max-width: 400px;
+	max-width: 450px; /* Increased from 400px */
 	margin: 0 auto;
-	padding: 2rem;
+	padding: 2.5rem; /* Increased from 2rem */
 	background: white;
-	border-radius: 8px;
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	border-radius: var(--border-radius);
+	box-shadow: var(--box-shadow);
 	position: relative;
+}
+
+/* Modal content spacing */
+.modal-content {
+	padding: 2rem 2.5rem; /* Increased side padding */
 }
 
 .form-group {
 	width: 100%;
-	margin: 0 auto 1.5rem;
-	max-width: 300px;
+	margin: 0 auto 1.75rem; /* Increased from 1.5rem */
+	max-width: 320px; /* Increased from 300px */
+	padding: 0 0.5rem; /* Added side padding */
 }
 
 .close-btn {
 	position: absolute;
-	top: 15px;
-	right: 15px;
+	top: 20px; /* Increased from 15px */
+	right: 20px; /* Increased from 15px */
 	background: none;
 	border: none;
-	font-size: 1.5rem;
+	font-size: 1.75rem; /* Increased from 1.5rem */
 	cursor: pointer;
-	color: #6c757d;
+	color: var(--secondary-color);
+	padding: 0.5rem; /* Added padding for better click area */
 }
 
 .close-btn:hover {
-	color: #4a6fa5;
+	color: var(--primary-color);
 }
 
 h2 {
 	color: var(--primary-color);
-	margin-bottom: 1.5rem;
+	margin-bottom: 2rem; /* Increased from 1.5rem */
 	text-align: center;
 	font-weight: 600;
-}
-
-.form-group {
-	margin-bottom: 1.5rem;
+	padding: 0 1rem; /* Added side padding */
 }
 
 label {
 	display: block;
-	margin-bottom: 0.5rem;
+	margin-bottom: 0.75rem; /* Increased from 0.5rem */
 	color: var(--secondary-color);
 	font-weight: 500;
+	padding-left: 0.25rem; /* Added slight left padding */
 }
 
 input {
 	width: 100%;
-	padding: 0.75rem;
+	padding: 0.85rem; /* Increased from 0.75rem */
 	border: 1px solid #ddd;
 	border-radius: var(--border-radius);
 	font-size: 1rem;
@@ -92,7 +97,7 @@ input[readonly] {
 
 .btn {
 	width: 100%;
-	padding: 0.75rem;
+	padding: 0.85rem; /* Increased from 0.75rem */
 	background-color: var(--primary-color);
 	color: white;
 	border: none;
@@ -101,6 +106,7 @@ input[readonly] {
 	font-weight: 500;
 	cursor: pointer;
 	transition: var(--transition);
+	margin-top: 0.5rem; /* Added top margin */
 }
 
 .btn:hover {
@@ -108,13 +114,22 @@ input[readonly] {
 	transform: translateY(-2px);
 }
 
-/* Responsive adjustments */
+/* Enhanced responsive adjustments */
 @media ( max-width : 480px) {
 	.container {
-		padding: 1.5rem;
+		padding: 2rem 1.5rem; /* Increased side spacing */
 		margin: 0 1rem;
+		max-width: 90%; /* More flexible on small screens */
+	}
+	.form-group {
+		max-width: 100%; /* Full width on mobile */
+		padding: 0; /* Reset padding */
 	}
 	h2 {
 		font-size: 1.5rem;
+		margin-bottom: 1.5rem;
+	}
+	.modal-content {
+		padding: 1.5rem; /* Adjusted for mobile */
 	}
 }

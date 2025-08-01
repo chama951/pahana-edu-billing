@@ -8,16 +8,15 @@ import com.pahana.edu.daoImpl.CustomerDaoImpl;
 import com.pahana.edu.model.Customer;
 import com.pahana.edu.service.CustomerService;
 import com.pahana.edu.utill.database.DBConnectionFactory;
-import com.pahana.edu.utill.exception.DuplicateEntryException;
+import com.pahana.edu.utill.exception.PahanaEduException;
 import com.pahana.edu.utill.responseHandling.ButtonPath;
-import com.pahana.edu.utill.responseHandling.ButtonValues;
 import com.pahana.edu.utill.responseHandling.MessageConstants;
 
 public class CustomerServiceImpl implements CustomerService {
 	private CustomerDao customerDao = new CustomerDaoImpl(DBConnectionFactory.getConnection());
 
 	@Override
-	public void createCustomer(Customer newCustomer) throws DuplicateEntryException, SQLException {
+	public void createCustomer(Customer newCustomer) throws PahanaEduException, SQLException {
 
 		checkExist(newCustomer);
 		customerDao.createCustomer(newCustomer);
@@ -25,8 +24,7 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public void updateCustomer(Customer customerToUpdate) throws DuplicateEntryException, SQLException {
-		System.out.println(customerToUpdate.getId());
+	public void updateCustomer(Customer customerToUpdate) throws PahanaEduException, SQLException {
 
 		checkExist(customerToUpdate);
 		customerDao.updateCustomer(customerToUpdate);
@@ -54,29 +52,26 @@ public class CustomerServiceImpl implements CustomerService {
 
 	}
 
-	public void checkExist(Customer customer) throws DuplicateEntryException {
+	public void checkExist(Customer customer) throws PahanaEduException {
 
 		try {
 
 			if (customerDao.existByAccNo(customer.getAccountNumber(), customer.getId())) {
-				throw new DuplicateEntryException(
+				throw new PahanaEduException(
 						MessageConstants.CUSTOMER_NUMBER_EXISTS,
-						ButtonPath.MANAGE_CUSTOMERS,
-						ButtonValues.TRY_AGAIN);
+						ButtonPath.MANAGE_CUSTOMERS);
 			}
 
 			if (customerDao.existByEmail(customer.getEmail(), customer.getId())) {
-				throw new DuplicateEntryException(
+				throw new PahanaEduException(
 						MessageConstants.CUSTOMER_EMAIL_EXISTS,
-						ButtonPath.MANAGE_CUSTOMERS,
-						ButtonValues.TRY_AGAIN);
+						ButtonPath.MANAGE_CUSTOMERS);
 			}
 
 			if (customerDao.existByPhoneNumber(customer.getPhoneNumber(), customer.getId())) {
-				throw new DuplicateEntryException(
+				throw new PahanaEduException(
 						MessageConstants.CUSTOMER_PHONENO_EXISTS,
-						ButtonPath.MANAGE_CUSTOMERS,
-						ButtonValues.TRY_AGAIN);
+						ButtonPath.MANAGE_CUSTOMERS);
 			}
 
 		} catch (SQLException e) {

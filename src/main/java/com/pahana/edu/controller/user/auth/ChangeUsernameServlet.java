@@ -14,7 +14,6 @@ import com.pahana.edu.service.UserService;
 import com.pahana.edu.serviceImpl.UserServiceImpl;
 import com.pahana.edu.utill.AuthHelper;
 import com.pahana.edu.utill.responseHandling.ButtonPath;
-import com.pahana.edu.utill.responseHandling.ButtonValues;
 import com.pahana.edu.utill.responseHandling.MessageConstants;
 import com.pahana.edu.utill.responseHandling.ResponseHandler;
 
@@ -22,23 +21,20 @@ public class ChangeUsernameServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private UserService userService;
 
-	@Override
 	public void init() throws ServletException {
 		userService = new UserServiceImpl();
 		super.init();
 	}
 
-	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		AuthHelper.isUserLoggedIn(request, response);
 		HttpSession session = request.getSession();
 		User userLoggedIn = (User) session.getAttribute("currentUser");
 		request.setAttribute("currentUsername", userLoggedIn.getUsername());
-		request.getRequestDispatcher("/views/ChangeUsername.jsp").forward(request, response);
+		response.sendRedirect(request.getContextPath() + "/views/ChangeUsername.jsp");
 	}
 
-	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -56,8 +52,7 @@ public class ChangeUsernameServlet extends HttpServlet {
 					request,
 					response,
 					MessageConstants.USERNAME_UPDATED,
-					ButtonPath.LOGIN,
-					ButtonValues.CONTINUE);
+					ButtonPath.LOGIN);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -72,8 +67,7 @@ public class ChangeUsernameServlet extends HttpServlet {
 					request,
 					response,
 					e.getMessage(),
-					ButtonPath.DASHBOARD,
-					ButtonValues.TRY_AGAIN);
+					ButtonPath.DASHBOARD);
 		}
 
 	}

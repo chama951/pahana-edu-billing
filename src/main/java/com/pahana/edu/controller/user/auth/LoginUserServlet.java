@@ -16,7 +16,6 @@ import com.pahana.edu.model.User;
 import com.pahana.edu.utill.PasswordUtil;
 import com.pahana.edu.utill.database.DBConnectionFactory;
 import com.pahana.edu.utill.responseHandling.ButtonPath;
-import com.pahana.edu.utill.responseHandling.ButtonValues;
 import com.pahana.edu.utill.responseHandling.MessageConstants;
 import com.pahana.edu.utill.responseHandling.ResponseHandler;
 
@@ -44,20 +43,34 @@ public class LoginUserServlet extends HttpServlet {
 		try {
 			User userInDb = userDao.getUserByUsername(username);
 			if (userInDb == null) {
-				ResponseHandler.handleError(request, response, MessageConstants.USER_NOT_FOUND, ButtonPath.LOGIN,
-						ButtonValues.BACK);
+				ResponseHandler.handleError(
+						request,
+						response,
+						MessageConstants.USER_NOT_FOUND,
+						ButtonPath.LOGIN);
 			} else if (!PasswordUtil.checkPassword(password, userInDb.getHashedPassword())) {
-				ResponseHandler.handleError(request, response, MessageConstants.INVALID_PASSWORD, ButtonPath.LOGIN,
-						ButtonValues.TRY_AGAIN);
+				ResponseHandler.handleError(
+						request,
+						response,
+						MessageConstants.INVALID_PASSWORD,
+						ButtonPath.LOGIN);
 			} else if (!userInDb.getIsActive()) {
-				ResponseHandler.handleError(request, response, MessageConstants.ACCOUNT_DEACTIVATED,
-						ButtonPath.LOGIN, ButtonValues.BACK);
+				ResponseHandler.handleError(
+						request,
+						response,
+						MessageConstants.ACCOUNT_DEACTIVATED,
+						ButtonPath.LOGIN);
 			} else {
 				LocalDateTime lastLoginTime = LocalDateTime.now();
 				userDao.updateLastLogin(userInDb.getId(), lastLoginTime);
 				HttpSession session = request.getSession();
 				session.setAttribute("currentUser", userInDb);
 
+				ResponseHandler.handleSuccess(
+						request,
+						response,
+						MessageConstants.LOGIN_SUCCESS + username,
+						ButtonPath.DASHBOARD);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -65,9 +78,6 @@ public class LoginUserServlet extends HttpServlet {
 			e.printStackTrace();
 			return;
 		}
-		ResponseHandler.handleSuccess(request, response,
-				MessageConstants.LOGIN_SUCCESS + username, ButtonPath.DASHBOARD,
-				ButtonValues.DASHBNOARD);
 	}
 
 }

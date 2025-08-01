@@ -8,24 +8,22 @@ import com.pahana.edu.daoImpl.UserDaoImpl;
 import com.pahana.edu.model.User;
 import com.pahana.edu.service.UserService;
 import com.pahana.edu.utill.database.DBConnectionFactory;
-import com.pahana.edu.utill.exception.DuplicateEntryException;
+import com.pahana.edu.utill.exception.PahanaEduException;
 import com.pahana.edu.utill.responseHandling.ButtonPath;
-import com.pahana.edu.utill.responseHandling.ButtonValues;
 import com.pahana.edu.utill.responseHandling.MessageConstants;
 
 public class UserServiceImpl implements UserService {
 	private UserDao userDao = new UserDaoImpl(DBConnectionFactory.getConnection());
 
 	@Override
-	public void createUser(User newUser) throws DuplicateEntryException, SQLException {
+	public void createUser(User newUser) throws PahanaEduException, SQLException {
 
 		try {
 
 			if (userDao.existByUsername(newUser.getUsername(), newUser.getId())) {
-				throw new DuplicateEntryException(
+				throw new PahanaEduException(
 						MessageConstants.USERNAME_EXISTS,
-						ButtonPath.MANAGE_USERS,
-						ButtonValues.TRY_AGAIN);
+						ButtonPath.MANAGE_USERS);
 			} else {
 				userDao.createUser(newUser);
 			}
@@ -37,24 +35,20 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void updateUser(User userLoggedIn, User userToUpdate) throws SQLException, DuplicateEntryException {
-
-		System.out.println(userToUpdate.getUsername());
+	public void updateUser(User userLoggedIn, User userToUpdate) throws SQLException, PahanaEduException {
 
 		boolean modifyingSelf = userLoggedIn.getId().equals(userToUpdate.getId());
 		boolean reducingPrivileges = !userLoggedIn.getRole().equals(userToUpdate.getRole());
 		boolean deactivatingSelf = !(userLoggedIn.getIsActive() == (userToUpdate.getIsActive()));
 
 		if (modifyingSelf && (reducingPrivileges || deactivatingSelf)) {
-			throw new DuplicateEntryException(
+			throw new PahanaEduException(
 					MessageConstants.USER_UPDATE_BY_SELF,
-					ButtonPath.MANAGE_USERS,
-					ButtonValues.CONTINUE);
+					ButtonPath.MANAGE_USERS);
 		} else if (userDao.existByUsername(userToUpdate.getUsername(), userToUpdate.getId())) {
-			throw new DuplicateEntryException(
+			throw new PahanaEduException(
 					MessageConstants.USERNAME_EXISTS,
-					ButtonPath.MANAGE_USERS,
-					ButtonValues.CONTINUE);
+					ButtonPath.MANAGE_USERS);
 		}
 
 		else {
@@ -74,13 +68,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void deleteUser(Long customerId, Long loggedInId) throws SQLException, DuplicateEntryException {
+	public void deleteUser(Long customerId, Long loggedInId) throws SQLException, PahanaEduException {
 		try {
 			if (customerId == loggedInId) {
-				throw new DuplicateEntryException(
+				throw new PahanaEduException(
 						MessageConstants.CANNOT_DELETE_BY_SELF,
-						ButtonPath.MANAGE_USERS,
-						ButtonValues.CONTINUE);
+						ButtonPath.MANAGE_USERS);
 			}
 			userDao.deleteUser(customerId);
 		} catch (SQLException e) {
@@ -89,13 +82,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void changeUsername(Long id, String newUsername) throws DuplicateEntryException {
+	public void changeUsername(Long id, String newUsername) throws PahanaEduException {
 		try {
 			if (userDao.existByUsername(newUsername, id)) {
-				throw new DuplicateEntryException(
+				throw new PahanaEduException(
 						MessageConstants.USERNAME_EXISTS,
-						ButtonPath.DASHBOARD,
-						ButtonValues.TRY_AGAIN);
+						ButtonPath.DASHBOARD);
 			} else {
 				userDao.changeUsername(id, newUsername);
 			}
