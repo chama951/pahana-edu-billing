@@ -12,14 +12,14 @@
 	<servlet>
 		<display-name>LoginUserServlet</display-name>
 		<servlet-name>LoginUserServlet</servlet-name>
-		<servlet-class>com.pahana.edu.controller.user.auth.LoginUserServlet</servlet-class>
+		<servlet-class>com.pahana.edu.controller.auth.LoginUserServlet</servlet-class>
 	</servlet>
 	<servlet>
 		<description>
 		</description>
 		<display-name>LogoutUserServlet</display-name>
 		<servlet-name>LogoutUserServlet</servlet-name>
-		<servlet-class>com.pahana.edu.controller.user.auth.LogoutUserServlet</servlet-class>
+		<servlet-class>com.pahana.edu.controller.auth.LogoutUserServlet</servlet-class>
 	</servlet>
 	<servlet>
 		<description>

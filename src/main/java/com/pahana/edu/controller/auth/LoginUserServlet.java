@@ -1,4 +1,4 @@
-package com.pahana.edu.controller.user.auth;
+package com.pahana.edu.controller.auth;
 
 import java.io.IOException;
 import java.sql.SQLException;
