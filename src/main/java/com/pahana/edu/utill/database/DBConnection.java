@@ -12,6 +12,7 @@ public class DBConnection {
 	private static String DB_URL;
 	private static String DB_USER;
 	private static String DB_PASSWORD;
+	private static String DB_DRIVER;
 
 	private static DBConnection instance;
 	private Connection connection;
@@ -27,9 +28,10 @@ public class DBConnection {
 			DB_URL = prop.getProperty("db.url");
 			DB_USER = prop.getProperty("db.username");
 			DB_PASSWORD = prop.getProperty("db.password");
+			DB_DRIVER = prop.getProperty("db.driver");
 
 			// Register driver
-			Class.forName("com.mysql.cj.jdbc.Driver");
+			Class.forName(DB_DRIVER);
 			this.connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 		} catch (ClassNotFoundException | SQLException | IOException e) {
 			e.printStackTrace();

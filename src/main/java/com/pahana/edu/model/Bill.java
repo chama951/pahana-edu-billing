@@ -34,6 +34,10 @@ public class Bill {
 	@JoinColumn(name = "customerId")
 	private Customer customer;
 
+	@ManyToOne
+	@JoinColumn(name = "UserId")
+	private User user;
+
 	@OneToMany(mappedBy = "bill", cascade = ALL, orphanRemoval = true)
 	private List<BillItem> billItems;
 

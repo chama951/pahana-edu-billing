@@ -2,6 +2,7 @@
     create table Bill (
         discountAmount decimal(38,2),
         totalAmount decimal(38,2),
+        UserId bigint,
         billDate datetime(6),
         createdAt datetime(6),
         customerId bigint,
@@ -101,6 +102,11 @@
        add constraint FKb3a5w3ubttehxt3nfes3eonly 
        foreign key (customerId) 
        references Customer (id);
+
+    alter table Bill 
+       add constraint FK8odrmhbhdspkjfmg8lw0acrd8 
+       foreign key (UserId) 
+       references User (id);
 
     alter table BillItem 
        add constraint FKimtn3yyqcabiynowckrvih400 
