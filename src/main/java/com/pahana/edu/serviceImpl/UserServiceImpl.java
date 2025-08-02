@@ -16,7 +16,7 @@ public class UserServiceImpl implements UserService {
 	private UserDao userDao = new UserDaoImpl(DBConnectionFactory.getConnection());
 
 	@Override
-	public void createUser(User newUser) throws PahanaEduException, SQLException {
+	public User createUser(User newUser) throws PahanaEduException, SQLException {
 
 		try {
 
@@ -27,11 +27,11 @@ public class UserServiceImpl implements UserService {
 			} else {
 				userDao.createUser(newUser);
 			}
-
+			return newUser;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
+		return null;
 	}
 
 	@Override

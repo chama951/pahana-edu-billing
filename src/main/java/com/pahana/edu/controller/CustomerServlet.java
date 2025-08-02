@@ -76,8 +76,9 @@ public class CustomerServlet extends HttpServlet {
 				getCustomers(request, response);
 				break;
 			}
-		} catch (Exception ex) {
-			throw new ServletException(ex);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return;
 		}
 	}
 
@@ -175,8 +176,10 @@ public class CustomerServlet extends HttpServlet {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return;
 		} catch (NullPointerException e) {
 			e.printStackTrace();
+			return;
 		} catch (PahanaEduException e) {
 			// Handle known duplicate cases
 			ResponseHandler.handleError(
@@ -229,8 +232,10 @@ public class CustomerServlet extends HttpServlet {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return;
 		} catch (NullPointerException e) {
 			e.printStackTrace();
+			return;
 		} catch (PahanaEduException e) {
 			// Handle known duplicate cases
 			ResponseHandler.handleError(

@@ -96,8 +96,9 @@ public class UserServlet extends HttpServlet {
 			default:
 				getUsers(request, response);
 			}
-		} catch (Exception ex) {
-			throw new ServletException(ex);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return;
 		}
 	}
 
@@ -117,13 +118,19 @@ public class UserServlet extends HttpServlet {
 					true,
 					LocalDateTime.now());
 
-			userService.createUser(firstUser);
+			User newUser = userService.createUser(firstUser);
+
+			HttpSession session = request.getSession();
+			session.setAttribute("currentUser", newUser);
+			session.setAttribute("username", newUser.getUsername());
+			session.setAttribute("userRole", newUser.getRole());
+			session.setAttribute("isActive", newUser.getIsActive());
 
 			ResponseHandler.handleSuccess(
 					request,
 					response,
 					MessageConstants.USER_CREATED,
-					ButtonPath.LOGIN);
+					ButtonPath.DASHBOARD); // logged in and redirect to the Dashboard
 
 		} catch (SQLException e) {
 			e.printStackTrace();

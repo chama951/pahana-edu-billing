@@ -62,7 +62,7 @@
 						<div class="dropdown-divider"></div>
 
 						<!-- Logout Button -->
-						<a href="${pageContext.request.contextPath}/logout-user"
+						<a href="${pageContext.request.contextPath}/logout"
 							class="dropdown-item logout-item"> <i
 							class="fas fa-sign-out-alt dropdown-icon"></i> <span>Logout</span>
 						</a>

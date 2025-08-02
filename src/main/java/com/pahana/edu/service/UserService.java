@@ -12,7 +12,7 @@ public interface UserService {
 
 	void updateUser(User userLoggedIn, User userToUpdate) throws SQLException, PahanaEduException;
 
-	void createUser(User newUser) throws PahanaEduException, SQLException;
+	User createUser(User newUser) throws PahanaEduException, SQLException;
 
 	void deleteUser(Long idToDelete, Long loggedInId) throws SQLException, PahanaEduException;
 

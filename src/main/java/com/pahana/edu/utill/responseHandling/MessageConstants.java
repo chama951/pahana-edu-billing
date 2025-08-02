@@ -46,6 +46,8 @@ public final class MessageConstants {
 	public static final String CUSTOMER_DELETED = "Customer deleted successfully";
 	public static final String ALREADY_EXIST = " is already exist";
 
+	// User Validation Messeges
+
 	// Prevent instantiation
 	private MessageConstants() {
 	}

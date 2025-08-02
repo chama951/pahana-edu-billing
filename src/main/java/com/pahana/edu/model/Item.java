@@ -24,6 +24,10 @@ public class Item {
 
 	private Integer quantityInStock;
 
+	@ManyToOne
+	@JoinColumn(name = "UserId")
+	private User user;
+
 	@CreationTimestamp
 	private LocalDateTime createdAt = LocalDateTime.now();
 
@@ -143,6 +147,14 @@ public class Item {
 
 	public void setPublisher(String publisher) {
 		this.publisher = publisher;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }
