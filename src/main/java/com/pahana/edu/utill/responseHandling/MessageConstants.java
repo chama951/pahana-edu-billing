@@ -45,6 +45,10 @@ public final class MessageConstants {
 	public static final String CUSTOMER_PHONENO_EXISTS = "Customer phone number already exists. Please choose a different phone number";
 	public static final String CUSTOMER_DELETED = "Customer deleted successfully";
 	public static final String ALREADY_EXIST = " is already exist";
+	public static final String ITEM_CREATED = "Item created successfully";
+	public static final String ISBN_NUMBER_EXISTS = "ISBN already exists";
+	public static final String ITEM_DELETED = "Item deleted successfully";
+	public static final String ITEM_UPDATED = "Item update successfully";
 
 	// User Validation Messeges
 

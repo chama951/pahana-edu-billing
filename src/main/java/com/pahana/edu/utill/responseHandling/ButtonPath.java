@@ -14,6 +14,7 @@ public final class ButtonPath {
 	public static final String CREATE_FIRST_USER = "/create-first-user";
 	public static final String CREATE_CUSTOMER = "/create-customer";
 	public static final String MANAGE_CUSTOMERS = "/customer/*";
+	public static final String MANAGE_ITEMS = "/item/*";
 
 	// Prevent instantiation
 	private ButtonPath() {

@@ -96,7 +96,7 @@
 					</a>
 
 					<!-- Items Management Card -->
-					<a href="${pageContext.request.contextPath}/manage-items"
+					<a href="${pageContext.request.contextPath}/item/*"
 						class="dashboard-card">
 						<div class="card-icon">
 							<i class="fa-solid fa-book-open"></i>
