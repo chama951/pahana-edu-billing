@@ -10,6 +10,8 @@ import java.util.List;
 
 import com.pahana.edu.dao.ItemDao;
 import com.pahana.edu.model.Item;
+import com.pahana.edu.model.User;
+import com.pahana.edu.model.enums.UserRole;
 
 public class ItemDaoImpl implements ItemDao {
 
@@ -52,18 +54,38 @@ public class ItemDaoImpl implements ItemDao {
 
 	@Override
 	public List<Item> getAllItems() throws SQLException {
-		String sql = "SELECT * FROM item";
+
+		String sql = "SELECT i.*, "
+				+ "u.id as user_id, "
+				+ "u.username, u.role, "
+				+ "u.isActive "
+				+ "FROM item i LEFT JOIN user u ON i.UserId = u.id";
 		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 			ResultSet rs = stmt.executeQuery();
 			List<Item> items = new ArrayList<>();
 			while (rs.next()) {
-				items.add(mapItem(rs));
+				Item item = mapItem(rs);
+
+				if (rs.getObject("user_id") != null) {
+					item.setUser(mapUser(rs));
+				}
+
+				items.add(item);
 			}
 			return items;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new RuntimeException("Database error occurred", e);
 		}
+	}
+
+	private User mapUser(ResultSet rs) throws SQLException {
+		User user = new User();
+		user.setId(rs.getLong("user_id"));
+		user.setUsername(rs.getString("username"));
+		user.setRole(UserRole.valueOf(rs.getString("role")));
+		user.setIsActive(rs.getBoolean("isActive"));
+		return user;
 	}
 
 	private Item mapItem(ResultSet rs) throws SQLException {
@@ -73,7 +95,6 @@ public class ItemDaoImpl implements ItemDao {
 		item.setIsbn(rs.getString("isbn"));
 		item.setPrice(rs.getDouble("price"));
 		item.setQuantityInStock(rs.getInt("quantityInStock"));
-//		item.setUser(null);
 		item.setCreatedAt(rs.getObject("createdAt", LocalDateTime.class));
 		item.setUpdatedAt(rs.getObject("updatedAt", LocalDateTime.class));
 		item.setDescription(rs.getString("description"));

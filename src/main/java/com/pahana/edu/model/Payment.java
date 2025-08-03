@@ -52,6 +52,10 @@ public class Payment {
 		this.updatedAt = updatedAt;
 	}
 
+	public Payment() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public Long getId() {
 		return id;
 	}
