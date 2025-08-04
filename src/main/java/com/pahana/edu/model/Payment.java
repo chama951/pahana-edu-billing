@@ -39,18 +39,18 @@ public class Payment {
 	@UpdateTimestamp
 	private LocalDateTime updatedAt = LocalDateTime.now();
 
-	private Payment(Long id, Bill bill, double amount, LocalDateTime paymentDate, String notes,
-			PaymentMethod paymentMethod, LocalDateTime createdAt, LocalDateTime updatedAt) {
-		super();
-		this.id = id;
-		this.bill = bill;
-		this.amount = amount;
-		this.paymentDate = paymentDate;
-		this.notes = notes;
-		this.paymentMethod = paymentMethod;
-		this.createdAt = createdAt;
-		this.updatedAt = updatedAt;
-	}
+//	private Payment(Long id, Bill bill, double amount, LocalDateTime paymentDate, String notes,
+//			PaymentMethod paymentMethod, LocalDateTime createdAt, LocalDateTime updatedAt) {
+//		super();
+//		this.id = id;
+//		this.bill = bill;
+//		this.amount = amount;
+//		this.paymentDate = paymentDate;
+//		this.notes = notes;
+//		this.paymentMethod = paymentMethod;
+//		this.createdAt = createdAt;
+//		this.updatedAt = updatedAt;
+//	}
 
 	public Payment() {
 		// TODO Auto-generated constructor stub

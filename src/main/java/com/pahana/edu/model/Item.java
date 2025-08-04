@@ -56,6 +56,22 @@ public class Item {
 		this.publisher = publisher;
 	}
 
+	public Item(Long id, String title, String isbn, double price, Integer quantityInStock, User user,
+			String description,
+			String author, Integer publicationYear, String publisher) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.isbn = isbn;
+		this.price = price;
+		this.quantityInStock = quantityInStock;
+		this.user = user;
+		this.description = description;
+		this.author = author;
+		this.publicationYear = publicationYear;
+		this.publisher = publisher;
+	}
+
 	public Item() {
 	}
 

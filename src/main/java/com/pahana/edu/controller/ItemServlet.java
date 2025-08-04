@@ -85,6 +85,9 @@ public class ItemServlet extends HttpServlet {
 
 		try {
 			List<Item> itemList = itemService.getAllItems();
+			for (Item item : itemList) {
+				System.out.println("item.getDescription() :" + item.getDescription());
+			}
 
 			request.setAttribute("itemList", itemList);
 			request.getRequestDispatcher("/views/ManageItems.jsp").forward(request, response);
@@ -143,8 +146,8 @@ public class ItemServlet extends HttpServlet {
 
 		HttpSession session = request.getSession();
 		User currentUser = (User) session.getAttribute("currentUser");
-
 		try {
+			Long id = Long.valueOf(request.getParameter("id"));
 			String title = request.getParameter("title");
 			String isbn = request.getParameter("isbn");
 			double price = Double.valueOf(request.getParameter("price"));
@@ -152,9 +155,10 @@ public class ItemServlet extends HttpServlet {
 			User user = currentUser;
 			String description = request.getParameter("description");
 			String author = request.getParameter("author");
-			Integer publicationYear = Integer.valueOf(request.getParameter("quantityInStock"));
+			Integer publicationYear = Integer.valueOf(request.getParameter("publicationYear"));
 			String publisher = request.getParameter("publisher");
 			Item itemToUpdate = new Item(
+					id,
 					title,
 					isbn,
 					price,
@@ -215,7 +219,7 @@ public class ItemServlet extends HttpServlet {
 			User user = currentUser;
 			String description = request.getParameter("description");
 			String author = request.getParameter("author");
-			Integer publicationYear = Integer.valueOf(request.getParameter("quantityInStock"));
+			Integer publicationYear = Integer.valueOf(request.getParameter("publicationYear"));
 			String publisher = request.getParameter("publisher");
 			Item newItem = new Item(
 					title,

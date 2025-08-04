@@ -22,22 +22,22 @@ public class ItemDaoImpl implements ItemDao {
 	}
 
 	public void updateItem(Item itemToUpdate) {
-		String sql = "UPDATE item SET"
-				+ "title = ?,"
-				+ "isbn = ?,"
-				+ "quantityInStock = ?,"
-				+ "user = ?,"
+		String sql = "UPDATE item SET "
+				+ "title = ?, "
+				+ "isbn = ?, "
+				+ "quantityInStock = ?, "
+				+ "userId = ?, "
 				+ "price = ?, "
-				+ "description = ?,"
-				+ "author = ?,"
-				+ "publicationYear = ?,"
+				+ "description = ?, "
+				+ "author = ?, "
+				+ "publicationYear = ?, "
 				+ "publisher = ?, "
 				+ "updatedAt = ? WHERE id = ?";
 		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 			stmt.setString(1, itemToUpdate.getTitle());
 			stmt.setString(2, itemToUpdate.getIsbn());
 			stmt.setInt(3, itemToUpdate.getQuantityInStock());
-			stmt.setObject(4, itemToUpdate.getUser());
+			stmt.setLong(4, itemToUpdate.getUser().getId());
 			stmt.setDouble(5, itemToUpdate.getPrice());
 			stmt.setString(6, itemToUpdate.getDescription());
 			stmt.setString(7, itemToUpdate.getAuthor());
@@ -113,6 +113,7 @@ public class ItemDaoImpl implements ItemDao {
 		if (id != null) {
 			isUpdate = true;
 			sql = "SELECT COUNT(*) FROM item WHERE isbn = ? AND id != ?";
+			System.out.println("String isbn " + isbn);
 		} else {
 			sql = "SELECT COUNT(*) FROM item WHERE isbn = ?";
 		}

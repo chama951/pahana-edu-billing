@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="java.time.format.DateTimeFormatter"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,10 +8,10 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/DisplayUsers.css"
 >
-<!-- Font Awesome for icons -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
 >
+
 <style>
 .search-container {
 	display: flex;
@@ -140,6 +140,7 @@
 	margin-top: 5px;
 }
 </style>
+
 </head>
 <body>
 	<div class="users-container">
@@ -172,7 +173,7 @@
 					<th>ID</th>
 					<th>Title</th>
 					<th>ISBN</th>
-					<th>Price</th>
+					<th>Price(LKR)</th>
 					<th>Quantity</th>
 					<th>Actions</th>
 				</tr>
@@ -190,24 +191,24 @@
 						<c:forEach items="${itemList}" var="item">
 							<tr class="item-row">
 								<td class="item-id">${item.id}</td>
-								<td class="title">${item.title}</td>
-								<td class="isbn">${item.isbn}</td>
+								<td class="title">${fn:escapeXml(item.title)}</td>
+								<td class="isbn">${fn:escapeXml(item.isbn)}</td>
 								<td class="price">${item.price}</td>
 								<td class="quantity">${item.quantityInStock}</td>
 								<td>
 									<div class="action-buttons">
 										<a href="#" class="action-btn edit-btn"
 											onclick="openEditModal(
-                                                '${item.id}',
-                                                '${item.title}',
-                                                '${item.isbn}',
-                                                '${item.price}',
-                                                '${item.quantityInStock}',
-                                                '${item.description}',
-                                                '${item.author}',
-                                                '${item.publicationYear}',
-                                                '${item.publisher}'
-                                            )"
+                                               '${item.id}',
+                                               `${fn:escapeXml(item.title)}`,
+                                               `${fn:escapeXml(item.isbn)}`,
+                                               '${item.price}',
+                                               '${item.quantityInStock}',
+                                               `${fn:escapeXml(item.description)}`,
+                                               `${fn:escapeXml(item.author)}`,
+                                               '${item.publicationYear}',
+                                               `${fn:escapeXml(item.publisher)}`
+                                           )"
 										> <i class="fas fa-edit"></i> Edit
 										</a>
 										<form class="delete-form"
@@ -235,10 +236,7 @@
 			<button class="close-btn">&times;</button>
 			<h2 class="modal-header" id="modalTitle">Add New Item</h2>
 
-			<form id="itemForm" class="registration-form"
-				action="${pageContext.request.contextPath}/item/create-item"
-				method="POST"
-			>
+			<form id="itemForm" class="registration-form" method="POST">
 				<input type="hidden" id="id" name="id" value="">
 
 				<div class="form-group">
@@ -300,6 +298,41 @@
 	</div>
 
 	<script>
+	// Initialize when DOM is loaded
+	document
+		.addEventListener(
+			'DOMContentLoaded',
+			function() {
+			    // Set up search functionality
+			    document.getElementById('searchInput')
+				    .addEventListener('keyup', function(event) {
+					if (event.key === 'Enter') {
+					    searchItems();
+					}
+				    });
+
+			    // Close modal handlers
+			    document
+				    .querySelector('.close-btn')
+				    .addEventListener(
+					    'click',
+					    function() {
+						document
+							.getElementById('itemModal').style.display = 'none';
+					    });
+
+			    window
+				    .addEventListener(
+					    'click',
+					    function(e) {
+						if (e.target === document
+							.getElementById('itemModal')) {
+						    document
+							    .getElementById('itemModal').style.display = 'none';
+						}
+					    });
+			});
+
 	// Search function
 	function searchItems() {
 	    const input = document.getElementById('searchInput');
@@ -353,39 +386,14 @@
 	    document.getElementById('author').value = author;
 	    document.getElementById('publicationYear').value = publicationYear;
 	    document.getElementById('publisher').value = publisher;
+
 	    // Change form action for updating
 	    document.getElementById('itemForm').action = "${pageContext.request.contextPath}/item/update-item";
-	    // Update modal title
 	    document.getElementById('modalTitle').textContent = "Update Item";
-	    // Update submit button text
 	    document.getElementById('submitButton').textContent = "Update Item";
-	    // Show modal
 	    document.getElementById('itemModal').style.display = 'block';
-	    return false; // Prevent default anchor behavior
+	    return false;
 	}
-
-	// Close modal handlers
-	document
-		.querySelector('.close-btn')
-		.addEventListener(
-			'click',
-			function() {
-			    document.getElementById('itemModal').style.display = 'none';
-			});
-
-	window.addEventListener('click', function(e) {
-	    if (e.target === document.getElementById('itemModal')) {
-		document.getElementById('itemModal').style.display = 'none';
-	    }
-	});
-
-	// Search on Enter key
-	document.getElementById('searchInput').addEventListener('keyup',
-		function(event) {
-		    if (event.key === 'Enter') {
-			searchItems();
-		    }
-		});
     </script>
 </body>
 </html>
