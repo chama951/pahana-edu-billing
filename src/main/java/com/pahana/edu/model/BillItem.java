@@ -20,7 +20,7 @@ public class BillItem {
 
 	private double subTotal;
 
-	private double discountPercentage;
+	private double discountAmount;
 
 	@CreationTimestamp
 	private LocalDateTime createdAt = LocalDateTime.now();
@@ -86,14 +86,6 @@ public class BillItem {
 		this.subTotal = subTotal;
 	}
 
-	public double getDiscountPercentage() {
-		return discountPercentage;
-	}
-
-	public void setDiscountPercentage(double discountPercentage) {
-		this.discountPercentage = discountPercentage;
-	}
-
 	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
@@ -124,6 +116,14 @@ public class BillItem {
 
 	public void setItem(Item item) {
 		this.item = item;
+	}
+
+	public double getDiscountAmount() {
+		return discountAmount;
+	}
+
+	public void setDiscountAmount(double discountAmount) {
+		this.discountAmount = discountAmount;
 	}
 
 }

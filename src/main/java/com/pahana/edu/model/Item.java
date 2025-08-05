@@ -22,6 +22,10 @@ public class Item {
 
 	private double price;
 
+	private double discountPercentage;
+
+	private double discountAmount;
+
 	private Integer quantityInStock;
 
 	@ManyToOne
@@ -169,6 +173,22 @@ public class Item {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public double getDiscountPercentage() {
+		return discountPercentage;
+	}
+
+	public double getDiscountAmount() {
+		return discountAmount;
+	}
+
+	public void setDiscountPercentage(double discountPercentage) {
+		this.discountPercentage = discountPercentage;
+	}
+
+	public void setDiscountAmount(double discountAmount) {
+		this.discountAmount = discountAmount;
 	}
 
 }

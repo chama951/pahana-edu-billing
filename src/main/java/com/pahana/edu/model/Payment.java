@@ -30,6 +30,8 @@ public class Payment {
 
 	private String notes;
 
+	private double discountAmount;
+
 	@Enumerated(EnumType.STRING)
 	private PaymentMethod paymentMethod;
 
@@ -126,6 +128,14 @@ public class Payment {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public double getDiscountAmount() {
+		return discountAmount;
+	}
+
+	public void setDiscountAmount(double discountAmount) {
+		this.discountAmount = discountAmount;
 	}
 
 }
