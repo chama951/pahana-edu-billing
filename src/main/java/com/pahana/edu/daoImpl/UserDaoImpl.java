@@ -21,7 +21,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public void createUser(User user) throws SQLException {
+	public User createUser(User user) throws SQLException {
 		String sql = "INSERT INTO user ("
 				+ "username, "
 				+ "hashedPassword, "
@@ -35,6 +35,8 @@ public class UserDaoImpl implements UserDao {
 			stmt.setBoolean(4, user.getIsActive());
 			stmt.setObject(5, LocalDateTime.now());
 			stmt.executeUpdate();
+			User userInDb = getUserByUsername(user.getUsername());
+			return userInDb;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new RuntimeException("Database error occurred", e);

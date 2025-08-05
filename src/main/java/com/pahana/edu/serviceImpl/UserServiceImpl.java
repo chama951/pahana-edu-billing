@@ -20,8 +20,8 @@ public class UserServiceImpl implements UserService {
 
 		try {
 			checkUsernameExist(newUser);
-			userDao.createUser(newUser);
-			return newUser;
+			User userInDb = userDao.createUser(newUser);
+			return userInDb;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

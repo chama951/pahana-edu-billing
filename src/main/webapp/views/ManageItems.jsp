@@ -68,37 +68,37 @@
 
 .modal-content {
 	background-color: #fefefe;
-	margin: 10% auto; /* Reduced top margin for better centering */
-	padding: 30px 40px; /* Increased side padding from 20px to 40px */
+	margin: 10% auto;
+	padding: 30px 40px;
 	border: 1px solid #888;
 	width: 80%;
-	max-width: 600px; /* Slightly increased max-width */
-	border-radius: 8px; /* Slightly larger border radius */
-	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); /* Enhanced shadow */
+	max-width: 600px;
+	border-radius: 8px;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
 /* Form group spacing */
 .form-group {
-	margin-bottom: 20px; /* Increased from 15px */
+	margin-bottom: 20px;
 }
 
 /* Input field padding */
 .form-control {
-	padding: 10px 12px; /* Increased vertical padding */
+	padding: 10px 12px;
 }
 
 /* Button spacing */
 .btn {
 	margin-top: 10px;
-	padding: 12px 20px; /* Larger button */
+	padding: 12px 20px;
 }
 
 /* Close button position adjustment */
 .close-btn {
 	position: absolute;
-	top: 20px; /* Increased from default */
-	right: 25px; /* Increased from default */
-	font-size: 30px; /* Slightly larger */
+	top: 20px;
+	right: 25px;
+	font-size: 30px;
 }
 
 /* Form styles */
@@ -174,6 +174,7 @@
 					<th>Title</th>
 					<th>ISBN</th>
 					<th>Price(LKR)</th>
+					<th>Discount %</th>
 					<th>Quantity</th>
 					<th>Actions</th>
 				</tr>
@@ -182,7 +183,7 @@
 				<c:choose>
 					<c:when test="${empty itemList}">
 						<tr>
-							<td colspan="6" class="empty-state"><i
+							<td colspan="7" class="empty-state"><i
 								class="fas fa-box-open"
 							></i> No items found</td>
 						</tr>
@@ -194,6 +195,7 @@
 								<td class="title">${fn:escapeXml(item.title)}</td>
 								<td class="isbn">${fn:escapeXml(item.isbn)}</td>
 								<td class="price">${item.price}</td>
+								<td class="discount">${item.discountPercentage}</td>
 								<td class="quantity">${item.quantityInStock}</td>
 								<td>
 									<div class="action-buttons">
@@ -203,6 +205,7 @@
                                                `${fn:escapeXml(item.title)}`,
                                                `${fn:escapeXml(item.isbn)}`,
                                                '${item.price}',
+                                               '${item.discountPercentage}',
                                                '${item.quantityInStock}',
                                                `${fn:escapeXml(item.description)}`,
                                                `${fn:escapeXml(item.author)}`,
@@ -255,6 +258,14 @@
 					<label class="form-label" for="price">Price</label> <input
 						type="number" step="0.01" class="form-control" id="price"
 						name="price" required
+					>
+				</div>
+
+				<div class="form-group">
+					<label class="form-label" for="discountPercentage">Discount
+						Percentage</label> <input type="number" step="0.01" class="form-control"
+						id="discountPercentage" name="discountPercentage" min="0"
+						max="100" value="0.0"
 					>
 				</div>
 
@@ -361,6 +372,8 @@
 	function openAddModal() {
 	    // Reset form
 	    document.getElementById('itemForm').reset();
+	    // Explicitly set discount to 0.0 for new items
+	    document.getElementById('discountPercentage').value = "0.0";
 	    // Change form action for adding
 	    document.getElementById('itemForm').action = "${pageContext.request.contextPath}/item/create-item";
 	    // Update modal title
@@ -374,13 +387,16 @@
 	}
 
 	// Open modal for editing existing item
-	function openEditModal(id, title, isbn, price, quantity, description,
-		author, publicationYear, publisher) {
+	function openEditModal(id, title, isbn, price, discountPercentage,
+		quantity, description, author, publicationYear, publisher) {
 	    // Set form values
 	    document.getElementById('id').value = id;
 	    document.getElementById('title').value = title;
 	    document.getElementById('isbn').value = isbn;
 	    document.getElementById('price').value = price;
+	    // Use the passed discountPercentage value, default to 0.0 if empty
+	    document.getElementById('discountPercentage').value = discountPercentage
+		    || "0.0";
 	    document.getElementById('quantityInStock').value = quantity;
 	    document.getElementById('description').value = description;
 	    document.getElementById('author').value = author;

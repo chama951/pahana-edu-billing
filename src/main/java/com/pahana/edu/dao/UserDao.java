@@ -8,7 +8,7 @@ import com.pahana.edu.model.User;
 
 public interface UserDao {
 
-	void createUser(User user) throws SQLException;
+	User createUser(User user) throws SQLException;
 
 	User getUserByUsername(String username) throws SQLException;
 

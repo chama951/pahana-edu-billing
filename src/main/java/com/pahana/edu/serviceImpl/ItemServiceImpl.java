@@ -30,6 +30,9 @@ public class ItemServiceImpl implements ItemService {
 	@Override
 	public void createItem(Item newItem) throws PahanaEduException, SQLException {
 
+		double discountAmount = (newItem.getPrice() * newItem.getDiscountPercentage() / 100);
+		newItem.setDiscountAmount(discountAmount);
+
 		try {
 			checkItemExist(newItem);
 			itemDao.createItem(newItem);
@@ -51,6 +54,9 @@ public class ItemServiceImpl implements ItemService {
 
 	@Override
 	public void updateItem(Item itemToUpdate) throws PahanaEduException, SQLException {
+
+		double discountAmount = itemToUpdate.getPrice() * itemToUpdate.getDiscountPercentage() / 100;
+		itemToUpdate.setDiscountAmount(discountAmount);
 
 		try {
 			checkItemExist(itemToUpdate);

@@ -32,6 +32,8 @@ public class ItemDaoImpl implements ItemDao {
 				+ "author = ?, "
 				+ "publicationYear = ?, "
 				+ "publisher = ?, "
+				+ "discountPercentage = ?, "
+				+ "discountAmount = ?, "
 				+ "updatedAt = ? WHERE id = ?";
 		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 			stmt.setString(1, itemToUpdate.getTitle());
@@ -44,7 +46,9 @@ public class ItemDaoImpl implements ItemDao {
 			stmt.setInt(8, itemToUpdate.getPublicationYear());
 			stmt.setString(9, itemToUpdate.getPublisher());
 			stmt.setObject(10, LocalDateTime.now());
-			stmt.setObject(11, itemToUpdate.getId());
+			stmt.setDouble(11, itemToUpdate.getDiscountPercentage());
+			stmt.setDouble(12, itemToUpdate.getDiscountAmount());
+			stmt.setObject(13, itemToUpdate.getId());
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -101,6 +105,8 @@ public class ItemDaoImpl implements ItemDao {
 		item.setAuthor(rs.getString("author"));
 		item.setPublicationYear(rs.getInt("publicationYear"));
 		item.setPublisher(rs.getString("publisher"));
+		item.setDiscountAmount(rs.getDouble("discountAmount"));
+		item.setDiscountPercentage(rs.getDouble("discountPercentage"));
 		return item;
 	}
 
@@ -147,7 +153,9 @@ public class ItemDaoImpl implements ItemDao {
 				+ "author,"
 				+ "publicationYear,"
 				+ "publisher, "
-				+ "createdAt) VALUES (?,?,?,?,?,?,?,?,?,?)";
+				+ "discountPercentage, "
+				+ "discountAmount, "
+				+ "createdAt) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 			stmt.setString(1, newItem.getTitle());
 			stmt.setString(2, newItem.getIsbn());
@@ -158,7 +166,9 @@ public class ItemDaoImpl implements ItemDao {
 			stmt.setString(7, newItem.getAuthor());
 			stmt.setInt(8, newItem.getPublicationYear());
 			stmt.setString(9, newItem.getPublisher());
-			stmt.setObject(10, LocalDateTime.now());
+			stmt.setDouble(10, newItem.getDiscountPercentage());
+			stmt.setDouble(11, newItem.getDiscountAmount());
+			stmt.setObject(12, LocalDateTime.now());
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

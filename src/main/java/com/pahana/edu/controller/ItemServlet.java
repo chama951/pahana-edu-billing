@@ -147,6 +147,8 @@ public class ItemServlet extends HttpServlet {
 			String title = request.getParameter("title");
 			String isbn = request.getParameter("isbn");
 			double price = Double.valueOf(request.getParameter("price"));
+			double discountPercentage = Double.valueOf(request.getParameter("discountPercentage"));
+			System.out.println("discountPercentage/update : " + discountPercentage);
 			Integer quantityInStock = Integer.valueOf(request.getParameter("quantityInStock"));
 			User user = currentUser;
 			String description = request.getParameter("description");
@@ -163,7 +165,8 @@ public class ItemServlet extends HttpServlet {
 					description,
 					author,
 					publicationYear,
-					publisher);
+					publisher,
+					discountPercentage);
 
 			itemService.updateItem(itemToUpdate);
 
@@ -211,8 +214,9 @@ public class ItemServlet extends HttpServlet {
 			String title = request.getParameter("title");
 			String isbn = request.getParameter("isbn");
 			double price = Double.valueOf(request.getParameter("price"));
+			double discountPercentage = Double.valueOf(request.getParameter("discountPercentage"));
+			System.out.println("discountPercentage/create : " + discountPercentage);
 			Integer quantityInStock = Integer.valueOf(request.getParameter("quantityInStock"));
-			User user = currentUser;
 			String description = request.getParameter("description");
 			String author = request.getParameter("author");
 			Integer publicationYear = Integer.valueOf(request.getParameter("publicationYear"));
@@ -222,11 +226,12 @@ public class ItemServlet extends HttpServlet {
 					isbn,
 					price,
 					quantityInStock,
-					user,
+					currentUser,
 					description,
 					author,
 					publicationYear,
-					publisher);
+					publisher,
+					discountPercentage);
 
 			itemService.createItem(newItem);
 

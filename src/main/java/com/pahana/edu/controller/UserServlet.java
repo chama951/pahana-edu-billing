@@ -122,6 +122,7 @@ public class UserServlet extends HttpServlet {
 
 			HttpSession session = request.getSession();
 			session.setAttribute("currentUser", newUser);
+			session.setAttribute("id", newUser.getId());
 			session.setAttribute("username", newUser.getUsername());
 			session.setAttribute("userRole", newUser.getRole());
 			session.setAttribute("isActive", newUser.getIsActive());

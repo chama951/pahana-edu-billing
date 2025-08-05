@@ -75,7 +75,7 @@ public class CustomerDaoImpl implements CustomerDao {
 				+ " bi.quantity AS quantity, "
 				+ " bi.unitPrice AS unitPrice, "
 				+ " bi.subTotal AS subTotal, "
-				+ " bi.discountPercentage AS discountPercentage, "
+				+ " bi.discountAmount AS discountAmount, "
 				+ " bi.createdAt AS createdAt, "
 				+ " bi.updatedAt AS updatedAt, "
 				+ "/* Item fields */ "
@@ -189,12 +189,15 @@ public class CustomerDaoImpl implements CustomerDao {
 		item.setTitle(rs.getString("title"));
 		item.setDescription(rs.getString("description"));
 		item.setPrice(rs.getDouble("price"));
+		item.setDiscountAmount(rs.getDouble("discountAmount"));
+		item.setDiscountPercentage(rs.getDouble("discountPercentage"));
 		item.setCreatedAt(rs.getObject("createdAt", LocalDateTime.class));
 		item.setUpdatedAt(rs.getObject("updatedAt", LocalDateTime.class));
 		item.setQuantityInStock(rs.getInt("quantityInStock"));
 		item.setAuthor(rs.getString("author"));
 		item.setPublicationYear(rs.getInt("publicationYear"));
 		item.setPublisher("publisher");
+
 		return item;
 	}
 

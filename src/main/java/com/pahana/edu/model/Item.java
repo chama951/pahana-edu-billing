@@ -47,7 +47,7 @@ public class Item {
 	private String publisher;
 
 	public Item(String title, String isbn, double price, Integer quantityInStock, User user, String description,
-			String author, Integer publicationYear, String publisher) {
+			String author, Integer publicationYear, String publisher, double discountPercentage) {
 		super();
 		this.title = title;
 		this.isbn = isbn;
@@ -58,11 +58,12 @@ public class Item {
 		this.author = author;
 		this.publicationYear = publicationYear;
 		this.publisher = publisher;
+		this.discountPercentage = discountPercentage;
 	}
 
 	public Item(Long id, String title, String isbn, double price, Integer quantityInStock, User user,
 			String description,
-			String author, Integer publicationYear, String publisher) {
+			String author, Integer publicationYear, String publisher, double discountPercentage) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -74,6 +75,7 @@ public class Item {
 		this.author = author;
 		this.publicationYear = publicationYear;
 		this.publisher = publisher;
+		this.discountPercentage = discountPercentage;
 	}
 
 	public Item() {
