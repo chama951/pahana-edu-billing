@@ -171,7 +171,7 @@ public class Validator {
 		if (billItem.getSubTotal() < 0) {
 			throw new IllegalArgumentException("Subtotal cannot be negative");
 		}
-		if (billItem.getDiscountPercentage() < 0 || billItem.getDiscountPercentage() > 100) {
+		if (billItem.getDiscountAmount() < 0 || billItem.getDiscountAmount() > 100) {
 			throw new IllegalArgumentException("Discount percentage must be between 0 and 100");
 		}
 		if (billItem.getBill() == null) {
