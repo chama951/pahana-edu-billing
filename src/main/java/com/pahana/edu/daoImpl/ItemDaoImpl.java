@@ -45,9 +45,9 @@ public class ItemDaoImpl implements ItemDao {
 			stmt.setString(7, itemToUpdate.getAuthor());
 			stmt.setInt(8, itemToUpdate.getPublicationYear());
 			stmt.setString(9, itemToUpdate.getPublisher());
-			stmt.setObject(10, LocalDateTime.now());
-			stmt.setDouble(11, itemToUpdate.getDiscountPercentage());
-			stmt.setDouble(12, itemToUpdate.getDiscountAmount());
+			stmt.setDouble(10, itemToUpdate.getDiscountPercentage());
+			stmt.setDouble(11, itemToUpdate.getDiscountAmount());
+			stmt.setObject(12, LocalDateTime.now());
 			stmt.setObject(13, itemToUpdate.getId());
 			stmt.executeUpdate();
 		} catch (SQLException e) {

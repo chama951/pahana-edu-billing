@@ -148,7 +148,6 @@ public class ItemServlet extends HttpServlet {
 			String isbn = request.getParameter("isbn");
 			double price = Double.valueOf(request.getParameter("price"));
 			double discountPercentage = Double.valueOf(request.getParameter("discountPercentage"));
-			System.out.println("discountPercentage/update : " + discountPercentage);
 			Integer quantityInStock = Integer.valueOf(request.getParameter("quantityInStock"));
 			User user = currentUser;
 			String description = request.getParameter("description");
