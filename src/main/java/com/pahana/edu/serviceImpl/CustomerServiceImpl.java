@@ -17,17 +17,23 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public void createCustomer(Customer newCustomer) throws PahanaEduException, SQLException {
-
-		checkExist(newCustomer);
-		customerDao.createCustomer(newCustomer);
+		try {
+			checkCustomerExist(newCustomer);
+			customerDao.createCustomer(newCustomer);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 	}
 
 	@Override
 	public void updateCustomer(Customer customerToUpdate) throws PahanaEduException, SQLException {
-
-		checkExist(customerToUpdate);
-		customerDao.updateCustomer(customerToUpdate);
+		try {
+			checkCustomerExist(customerToUpdate);
+			customerDao.updateCustomer(customerToUpdate);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 	}
 
@@ -52,7 +58,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 	}
 
-	public void checkExist(Customer customer) throws PahanaEduException {
+	public void checkCustomerExist(Customer customer) throws PahanaEduException {
 
 		try {
 

@@ -19,14 +19,8 @@ public class UserServiceImpl implements UserService {
 	public User createUser(User newUser) throws PahanaEduException, SQLException {
 
 		try {
-
-			if (userDao.existByUsername(newUser.getUsername(), newUser.getId())) {
-				throw new PahanaEduException(
-						MessageConstants.USERNAME_EXISTS,
-						ButtonPath.MANAGE_USERS);
-			} else {
-				userDao.createUser(newUser);
-			}
+			checkUsernameExist(newUser);
+			userDao.createUser(newUser);
 			return newUser;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -45,15 +39,11 @@ public class UserServiceImpl implements UserService {
 			throw new PahanaEduException(
 					MessageConstants.USER_UPDATE_BY_SELF,
 					ButtonPath.MANAGE_USERS);
-		} else if (userDao.existByUsername(userToUpdate.getUsername(), userToUpdate.getId())) {
-			throw new PahanaEduException(
-					MessageConstants.USERNAME_EXISTS,
-					ButtonPath.MANAGE_USERS);
 		}
 
-		else {
-			userDao.updateUser(userToUpdate);
-		}
+		checkUsernameExist(userToUpdate);
+		userDao.updateUser(userToUpdate);
+
 	}
 
 	@Override
@@ -82,25 +72,33 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void changeUsername(Long id, String newUsername) throws PahanaEduException {
+	public void changeUsername(Long id, String newUsername) throws PahanaEduException, SQLException {
 		try {
-			if (userDao.existByUsername(newUsername, id)) {
-				throw new PahanaEduException(
-						MessageConstants.USERNAME_EXISTS,
-						ButtonPath.DASHBOARD);
-			} else {
-				userDao.changeUsername(id, newUsername);
-			}
-
+			User user = new User(id, newUsername);
+			checkUsernameExist(user);
+			userDao.changeUsername(id, newUsername);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+
 	}
 
 	@Override
 	public void changePassword(Long loggedInId, String passwordToUpdate) throws SQLException {
 		try {
 			userDao.changePassword(loggedInId, passwordToUpdate);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void checkUsernameExist(User newUser) throws PahanaEduException {
+		try {
+			if (userDao.existByUsername(newUser.getUsername(), newUser.getId())) {
+				throw new PahanaEduException(
+						MessageConstants.USERNAME_EXISTS,
+						ButtonPath.MANAGE_USERS);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

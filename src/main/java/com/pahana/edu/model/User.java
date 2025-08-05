@@ -72,6 +72,11 @@ public class User {
 		this.isActive = isActive;
 	}
 
+	public User(Long id, String newUsername) {
+		this.id = id;
+		this.username = newUsername;
+	}
+
 	public boolean verifyPassword(String plainPassword) {
 		return PasswordUtil.checkPassword(plainPassword, this.hashedPassword);
 	}

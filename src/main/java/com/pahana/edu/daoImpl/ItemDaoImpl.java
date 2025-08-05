@@ -113,7 +113,6 @@ public class ItemDaoImpl implements ItemDao {
 		if (id != null) {
 			isUpdate = true;
 			sql = "SELECT COUNT(*) FROM item WHERE isbn = ? AND id != ?";
-			System.out.println("String isbn " + isbn);
 		} else {
 			sql = "SELECT COUNT(*) FROM item WHERE isbn = ?";
 		}

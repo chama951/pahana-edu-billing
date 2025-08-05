@@ -85,10 +85,6 @@ public class ItemServlet extends HttpServlet {
 
 		try {
 			List<Item> itemList = itemService.getAllItems();
-			for (Item item : itemList) {
-				System.out.println("item.getDescription() :" + item.getDescription());
-			}
-
 			request.setAttribute("itemList", itemList);
 			request.getRequestDispatcher("/views/ManageItems.jsp").forward(request, response);
 		} catch (SQLException e) {
