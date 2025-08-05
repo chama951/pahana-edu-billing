@@ -49,7 +49,7 @@ public class PahanaEntityMapper {
 		billItem.setQuantity(rs.getInt("quantity"));
 		billItem.setUnitPrice(rs.getDouble("unitPrice"));
 		billItem.setSubTotal(rs.getDouble("subTotal"));
-		billItem.setDiscountPercentage(rs.getDouble("discountPercentage"));
+		billItem.setDiscountAmount(rs.getDouble("discountAmount"));
 		billItem.setCreatedAt(rs.getObject("createdAt", LocalDateTime.class));
 		billItem.setUpdatedAt(rs.getObject("updatedAt", LocalDateTime.class));
 		return billItem;

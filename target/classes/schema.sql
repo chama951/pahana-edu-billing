@@ -12,7 +12,7 @@
     ) engine=InnoDB;
 
     create table BillItem (
-        discountPercentage float(53) not null,
+        discountAmount float(53) not null,
         quantity integer,
         subTotal float(53) not null,
         unitPrice float(53) not null,
@@ -39,6 +39,8 @@
     ) engine=InnoDB;
 
     create table Item (
+        discountAmount float(53) not null,
+        discountPercentage float(53) not null,
         price float(53) not null,
         publicationYear integer,
         quantityInStock integer,
@@ -56,6 +58,7 @@
 
     create table Payment (
         amount float(53) not null,
+        discountAmount float(53) not null,
         UserId bigint,
         billId bigint,
         createdAt datetime(6),
