@@ -52,11 +52,8 @@ public class UserServlet extends HttpServlet {
 			} else {
 				doPost(request, response);
 			}
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-			return;
+
 		} catch (Exception e) {
-			// Handle unexpected errors
 			e.printStackTrace();
 			ResponseHandler.handleError(
 					request,
@@ -133,14 +130,7 @@ public class UserServlet extends HttpServlet {
 					MessageConstants.USER_CREATED,
 					ButtonPath.DASHBOARD); // logged in and redirect to the Dashboard
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return;
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-			return;
 		} catch (Exception e) {
-			// Handle unexpected errors
 			e.printStackTrace();
 			ResponseHandler.handleError(
 					request,
@@ -170,14 +160,7 @@ public class UserServlet extends HttpServlet {
 					MessageConstants.USERNAME_UPDATED,
 					ButtonPath.LOGIN);
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return;
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-			return;
 		} catch (Exception e) {
-			// Handle unexpected errors
 			e.printStackTrace();
 			ResponseHandler.handleError(
 					request,
@@ -217,14 +200,7 @@ public class UserServlet extends HttpServlet {
 					MessageConstants.PASSWORD_UPDATED,
 					ButtonPath.LOGIN);
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return;
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-			return;
 		} catch (Exception e) {
-			// Handle unexpected errors
 			e.printStackTrace();
 			ResponseHandler.handleError(
 					request,
@@ -244,14 +220,8 @@ public class UserServlet extends HttpServlet {
 			List<User> usersList = userService.getAllUsers();
 			request.setAttribute("usersList", usersList);
 			request.getRequestDispatcher("/views/ManageUsers.jsp").forward(request, response);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return;
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-			return;
+
 		} catch (Exception e) {
-			// Handle unexpected errors
 			e.printStackTrace();
 			ResponseHandler.handleError(
 					request,
@@ -288,12 +258,7 @@ public class UserServlet extends HttpServlet {
 					MessageConstants.USER_CREATED,
 					ButtonPath.MANAGE_USERS);
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (NullPointerException e) {
-			e.printStackTrace();
 		} catch (Exception e) {
-			// Handle unexpected errors
 			e.printStackTrace();
 			ResponseHandler.handleError(
 					request,
@@ -304,7 +269,7 @@ public class UserServlet extends HttpServlet {
 	}
 
 	private void updateUser(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+			throws ServletException, IOException, SQLException, NullPointerException {
 
 		AuthHelper.isUserLoggedIn(request, response);
 
@@ -331,14 +296,7 @@ public class UserServlet extends HttpServlet {
 					MessageConstants.USER_UPDATED,
 					ButtonPath.MANAGE_USERS);
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return;
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-			return;
 		} catch (Exception e) {
-			// Handle unexpected errors
 			e.printStackTrace();
 			ResponseHandler.handleError(
 					request,
@@ -369,14 +327,7 @@ public class UserServlet extends HttpServlet {
 					MessageConstants.USER_DELETED,
 					ButtonPath.MANAGE_USERS);
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return;
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-			return;
 		} catch (Exception e) {
-			// Handle unexpected errors
 			e.printStackTrace();
 			ResponseHandler.handleError(
 					request,
