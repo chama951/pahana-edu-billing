@@ -56,20 +56,6 @@
         primary key (id)
     ) engine=InnoDB;
 
-    create table Payment (
-        amount float(53) not null,
-        discountAmount float(53) not null,
-        UserId bigint,
-        billId bigint,
-        createdAt datetime(6),
-        id bigint not null auto_increment,
-        paymentDate datetime(6),
-        updatedAt datetime(6),
-        notes varchar(255),
-        paymentMethod enum ('CARD','CASH','ONLINE'),
-        primary key (id)
-    ) engine=InnoDB;
-
     create table User (
         isActive bit,
         createdAt datetime(6),
@@ -97,9 +83,6 @@
     alter table Item 
        add constraint UK_dp2x1lasb798ua1955wpae6ac unique (title);
 
-    alter table Payment 
-       add constraint UK_nfkx8kvj9pwq3clkqt43f4vam unique (billId);
-
     alter table User 
        add constraint UK_jreodf78a7pl5qidfh43axdfb unique (username);
 
@@ -125,15 +108,5 @@
 
     alter table Item 
        add constraint FKltqgyaqs4368kkxoqk9edu4qo 
-       foreign key (UserId) 
-       references User (id);
-
-    alter table Payment 
-       add constraint FKb26aqxdooedml0gir1oqxuh5d 
-       foreign key (billId) 
-       references Bill (id);
-
-    alter table Payment 
-       add constraint FKmgnmemj4xxik0fb5fea20sv14 
        foreign key (UserId) 
        references User (id);

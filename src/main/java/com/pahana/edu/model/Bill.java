@@ -41,9 +41,6 @@ public class Bill {
 	@OneToMany(mappedBy = "bill", cascade = ALL, orphanRemoval = true)
 	private List<BillItem> billItems;
 
-	@OneToOne(mappedBy = "bill", cascade = ALL, orphanRemoval = true)
-	private Payment payment;
-
 //	private Bill(Long id, LocalDateTime billDate, BigDecimal totalAmount,
 //			BigDecimal discountAmount, LocalDateTime createdAt, LocalDateTime updatedAt, Customer customer,
 //			List<BillItem> billItems,
@@ -125,14 +122,6 @@ public class Bill {
 
 	public void setBillItems(List<BillItem> billItems) {
 		this.billItems = billItems;
-	}
-
-	public Payment getPayment() {
-		return payment;
-	}
-
-	public void setPayment(Payment payment) {
-		this.payment = payment;
 	}
 
 	public User getUser() {

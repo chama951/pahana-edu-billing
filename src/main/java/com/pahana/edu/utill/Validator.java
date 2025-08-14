@@ -9,7 +9,6 @@ import com.pahana.edu.model.Bill;
 import com.pahana.edu.model.BillItem;
 import com.pahana.edu.model.Customer;
 import com.pahana.edu.model.Item;
-import com.pahana.edu.model.Payment;
 import com.pahana.edu.model.User;
 
 public class Validator {
@@ -40,25 +39,6 @@ public class Validator {
 			throw new IllegalArgumentException("Invalid password hash format");
 		}
 		return user;
-	}
-
-	public static Payment validPayment(Payment payment) {
-		if (payment == null) {
-			throw new IllegalArgumentException("Payment cannot be null");
-		}
-		if (payment.getBill() == null) {
-			throw new IllegalArgumentException("Payment must be associated with a bill");
-		}
-		if (payment.getAmount() <= 0) {
-			throw new IllegalArgumentException("Payment amount must be positive");
-		}
-		if (payment.getPaymentDate() == null) {
-			throw new IllegalArgumentException("Payment date cannot be null");
-		}
-		if (payment.getPaymentMethod() == null) {
-			throw new IllegalArgumentException("Payment method must be specified");
-		}
-		return payment;
 	}
 
 	// ISBN validation patterns (supports ISBN-10 and ISBN-13)
@@ -203,9 +183,6 @@ public class Validator {
 		}
 		if (bill.getBillItems() == null || bill.getBillItems().isEmpty()) {
 			throw new IllegalArgumentException("Bill must contain at least one item");
-		}
-		if (bill.getPayment() != null) {
-			validPayment(bill.getPayment()); // Reuse payment validation
 		}
 		return bill;
 	}

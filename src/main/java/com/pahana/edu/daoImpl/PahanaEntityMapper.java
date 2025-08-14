@@ -8,9 +8,7 @@ import com.pahana.edu.model.Bill;
 import com.pahana.edu.model.BillItem;
 import com.pahana.edu.model.Customer;
 import com.pahana.edu.model.Item;
-import com.pahana.edu.model.Payment;
 import com.pahana.edu.model.User;
-import com.pahana.edu.model.enums.PaymentMethod;
 import com.pahana.edu.model.enums.UserRole;
 
 public class PahanaEntityMapper {
@@ -86,16 +84,4 @@ public class PahanaEntityMapper {
 		return user;
 	}
 
-	// Payment Mapper
-	public Payment mapPayment(ResultSet rs) throws SQLException {
-		Payment payment = new Payment();
-		payment.setId(rs.getLong("id"));
-		payment.setAmount(rs.getDouble("amount"));
-		payment.setPaymentDate(rs.getObject("paymentDate", LocalDateTime.class));
-		payment.setNotes(rs.getString("notes"));
-		payment.setPaymentMethod(PaymentMethod.valueOf(rs.getString("paymentMethod")));
-		payment.setCreatedAt(rs.getObject("createdAt", LocalDateTime.class));
-		payment.setUpdatedAt(rs.getObject("updatedAt", LocalDateTime.class));
-		return payment;
-	}
 }
