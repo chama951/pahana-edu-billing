@@ -6,204 +6,314 @@
 <head>
 <title>Customer Management</title>
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/DisplayUsers.css"
+    href="${pageContext.request.contextPath}/css/DisplayUsers.css"
 >
 <!-- Font Awesome for icons -->
 <link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
 >
 <style>
 .search-container {
-	display: flex;
-	align-items: center;
-	margin-left: auto;
+    display: flex;
+    align-items: center;
+    margin-left: auto;
 }
 
 .search-container input[type="text"] {
-	padding: 8px 15px;
-	border: 1px solid #ddd;
-	border-radius: 4px;
-	margin-right: 10px;
-	width: 300px;
+    padding: 8px 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-right: 10px;
+    width: 300px;
 }
 
 .search-container button {
-	padding: 8px 15px;
-	background-color: #4CAF50;
-	color: white;
-	border: none;
-	border-radius: 4px;
-	cursor: pointer;
+    padding: 8px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
 .search-container button:hover {
-	background-color: #45a049;
+    background-color: #45a049;
 }
 
 .header-row {
-	display: flex;
-	align-items: center;
-	width: 100%;
-	margin: 15px 0;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin: 15px 0;
 }
 
 .header-actions {
-	display: flex;
-	align-items: center;
-	gap: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 12px;
+    background-color: #6c757d;
+    color: white;
+    border-radius: 4px;
+    text-decoration: none;
+    gap: 5px;
+    font-size: 14px;
+}
+
+.back-button:hover {
+    background-color: #5a6268;
+    color: white;
+}
+
+.add-customer-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 12px;
+    background-color: #17a2b8;
+    color: white;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    min-width: 80px;
+    gap: 5px;
+}
+
+.add-customer-icon:hover {
+    background-color: #138496;
 }
 
 /* Modal styles */
 .modal {
-	display: none;
-	position: fixed;
-	z-index: 1;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-	background-color: rgba(0, 0, 0, 0.4);
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 .modal-content {
-	background-color: #fefefe;
-	margin: 10% auto; /* Reduced top margin for better centering */
-	padding: 30px 40px; /* Increased side padding from 20px to 40px */
-	border: 1px solid #888;
-	width: 80%;
-	max-width: 600px; /* Slightly increased max-width */
-	border-radius: 8px; /* Slightly larger border radius */
-	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); /* Enhanced shadow */
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 30px 40px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
 /* Form group spacing */
 .form-group {
-	margin-bottom: 20px; /* Increased from 15px */
+    margin-bottom: 20px;
 }
 
 /* Input field padding */
 .form-control {
-	padding: 10px 12px; /* Increased vertical padding */
+    padding: 10px 12px;
 }
 
 /* Button spacing */
 .btn {
-	margin-top: 10px;
-	padding: 12px 20px; /* Larger button */
+    margin-top: 10px;
+    padding: 12px 20px;
 }
 
 /* Close button position adjustment */
 .close-btn {
-	position: absolute;
-	top: 20px; /* Increased from default */
-	right: 25px; /* Increased from default */
-	font-size: 30px; /* Slightly larger */
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    font-size: 30px;
 }
 
 /* Form styles */
 .form-group {
-	margin-bottom: 15px;
+    margin-bottom: 15px;
 }
 
 .form-label {
-	display: block;
-	margin-bottom: 5px;
-	font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
 }
 
 .form-control {
-	width: 100%;
-	padding: 8px;
-	border: 1px solid #ddd;
-	border-radius: 4px;
-	box-sizing: border-box;
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
 }
 
 .btn {
-	background-color: #4CAF50;
-	color: white;
-	padding: 10px 15px;
-	border: none;
-	border-radius: 4px;
-	cursor: pointer;
-	font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
 }
 
 .btn:hover {
-	background-color: #45a049;
+    background-color: #45a049;
 }
 
 .error-message {
-	color: red;
-	font-size: 14px;
-	margin-top: 5px;
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.select-btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 5px;
+    min-width: 80px;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    background-color: #4285F4;
+    color: white;
+}
+
+.select-btn:hover {
+    background-color: #3367D6;
+}
+
+.edit-btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 5px;
+    min-width: 80px;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    background-color: #FFC107;
+    color: #333;
+}
+
+.edit-btn:hover {
+    background-color: #E0A800;
+    color: #000;
+}
+
+.delete-btn {
+    padding: 8px 12px;
+    height: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
+}
+
+.action-buttons {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 20px;
+    color: #666;
 }
 </style>
 </head>
 <body>
-	<div class="users-container">
-		<h1 class="users-header">Customer Management</h1>
+    <div class="users-container">
+        <h1 class="users-header">Customer Management</h1>
 
-		<div class="header-row">
-			<div class="header-actions">
-				<a href="${pageContext.request.contextPath}/views/Dashboard.jsp"
-					class="back-button"
-				> <i class="fas fa-arrow-left"></i> Dashboard
-				</a>
-				<button onclick="openAddModal()" class="add-user-icon"
-					title="Add New Customer"
-				>
-					<i class="fas fa-plus"></i>
-				</button>
-			</div>
+        <div class="header-row">
+            <div class="header-actions">
+                <a href="${pageContext.request.contextPath}/views/Dashboard.jsp"
+                    class="back-button">
+                    <i class="fas fa-arrow-left"></i> Dashboard
+                </a>
+                <button onclick="openAddModal()" class="add-customer-icon">
+                    <i class="fas fa-plus"></i> Add Customer
+                </button>
+            </div>
 
-			<div class="search-container">
-				<input type="text" id="searchInput"
-					placeholder="Search customers..."
-				>
-				<button onclick="searchCustomers()">
-					<i class="fas fa-search"></i> Search
-				</button>
-			</div>
-		</div>
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search customers...">
+                <button onclick="searchCustomers()">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </div>
+        </div>
 
-		<table class="users-table" id="customersTable">
-			<thead>
-				<tr>
-					<th>ID</th>
-					<th>Account Number</th>
-					<th>First Name</th>
-					<th>Last Name</th>
-					<th>Email</th>
-					<th>Phone</th>
-					<th>Units Consumed</th>
-					<th>Actions</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:choose>
-					<c:when test="${empty customerList}">
-						<tr>
-							<td colspan="8" class="empty-state"><i
-								class="fas fa-users-slash"
-							></i> No customers found</td>
-						</tr>
-					</c:when>
-					<c:otherwise>
-						<c:forEach items="${customerList}" var="customer">
-							<tr class="customer-row">
-								<td class="customer-id">${customer.id}</td>
-								<td class="account-number">${customer.accountNumber}</td>
-								<td class="first-name">${customer.firstName}</td>
-								<td class="last-name">${customer.lastName}</td>
-								<td class="email">${customer.email}</td>
-								<td class="phone">${customer.phoneNumber}</td>
-								<td class="units-consumed">${customer.unitsConsumed}</td>
-								<td>
-									<div class="action-buttons">
-										<a href="#" class="action-btn edit-btn"
-											onclick="openEditModal(
+        <table class="users-table" id="customersTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Account Number</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Units Consumed</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:choose>
+                    <c:when test="${empty customerList}">
+                        <tr>
+                            <td colspan="8" class="empty-state"><i
+                                class="fas fa-users-slash"
+                            ></i> No customers found</td>
+                        </tr>
+                    </c:when>
+                    <c:otherwise>
+                        <c:forEach items="${customerList}" var="customer">
+                            <tr class="customer-row">
+                                <td class="customer-id">${customer.id}</td>
+                                <td class="account-number">${customer.accountNumber}</td>
+                                <td class="first-name">${customer.firstName}</td>
+                                <td class="last-name">${customer.lastName}</td>
+                                <td class="email">${customer.email}</td>
+                                <td class="phone">${customer.phoneNumber}</td>
+                                <td class="units-consumed">${customer.unitsConsumed}</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <form method="post" action="${pageContext.request.contextPath}/customer/select-customer" style="display: inline;">
+                                            <input type="hidden" name="customerId" value="${customer.id}">
+                                            <button type="submit" class="select-btn">
+                                                <i class="fas fa-check"></i> Select
+                                            </button>
+                                        </form>
+                                        <button class="edit-btn" 
+                                            onclick="openEditModal(
                                                 '${customer.id}',
                                                 '${customer.accountNumber}',
                                                 '${customer.firstName}',
@@ -212,95 +322,95 @@
                                                 '${customer.phoneNumber}',
                                                 '${customer.email}',
                                                 ${customer.unitsConsumed}
-                                            )"
-										> <i class="fas fa-edit"></i> Edit
-										</a>
-										<form class="delete-form"
-											action="${pageContext.request.contextPath}/customer/delete-customer"
-											method="POST"
-										>
-											<input type="hidden" name="id" value="${customer.id}">
-											<button type="submit" class="delete-btn">
-												<i class="fas fa-trash"></i>
-											</button>
-										</form>
-									</div>
-								</td>
-							</tr>
-						</c:forEach>
-					</c:otherwise>
-				</c:choose>
-			</tbody>
-		</table>
-	</div>
+                                            )">
+                                            <i class="fas fa-edit"></i> Edit
+                                        </button>
+                                        <form class="delete-form"
+                                            action="${pageContext.request.contextPath}/customer/delete-customer"
+                                            method="POST"
+                                            style="display: inline;">
+                                            <input type="hidden" name="id" value="${customer.id}">
+                                            <button type="submit" class="delete-btn">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </c:otherwise>
+                </c:choose>
+            </tbody>
+        </table>
+    </div>
 
-	<!-- Combined Add/Edit Customer Modal -->
-	<div id="customerModal" class="modal">
-		<div class="modal-content">
-			<button class="close-btn">&times;</button>
-			<h2 class="modal-header" id="modalTitle">Add New Customer</h2>
+    <!-- Combined Add/Edit Customer Modal -->
+    <div id="customerModal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            <h2 class="modal-header" id="modalTitle">Add New Customer</h2>
 
-			<form id="customerForm" class="registration-form"
-				action="${pageContext.request.contextPath}/customer/create-customer"
-				method="POST"
-			>
-				<input type="hidden" id="id" name="id" value="">
+            <form id="customerForm" class="registration-form"
+                action="${pageContext.request.contextPath}/customer/create-customer"
+                method="POST"
+            >
+                <input type="hidden" id="id" name="id" value="">
 
-				<div class="form-group">
-					<label class="form-label" for="accountNumber">Account
-						Number</label> <input type="text" class="form-control" id="accountNumber"
-						name="accountNumber" required
-					>
-				</div>
+                <div class="form-group">
+                    <label class="form-label" for="accountNumber">Account
+                        Number</label> <input type="text" class="form-control" id="accountNumber"
+                        name="accountNumber" required
+                    >
+                </div>
 
-				<div class="form-group">
-					<label class="form-label" for="firstName">First Name</label> <input
-						type="text" class="form-control" id="firstName" name="firstName"
-						required
-					>
-				</div>
+                <div class="form-group">
+                    <label class="form-label" for="firstName">First Name</label> <input
+                        type="text" class="form-control" id="firstName" name="firstName"
+                        required
+                    >
+                </div>
 
-				<div class="form-group">
-					<label class="form-label" for="lastName">Last Name</label> <input
-						type="text" class="form-control" id="lastName" name="lastName"
-						required
-					>
-				</div>
+                <div class="form-group">
+                    <label class="form-label" for="lastName">Last Name</label> <input
+                        type="text" class="form-control" id="lastName" name="lastName"
+                        required
+                    >
+                </div>
 
-				<div class="form-group">
-					<label class="form-label" for="address">Address</label> <input
-						type="text" class="form-control" id="address" name="address"
-						required
-					>
-				</div>
+                <div class="form-group">
+                    <label class="form-label" for="address">Address</label> <input
+                        type="text" class="form-control" id="address" name="address"
+                        required
+                    >
+                </div>
 
-				<div class="form-group">
-					<label class="form-label" for="phoneNumber">Phone Number</label> <input
-						type="tel" class="form-control" id="phoneNumber"
-						name="phoneNumber" required
-					>
-				</div>
+                <div class="form-group">
+                    <label class="form-label" for="phoneNumber">Phone Number</label> <input
+                        type="tel" class="form-control" id="phoneNumber"
+                        name="phoneNumber" required
+                    >
+                </div>
 
-				<div class="form-group">
-					<label class="form-label" for="email">Email</label> <input
-						type="email" class="form-control" id="email" name="email" required
-					>
-				</div>
+                <div class="form-group">
+                    <label class="form-label" for="email">Email</label> <input
+                        type="email" class="form-control" id="email" name="email" required
+                    >
+                </div>
 
-				<div class="form-group">
-					<label class="form-label" for="unitsConsumed">Units
-						Consumed</label> <input type="number" class="form-control"
-						id="unitsConsumed" name="unitsConsumed" required
-					>
-				</div>
+                <div class="form-group">
+                    <label class="form-label" for="unitsConsumed">Units
+                        Consumed</label> <input type="number" class="form-control"
+                        id="unitsConsumed" name="unitsConsumed" required
+                    >
+                </div>
 
-				<button type="submit" class="btn" id="submitButton">Add
-					Customer</button>
-			</form>
-		</div>
-	</div>
+                <button type="submit" class="btn" id="submitButton">Add
+                    Customer</button>
+            </form>
+        </div>
+    </div>
 
-	<script>
+    <script>
     // Search function
     function searchCustomers() {
         const input = document.getElementById('searchInput');
@@ -365,14 +475,15 @@
         return false; // Prevent default anchor behavior
     }
 
-    // Close modal handlers
-    document.querySelector('.close-btn').addEventListener('click', function() {
+    // Close modal function
+    function closeModal() {
         document.getElementById('customerModal').style.display = 'none';
-    });
+    }
 
-    window.addEventListener('click', function(e) {
-        if (e.target === document.getElementById('customerModal')) {
-            document.getElementById('customerModal').style.display = 'none';
+    // Close modal with ESC key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && document.getElementById('customerModal').style.display === 'block') {
+            closeModal();
         }
     });
 

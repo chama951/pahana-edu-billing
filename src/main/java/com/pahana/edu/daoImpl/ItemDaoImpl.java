@@ -189,4 +189,22 @@ public class ItemDaoImpl implements ItemDao {
 
 	}
 
+	@Override
+	public Item getItemById(Long itemId) throws SQLException {
+		String sql = "SELECT * FROM item WHERE id = ?";
+		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+			stmt.setLong(1, itemId);
+			ResultSet rs = stmt.executeQuery();
+			if (rs.next()) {
+				Item item = new Item();
+				item = mapItem(rs);
+				return item;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Database error occurred", e);
+		}
+		return null;
+	}
+
 }

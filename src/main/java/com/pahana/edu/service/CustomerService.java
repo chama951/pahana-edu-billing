@@ -16,4 +16,6 @@ public interface CustomerService {
 
 	List<Customer> getAllCustomers() throws SQLException;
 
+	Customer getCustomerById(Long customerId) throws SQLException;
+
 }

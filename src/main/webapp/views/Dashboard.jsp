@@ -105,7 +105,7 @@
 					</a>
 
 					<!-- Cashier Card -->
-					<a href="${pageContext.request.contextPath}/bill-print"
+					<a href="${pageContext.request.contextPath}/cashier/*"
 						class="dashboard-card">
 						<div class="card-icon">
 							<i class="fa-solid fa-cash-register"></i>

@@ -80,4 +80,15 @@ public class ItemServiceImpl implements ItemService {
 		}
 	}
 
+	@Override
+	public Item getItemById(Long itemId) {
+		try {
+			Item item = itemDao.getItemById(itemId);
+			return item;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 }

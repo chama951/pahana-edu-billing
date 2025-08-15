@@ -42,6 +42,13 @@
 		<servlet-name>ItemServlet</servlet-name>
 		<servlet-class>com.pahana.edu.controller.ItemServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>CashierServlet</display-name>
+		<servlet-name>CashierServlet</servlet-name>
+		<servlet-class>com.pahana.edu.controller.CashierServlet</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>LoginUserServlet</servlet-name>
 		<url-pattern>/login</url-pattern>
@@ -61,5 +68,9 @@
 	<servlet-mapping>
 		<servlet-name>ItemServlet</servlet-name>
 		<url-pattern>/item/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>CashierServlet</servlet-name>
+		<url-pattern>/cashier/*</url-pattern>
 	</servlet-mapping>
 </web-app>

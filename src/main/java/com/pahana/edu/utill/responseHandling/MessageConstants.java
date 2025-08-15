@@ -49,6 +49,13 @@ public final class MessageConstants {
 	public static final String ISBN_NUMBER_EXISTS = "ISBN already exists";
 	public static final String ITEM_DELETED = "Item deleted successfully";
 	public static final String ITEM_UPDATED = "Item update successfully";
+	public static final String CUSTOMER_SELECTED = "Customer selected successfully";
+	public static final String ITEM_ADDED_TO_THE_CART = "Item added to the cart successfully";
+	public static final String QUANTITY_NOT_ENOUGH_IN_STOCK = "Quantity not enough in Stock";
+	public static final String ITEM_REMOVED_CART = "Item removed from the cart";
+	public static final String CART_CLEARED = "Cart Cleared";
+	public static final String ERROR_REMOVING_ITEM = "Error removing item";
+	public static final String ERROR_CLEAR_CART = "Error clearing cart";
 
 	// User Validation Messeges
 

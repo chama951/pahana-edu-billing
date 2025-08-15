@@ -7,327 +7,415 @@
 <head>
 <title>User Management</title>
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/DisplayUsers.css"
->
+    href="${pageContext.request.contextPath}/css/DisplayUsers.css">
 <!-- Font Awesome for icons -->
 <link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
->
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <style>
 .search-container {
-	display: flex;
-	align-items: center;
-	margin-left: auto;
+    display: flex;
+    align-items: center;
+    margin-left: auto;
 }
 
 .search-container input[type="text"] {
-	padding: 8px 15px;
-	border: 1px solid #ddd;
-	border-radius: 4px;
-	margin-right: 10px;
-	width: 300px;
+    padding: 8px 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-right: 10px;
+    width: 300px;
 }
 
 .search-container button {
-	padding: 8px 15px;
-	background-color: #4CAF50;
-	color: white;
-	border: none;
-	border-radius: 4px;
-	cursor: pointer;
+    padding: 8px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
 .search-container button:hover {
-	background-color: #45a049;
+    background-color: #45a049;
 }
 
 .header-row {
-	display: flex;
-	align-items: center;
-	width: 100%;
-	margin: 15px 0;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin: 15px 0;
 }
 
 .header-actions {
-	display: flex;
-	align-items: center;
-	gap: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 /* Modal styles */
 .modal {
-	display: none;
-	position: fixed;
-	z-index: 1;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-	background-color: rgba(0, 0, 0, 0.4);
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 .modal-content {
-	background-color: #fefefe;
-	margin: 10% auto; /* Reduced top margin for better centering */
-	padding: 30px 40px; /* Increased side padding from 20px to 40px */
-	border: 1px solid #888;
-	width: 80%;
-	max-width: 600px; /* Slightly increased max-width */
-	border-radius: 8px; /* Slightly larger border radius */
-	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); /* Enhanced shadow */
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 30px 40px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    position: relative;
 }
 
 /* Form group spacing */
 .form-group {
-	margin-bottom: 20px; /* Increased from 15px */
+    margin-bottom: 20px;
 }
 
 /* Input field padding */
 .form-control {
-	padding: 10px 12px; /* Increased vertical padding */
+    padding: 10px 12px;
 }
 
 /* Button spacing */
 .btn {
-	margin-top: 10px;
-	padding: 12px 20px; /* Larger button */
+    margin-top: 10px;
+    padding: 12px 20px;
 }
 
 /* Close button position adjustment */
 .close-btn {
-	position: absolute;
-	top: 20px; /* Increased from default */
-	right: 25px; /* Increased from default */
-	font-size: 30px; /* Slightly larger */
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    font-size: 30px;
+    cursor: pointer;
 }
 
 /* Form styles */
 .form-group {
-	margin-bottom: 15px;
+    margin-bottom: 15px;
 }
 
 .form-label {
-	display: block;
-	margin-bottom: 5px;
-	font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
 }
 
 .form-control {
-	width: 100%;
-	padding: 8px;
-	border: 1px solid #ddd;
-	border-radius: 4px;
-	box-sizing: border-box;
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
 }
 
 .btn {
-	background-color: #4CAF50;
-	color: white;
-	padding: 10px 15px;
-	border: none;
-	border-radius: 4px;
-	cursor: pointer;
-	font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
 }
 
 .btn:hover {
-	background-color: #45a049;
+    background-color: #45a049;
 }
 
 .error-message {
-	color: red;
-	font-size: 14px;
-	margin-top: 5px;
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+/* Button styles */
+.edit-btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 5px;
+    min-width: 80px;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    background-color: #FFC107;
+    color: #333;
+}
+
+.edit-btn:hover {
+    background-color: #E0A800;
+    color: #000;
+}
+
+.delete-btn {
+    padding: 8px 12px;
+    height: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
+}
+
+.action-buttons {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+}
+
+.status-active {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.status-inactive {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 12px;
+    background-color: #6c757d;
+    color: white;
+    border-radius: 4px;
+    text-decoration: none;
+    gap: 5px;
+    font-size: 14px;
+}
+
+.back-button:hover {
+    background-color: #5a6268;
+    color: white;
+}
+
+.add-user-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 12px;
+    background-color: #17a2b8;
+    color: white;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    min-width: 80px;
+    gap: 5px;
+}
+
+.add-user-btn:hover {
+    background-color: #138496;
 }
 </style>
 </head>
 <body>
-	<div class="users-container">
-		<!-- Page title at the very top -->
-		<h1 class="users-header">User Management</h1>
+    <div class="users-container">
+        <!-- Page title at the very top -->
+        <h1 class="users-header">User Management</h1>
 
-		<!-- Navigation and search row below title -->
-		<div class="header-row">
-			<div class="header-actions">
-				<a href="${pageContext.request.contextPath}/views/Dashboard.jsp"
-					class="back-button"
-				> <i class="fas fa-arrow-left"></i> Dashboard
-				</a> <a href="#" class="add-user-icon" title="Add New User"
-					onclick="openAddModal()"
-				> <i class="fas fa-plus"></i>
-				</a>
-			</div>
+        <!-- Navigation and search row below title -->
+        <div class="header-row">
+            <div class="header-actions">
+                <a href="${pageContext.request.contextPath}/views/Dashboard.jsp"
+                    class="back-button">
+                    <i class="fas fa-arrow-left"></i> Dashboard
+                </a>
+                <button onclick="openAddModal()" class="add-user-btn">
+                    <i class="fas fa-plus"></i> Add User
+                </button>
+            </div>
 
-			<!-- Client-side search -->
-			<div class="search-container">
-				<input type="text" id="searchInput" placeholder="Search users...">
-				<button onclick="searchUsers()">
-					<i class="fas fa-search"></i> Search
-				</button>
-			</div>
-		</div>
+            <!-- Client-side search -->
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search users...">
+                <button onclick="searchUsers()">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </div>
+        </div>
 
-		<table class="users-table" id="usersTable">
-			<thead>
-				<tr>
-					<th>ID</th>
-					<th>Username</th>
-					<th>Status</th>
-					<th>Role</th>
-					<th>Last Login</th>
-					<th>Created At</th>
-					<th>Actions</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:choose>
-					<c:when test="${empty usersList}">
-						<tr>
-							<td colspan="7" class="empty-state"><i
-								class="fas fa-users-slash"
-							></i> No users found</td>
-						</tr>
-					</c:when>
-					<c:otherwise>
-						<c:forEach items="${usersList}" var="user">
-							<tr class="user-row">
-								<td class="user-id">${user.id}</td>
-								<td class="username">${user.username}</td>
-								<td
-									class="${user.isActive ? 'status-active' : 'status-inactive'}"
-								>${user.isActive ? 'Active' : 'Inactive'}</td>
-								<td class="role">${user.role}</td>
-								<td class="last-login"><c:choose>
-										<c:when test="${not empty user.lastLogin}">
+        <table class="users-table" id="usersTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Status</th>
+                    <th>Role</th>
+                    <th>Last Login</th>
+                    <th>Created At</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:choose>
+                    <c:when test="${empty usersList}">
+                        <tr>
+                            <td colspan="7" class="empty-state"><i
+                                class="fas fa-users-slash"></i> No users found</td>
+                        </tr>
+                    </c:when>
+                    <c:otherwise>
+                        <c:forEach items="${usersList}" var="user">
+                            <tr class="user-row">
+                                <td class="user-id">${user.id}</td>
+                                <td class="username">${user.username}</td>
+                                <td class="${user.isActive ? 'status-active' : 'status-inactive'}">
+                                    ${user.isActive ? 'Active' : 'Inactive'}
+                                </td>
+                                <td class="role">${user.role}</td>
+                                <td class="last-login">
+                                    <c:choose>
+                                        <c:when test="${not empty user.lastLogin}">
                                             ${user.lastLogin.format(DateTimeFormatter.ofPattern('yyyy-MM-dd HH:mm'))}
                                         </c:when>
-										<c:otherwise>
+                                        <c:otherwise>
                                             Never logged in
                                         </c:otherwise>
-									</c:choose></td>
-								<td class="created-at">
-									${user.createdAt.format(DateTimeFormatter.ofPattern('yyyy-MM-dd HH:mm'))}
-								</td>
-								<td>
-									<div class="action-buttons">
-										<a href="#" class="action-btn edit-btn"
-											onclick="openEditModal('${user.id}', '${user.username}', ${user.isActive}, '${user.role}')"
-										> <i class="fas fa-edit"></i> Edit
-										</a>
-										<form class="delete-form"
-											action="${pageContext.request.contextPath}/user/delete-user"
-											method="POST"
-										>
-											<input type="hidden" name="userId" value="${user.id}">
-											<button type="submit" class="delete-btn">
-												<i class="fas fa-trash"></i>
-											</button>
-										</form>
-									</div>
-								</td>
-							</tr>
-						</c:forEach>
-					</c:otherwise>
-				</c:choose>
-			</tbody>
-		</table>
-	</div>
+                                    </c:choose>
+                                </td>
+                                <td class="created-at">
+                                    ${user.createdAt.format(DateTimeFormatter.ofPattern('yyyy-MM-dd HH:mm'))}
+                                </td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="edit-btn" 
+                                            onclick="openEditModal('${user.id}', '${user.username}', ${user.isActive}, '${user.role}')">
+                                            <i class="fas fa-edit"></i> Edit
+                                        </button>
+                                        <form class="delete-form"
+                                            action="${pageContext.request.contextPath}/user/delete-user"
+                                            method="POST"
+                                            style="display: inline;">
+                                            <input type="hidden" name="userId" value="${user.id}">
+                                            <button type="submit" class="delete-btn">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </c:otherwise>
+                </c:choose>
+            </tbody>
+        </table>
+    </div>
 
-	<!-- Update User Modal -->
-	<div id="updateUserModal" class="modal">
-		<div class="modal-content">
-			<span class="close-btn" onclick="closeModal('updateUserModal')">&times;</span>
-			<h2 class="modal-header">Update User</h2>
+    <!-- Update User Modal -->
+    <div id="updateUserModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('updateUserModal')">&times;</span>
+            <h2 class="modal-header">Update User</h2>
 
-			<!-- Uneditable Username Display -->
-			<div>
-				<p>
-					Username : <span id="displayUsername"></span>
-				</p>
-			</div>
+            <!-- Uneditable Username Display -->
+            <div>
+                <p>
+                    Username : <span id="displayUsername"></span>
+                </p>
+            </div>
 
-			<form id="updateUserForm" class="registration-form"
-				action="${pageContext.request.contextPath}/user/update-user"
-				method="POST"
-			>
-				<input type="hidden" id="id" name="id" value="">
+            <form id="updateUserForm" class="registration-form"
+                action="${pageContext.request.contextPath}/user/update-user"
+                method="POST">
+                <input type="hidden" id="id" name="id" value="">
 
-				<div class="form-group">
-					<label class="form-label" for="isActive">Status</label> <select
-						class="form-control" id="isActive" name="isActive" required
-					>
-						<option value="true">Active</option>
-						<option value="false">Inactive</option>
-					</select>
-				</div>
+                <div class="form-group">
+                    <label class="form-label" for="isActive">Status</label> 
+                    <select class="form-control" id="isActive" name="isActive" required>
+                        <option value="true">Active</option>
+                        <option value="false">Inactive</option>
+                    </select>
+                </div>
 
-				<div class="form-group">
-					<label class="form-label" for="role">Privileges</label> <select
-						class="form-control" id="role" name="role" required
-					>
-						<c:forEach items="<%=UserRole.values()%>" var="role">
-							<option value="${role}">${role}</option>
-						</c:forEach>
-					</select>
-				</div>
+                <div class="form-group">
+                    <label class="form-label" for="role">Privileges</label> 
+                    <select class="form-control" id="role" name="role" required>
+                        <c:forEach items="<%=UserRole.values()%>" var="role">
+                            <option value="${role}">${role}</option>
+                        </c:forEach>
+                    </select>
+                </div>
 
-				<button type="submit" class="btn">Update User</button>
-			</form>
-		</div>
-	</div>
+                <button type="submit" class="btn">Update User</button>
+            </form>
+        </div>
+    </div>
 
-	<!-- Add User Modal -->
-	<div id="addUserModal" class="modal">
-		<div class="modal-content">
-			<span class="close-btn" onclick="closeModal('addUserModal')">&times;</span>
-			<h2 class="modal-header">Add New User</h2>
+    <!-- Add User Modal -->
+    <div id="addUserModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('addUserModal')">&times;</span>
+            <h2 class="modal-header">Add New User</h2>
 
-			<form id="addUserForm" class="registration-form"
-				action="${pageContext.request.contextPath}/user/create-user"
-				method="POST" onsubmit="return validatePassword()"
-			>
+            <form id="addUserForm" class="registration-form"
+                action="${pageContext.request.contextPath}/user/create-user"
+                method="POST" onsubmit="return validatePassword()">
 
-				<div class="form-group">
-					<label class="form-label" for="newUsername">Username</label> <input
-						type="text" class="form-control" id="newUsername" name="username"
-						required
-					>
-				</div>
+                <div class="form-group">
+                    <label class="form-label" for="newUsername">Username</label> 
+                    <input type="text" class="form-control" id="newUsername" name="username" required>
+                </div>
 
-				<div class="form-group">
-					<label class="form-label" for="newPassword">Password</label> <input
-						type="password" class="form-control" id="newPassword"
-						name="password" required
-					>
-				</div>
+                <div class="form-group">
+                    <label class="form-label" for="newPassword">Password</label> 
+                    <input type="password" class="form-control" id="newPassword" name="password" required>
+                </div>
 
-				<div class="form-group">
-					<label class="form-label" for="confirmPassword">Confirm
-						Password</label> <input type="password" class="form-control"
-						id="confirmPassword" name="confirmPassword" required
-					>
-					<div id="passwordError" class="error-message"
-						style="display: none;"
-					>Passwords do not match!</div>
-				</div>
+                <div class="form-group">
+                    <label class="form-label" for="confirmPassword">Confirm Password</label> 
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+                    <div id="passwordError" class="error-message" style="display: none;">
+                        Passwords do not match!
+                    </div>
+                </div>
 
-				<div class="form-group">
-					<label class="form-label" for="newRole">Privileges</label> <select
-						class="form-control" id="newRole" name="role" required
-					>
-						<c:forEach items="<%=UserRole.values()%>" var="role">
-							<option value="${role}">${role}</option>
-						</c:forEach>
-					</select>
-				</div>
+                <div class="form-group">
+                    <label class="form-label" for="newRole">Privileges</label> 
+                    <select class="form-control" id="newRole" name="role" required>
+                        <c:forEach items="<%=UserRole.values()%>" var="role">
+                            <option value="${role}">${role}</option>
+                        </c:forEach>
+                    </select>
+                </div>
 
-				<button type="submit" class="btn">Create User</button>
-			</form>
-		</div>
-	</div>
+                <button type="submit" class="btn">Create User</button>
+            </form>
+        </div>
+    </div>
 
-	<script>
+    <script>
     // Search function
     function searchUsers() {
         const input = document.getElementById('searchInput');
@@ -407,12 +495,7 @@
         return true;
     }
 
-    // Close modal when clicking outside
-    window.addEventListener('click', function(e) {
-        if (e.target.classList.contains('modal')) {
-            e.target.style.display = 'none';
-        }
-    });
+    // Removed the window click event listener that was closing modals when clicking outside
     </script>
 </body>
 </html>

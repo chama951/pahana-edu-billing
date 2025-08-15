@@ -17,4 +17,6 @@ public interface ItemDao {
 
 	void updateItem(Item itemToUpdate) throws SQLException;
 
+	Item getItemById(Long itemId) throws SQLException;
+
 }

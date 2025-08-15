@@ -72,6 +72,8 @@ public class CustomerServlet extends HttpServlet {
 			case "/delete-customer":
 				deleteCustomer(request, response);
 				break;
+			case "/select-customer":
+				selectCustomer(request, response);
 			default:
 				getCustomers(request, response);
 				break;
@@ -79,6 +81,34 @@ public class CustomerServlet extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return;
+		}
+	}
+
+	private void selectCustomer(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		AuthHelper.isUserLoggedIn(request, response);
+
+		try {
+			Long customerId = Long.parseLong(request.getParameter("customerId"));
+
+			// Get the customer from your service layer
+			Customer selectedCustomer = customerService.getCustomerById(customerId);
+
+			// Set the selected customer in the session
+			request.getSession().setAttribute("selectedCustomer", selectedCustomer);
+			ResponseHandler.handleSuccess(
+					request,
+					response,
+					MessageConstants.CUSTOMER_SELECTED,
+					ButtonPath.CASHIER);
+		} catch (Exception e) {
+			// Handle unexpected errors
+			e.printStackTrace();
+			ResponseHandler.handleError(
+					request,
+					response,
+					e.getMessage(),
+					ButtonPath.MANAGE_CUSTOMERS);
 		}
 	}
 
@@ -104,7 +134,7 @@ public class CustomerServlet extends HttpServlet {
 					request,
 					response,
 					e.getMessage(),
-					ButtonPath.MANAGE_USERS);
+					ButtonPath.MANAGE_CUSTOMERS);
 		}
 
 	}

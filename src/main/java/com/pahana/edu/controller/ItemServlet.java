@@ -2,6 +2,7 @@ package com.pahana.edu.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -68,6 +69,8 @@ public class ItemServlet extends HttpServlet {
 			case "/delete-item":
 				deleteItem(request, response);
 				break;
+			case "/add-to-cart":
+				addToCart(request, response);
 			default:
 				getItems(request, response);
 				break;
@@ -75,6 +78,64 @@ public class ItemServlet extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private void addToCart(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		AuthHelper.isUserLoggedIn(request, response);
+		try {
+			Long itemId = Long.parseLong(request.getParameter("itemId"));
+			Integer qtyToCart = Integer.valueOf(request.getParameter("quantity"));
+
+			Item selectedItem = itemService.getItemById(itemId);
+
+			if (selectedItem.getQuantityInStock() < qtyToCart) {
+				ResponseHandler.handleError(
+						request,
+						response,
+						MessageConstants.QUANTITY_NOT_ENOUGH_IN_STOCK,
+						ButtonPath.MANAGE_ITEMS);
+			} else {
+				selectedItem.setQuantityInStock(qtyToCart);
+
+				List<Item> itemList = (List<Item>) request.getSession().getAttribute("itemList");
+
+				if (itemList == null) {
+					itemList = new ArrayList<Item>();
+				}
+
+				boolean itemExists = false;
+
+				if (selectedItem != null) {
+					for (Item item : itemList) {
+						if (item.getId().equals(selectedItem.getId())) {
+							item.setQuantityInStock(item.getQuantityInStock() + qtyToCart);
+							itemExists = true;
+							break;
+						}
+					}
+					if (!itemExists) {
+						itemList.add(selectedItem);
+					}
+				}
+
+				request.getSession().setAttribute("itemList", itemList);
+				ResponseHandler.handleSuccess(
+						request,
+						response,
+						MessageConstants.ITEM_ADDED_TO_THE_CART,
+						ButtonPath.MANAGE_ITEMS);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			ResponseHandler.handleError(
+					request,
+					response,
+					e.getMessage(),
+					ButtonPath.MANAGE_ITEMS);
 		}
 	}
 
@@ -261,7 +322,7 @@ public class ItemServlet extends HttpServlet {
 					request,
 					response,
 					e.getMessage(),
-					ButtonPath.MANAGE_CUSTOMERS);
+					ButtonPath.MANAGE_ITEMS);
 		}
 
 	}

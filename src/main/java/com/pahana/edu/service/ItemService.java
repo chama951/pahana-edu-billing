@@ -16,4 +16,6 @@ public interface ItemService {
 
 	void updateItem(Item itemToUpdate) throws PahanaEduException, SQLException;
 
+	Item getItemById(Long itemId);
+
 }

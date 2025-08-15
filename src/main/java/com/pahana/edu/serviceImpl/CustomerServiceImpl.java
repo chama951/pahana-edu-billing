@@ -86,4 +86,15 @@ public class CustomerServiceImpl implements CustomerService {
 
 	}
 
+	@Override
+	public Customer getCustomerById(Long customerId) throws SQLException {
+		try {
+			Customer customer = customerDao.getCustomerById(customerId);
+			return customer;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 }
