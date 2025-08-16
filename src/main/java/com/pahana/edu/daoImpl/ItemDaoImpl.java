@@ -60,17 +60,17 @@ public class ItemDaoImpl implements ItemDao {
 	public List<Item> getAllItems() throws SQLException {
 
 		String sql = "SELECT i.*, "
-				+ "u.id as user_id, "
+				+ "u.id as userId, "
 				+ "u.username, u.role, "
 				+ "u.isActive "
-				+ "FROM item i LEFT JOIN user u ON i.UserId = u.id";
+				+ "FROM item i LEFT JOIN user u ON i.userId = u.id";
 		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 			ResultSet rs = stmt.executeQuery();
 			List<Item> items = new ArrayList<>();
 			while (rs.next()) {
 				Item item = mapItem(rs);
 
-				if (rs.getObject("user_id") != null) {
+				if (rs.getObject("userId") != null) {
 					item.setUser(mapUser(rs));
 				}
 
@@ -85,7 +85,7 @@ public class ItemDaoImpl implements ItemDao {
 
 	private User mapUser(ResultSet rs) throws SQLException {
 		User user = new User();
-		user.setId(rs.getLong("user_id"));
+		user.setId(rs.getLong("userId"));
 		user.setUsername(rs.getString("username"));
 		user.setRole(UserRole.valueOf(rs.getString("role")));
 		user.setIsActive(rs.getBoolean("isActive"));
@@ -98,6 +98,7 @@ public class ItemDaoImpl implements ItemDao {
 		item.setTitle(rs.getString("title"));
 		item.setIsbn(rs.getString("isbn"));
 		item.setPrice(rs.getDouble("price"));
+		item.setUser(mapUser(rs));
 		item.setQuantityInStock(rs.getInt("quantityInStock"));
 		item.setCreatedAt(rs.getObject("createdAt", LocalDateTime.class));
 		item.setUpdatedAt(rs.getObject("updatedAt", LocalDateTime.class));
@@ -191,20 +192,33 @@ public class ItemDaoImpl implements ItemDao {
 
 	@Override
 	public Item getItemById(Long itemId) throws SQLException {
-		String sql = "SELECT * FROM item WHERE id = ?";
+		String sql = "SELECT i.*, "
+				+ "u.id as userId, "
+				+ "u.username, u.role, "
+				+ "u.isActive "
+				+ "FROM item i LEFT JOIN user u ON i.userId = u.id "
+				+ "WHERE i.id = ?";
+
 		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 			stmt.setLong(1, itemId);
-			ResultSet rs = stmt.executeQuery();
-			if (rs.next()) {
-				Item item = new Item();
-				item = mapItem(rs);
-				return item;
+
+			try (ResultSet rs = stmt.executeQuery()) {
+				if (rs.next()) {
+					Item item = mapItem(rs);
+
+					// Only set user if userId exists (LEFT JOIN might return null)
+					if (rs.getObject("userId") != null) {
+						item.setUser(mapUser(rs));
+					}
+
+					return item;
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new RuntimeException("Database error occurred", e);
 		}
-		return null;
+		return null; // or throw ItemNotFoundException
 	}
 
 }

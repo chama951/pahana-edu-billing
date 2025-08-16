@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import com.pahana.edu.model.Customer;
 import com.pahana.edu.model.Item;
 import com.pahana.edu.model.User;
+import com.pahana.edu.model.enums.BillStatus;
 import com.pahana.edu.model.enums.Privilege;
 import com.pahana.edu.service.BillService;
 import com.pahana.edu.serviceImpl.BillServiceImpl;
@@ -44,7 +45,7 @@ public class CashierServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 			User userLoggedIn = (User) session.getAttribute("currentUser");
 			Customer selectedCustomer = (Customer) session.getAttribute("selectedCustomer");
-			if (!userLoggedIn.getRole().hasPrivilege(Privilege.MANAGE_CUSTOMERS)) {
+			if (!userLoggedIn.getRole().hasPrivilege(Privilege.CREATE_BILLS)) {
 				ResponseHandler.handleError(
 						request,
 						response,
@@ -105,15 +106,24 @@ public class CashierServlet extends HttpServlet {
 
 			Long userId = currentUser.getId();
 			Long customerId = selectedCustomer.getId();
+
+			String billStatusStr = request.getParameter("billStatus");
+			BillStatus billStatus = BillStatus.valueOf(billStatusStr);
+
 			List<Item> itemList = (List<Item>) session.getAttribute("itemList");
 
-			billService.createBill(itemList, customerId, userId);
+			billService.createBill(itemList, customerId, userId, billStatus);
 
 			ResponseHandler.handleSuccess(
 					request,
 					response,
 					MessageConstants.BILL_CREATED_SUCCESSFULLY,
-					ButtonPath.CASHIER);
+					ButtonPath.DASHBOARD);
+
+			List<Item> newList = new ArrayList<>();
+			request.getSession().setAttribute("itemList", newList);
+
+			request.getSession().setAttribute("selectedCustomer", null);
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="com.pahana.edu.model.enums.BillStatus" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -180,6 +181,33 @@
             padding: 30px;
             color: #6c757d;
         }
+        
+        /* Status dropdown styles */
+        .status-selection {
+            margin-bottom: 15px;
+        }
+        
+        .status-selection label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .status-selection select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: white;
+            font-size: 14px;
+            width: 200px;
+            transition: border-color 0.2s;
+        }
+        
+        .status-selection select:focus {
+            outline: none;
+            border-color: #17a2b8;
+            box-shadow: 0 0 0 2px rgba(23, 162, 184, 0.2);
+        }
     </style>
 </head>
 <body>
@@ -253,11 +281,25 @@
                             </c:forEach>
                             ${String.format("%,.2f", grandTotal)}
                         </p>
+                        
+                        <!-- Bill Status Dropdown -->
+                        <div class="status-selection">
+                            <label for="billStatus">Bill Status:</label>
+                            <select name="billStatus" id="billStatus" class="form-control">
+                                <c:forEach items="<%=BillStatus.values()%>" var="status">
+                                    <option value="${status}" ${status == BillStatus.PAID ? 'selected' : ''}>
+                                        ${status.displayName}
+                                    </option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                        
                         <div class="action-buttons">
                             <a href="${pageContext.request.contextPath}/cashier/clear-cart" class="btn clear-btn">
                                 Clear Cart
                             </a>
                             <form id="checkoutForm" action="${pageContext.request.contextPath}/cashier/create-bill" method="POST">
+                                <input type="hidden" name="billStatus" id="billStatusValue" value="PAID">
                                 <button type="submit" class="btn checkout-btn">
                                     <i class="fas fa-credit-card"></i> Checkout
                                 </button>
@@ -265,6 +307,12 @@
                         </div>
                     </div>
                 </div>
+                
+                <script>
+                    document.getElementById('billStatus').addEventListener('change', function() {
+                        document.getElementById('billStatusValue').value = this.value;
+                    });
+                </script>
             </c:when>
             <c:otherwise>
                 <div class="empty-cart">

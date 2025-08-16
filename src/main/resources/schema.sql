@@ -7,6 +7,7 @@
         customerId bigint,
         id bigint not null auto_increment,
         userId bigint,
+        billStatus enum ('CANCELLED','DRAFT','PAID','PENDING','REFUNDED'),
         primary key (id)
     ) engine=InnoDB;
 
@@ -42,10 +43,10 @@
         price float(53) not null,
         publicationYear integer,
         quantityInStock integer,
-        UserId bigint,
         createdAt datetime(6),
         id bigint not null auto_increment,
         updatedAt datetime(6),
+        userId bigint,
         author varchar(255),
         description varchar(255),
         isbn varchar(255),
@@ -105,6 +106,6 @@
        references Item (id);
 
     alter table Item 
-       add constraint FKltqgyaqs4368kkxoqk9edu4qo 
-       foreign key (UserId) 
+       add constraint FK5i9kxeii2ipa22uxwlcgd3y0q 
+       foreign key (userId) 
        references User (id);

@@ -38,7 +38,7 @@ public class ItemServlet extends HttpServlet {
 		try {
 			HttpSession session = request.getSession();
 			User userLoggedIn = (User) session.getAttribute("currentUser");
-			if (!userLoggedIn.getRole().hasPrivilege(Privilege.MANAGE_CUSTOMERS)) {
+			if (!userLoggedIn.getRole().hasPrivilege(Privilege.MANAGE_ITEMS)) {
 				ResponseHandler.handleError(
 						request,
 						response,

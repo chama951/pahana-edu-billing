@@ -12,6 +12,7 @@ import com.pahana.edu.model.Bill;
 import com.pahana.edu.model.BillItem;
 import com.pahana.edu.model.Customer;
 import com.pahana.edu.model.User;
+import com.pahana.edu.model.enums.BillStatus;
 
 public class BillDaoImpl implements BillDao {
 
@@ -29,7 +30,8 @@ public class BillDaoImpl implements BillDao {
 				+ "netAmount, "
 				+ "createdAt,"
 				+ "customerId,"
-				+ "userId) VALUES (?,?,?,?,?,?)";
+				+ "userId, "
+				+ "billStatus ) VALUES (?,?,?,?,?,?,?)";
 		try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 			stmt.setDouble(1, bill.getTotalAmount());
 			stmt.setDouble(2, bill.getDiscountAmount());
@@ -37,6 +39,7 @@ public class BillDaoImpl implements BillDao {
 			stmt.setObject(4, LocalDateTime.now());
 			stmt.setLong(5, customerId);
 			stmt.setLong(6, userId);
+			stmt.setString(7, bill.getBillStatus().getDisplayName());
 			stmt.executeUpdate();
 
 			try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
@@ -54,7 +57,7 @@ public class BillDaoImpl implements BillDao {
 	@Override
 	public Bill getBillById(Long billId) throws SQLException {
 		String sql = "SELECT "
-				+ "b.id, b.totalAmount, b.netAmount, b.discountAmount, b.createdAt, "
+				+ "b.id, b.totalAmount, b.netAmount, b.discountAmount, b.createdAt, b.billStatus, "
 				+ "c.id, c.accountNumber, c.firstName, c.lastName, c.address, "
 				+ "c.phoneNumber, c.email, c.unitsConsumed, "
 				+ "u.id, u.username, u.hashedPassword, u.role, u.isActive "
@@ -82,6 +85,7 @@ public class BillDaoImpl implements BillDao {
 		bill.setTotalAmount(rs.getDouble("b.totalAmount"));
 		bill.setNetAmount(rs.getDouble("b.netAmount"));
 		bill.setDiscountAmount(rs.getDouble("b.discountAmount"));
+		bill.setBillStatus(BillStatus.valueOf(rs.getString("b.billStatus")));
 		bill.setCreatedAt(rs.getObject("b.createdAt", LocalDateTime.class));
 
 		// Map Customer (with 'c' prefix)

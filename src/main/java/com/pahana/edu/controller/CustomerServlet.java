@@ -91,16 +91,14 @@ public class CustomerServlet extends HttpServlet {
 		try {
 			Long customerId = Long.parseLong(request.getParameter("customerId"));
 
-			// Get the customer from your service layer
 			Customer selectedCustomer = customerService.getCustomerById(customerId);
 
-			// Set the selected customer in the session
 			request.getSession().setAttribute("selectedCustomer", selectedCustomer);
 			ResponseHandler.handleSuccess(
 					request,
 					response,
 					MessageConstants.CUSTOMER_SELECTED,
-					ButtonPath.CASHIER);
+					ButtonPath.MANAGE_CUSTOMERS);
 		} catch (Exception e) {
 			// Handle unexpected errors
 			e.printStackTrace();

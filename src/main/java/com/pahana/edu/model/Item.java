@@ -29,7 +29,7 @@ public class Item {
 	private Integer quantityInStock;
 
 	@ManyToOne
-	@JoinColumn(name = "UserId")
+	@JoinColumn(name = "userId")
 	private User user;
 
 	@CreationTimestamp

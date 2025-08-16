@@ -8,6 +8,8 @@ import static jakarta.persistence.CascadeType.ALL;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.pahana.edu.model.enums.BillStatus;
+
 @Entity
 public class Bill {
 
@@ -20,6 +22,9 @@ public class Bill {
 	private Double discountAmount;
 
 	private Double netAmount;
+
+	@Enumerated(EnumType.STRING)
+	private BillStatus billStatus;
 
 	@CreationTimestamp
 	private LocalDateTime createdAt = LocalDateTime.now();
@@ -34,22 +39,6 @@ public class Bill {
 
 	@OneToMany(mappedBy = "bill", cascade = ALL, orphanRemoval = true)
 	private List<BillItem> billItems;
-
-//	private Bill(Long id, LocalDateTime billDate, BigDecimal totalAmount,
-//			BigDecimal discountAmount, LocalDateTime createdAt, LocalDateTime updatedAt, Customer customer,
-//			List<BillItem> billItems,
-//			Payment payment) {
-//		super();
-//		this.id = id;
-//		this.billDate = billDate;
-//		this.totalAmount = totalAmount;
-//		this.discountAmount = discountAmount;
-//		this.createdAt = createdAt;
-//		this.updatedAt = updatedAt;
-//		this.customer = customer;
-//		this.billItems = billItems;
-//		this.payment = payment;
-//	}
 
 	public Bill() {
 	}
@@ -84,6 +73,14 @@ public class Bill {
 
 	public void setNetAmount(Double netAmount) {
 		this.netAmount = netAmount;
+	}
+
+	public BillStatus getBillStatus() {
+		return billStatus;
+	}
+
+	public void setBillStatus(BillStatus billStatus) {
+		this.billStatus = billStatus;
 	}
 
 	public LocalDateTime getCreatedAt() {

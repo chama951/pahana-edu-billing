@@ -184,7 +184,6 @@ public class CustomerDaoImpl implements CustomerDao {
 		item.setDescription(rs.getString("description"));
 		item.setPrice(rs.getDouble("price"));
 		item.setDiscountAmount(rs.getDouble("discountAmount"));
-		item.setDiscountPercentage(rs.getDouble("discountPercentage"));
 		item.setCreatedAt(rs.getObject("createdAt", LocalDateTime.class));
 		item.setUpdatedAt(rs.getObject("updatedAt", LocalDateTime.class));
 		item.setQuantityInStock(rs.getInt("quantityInStock"));
