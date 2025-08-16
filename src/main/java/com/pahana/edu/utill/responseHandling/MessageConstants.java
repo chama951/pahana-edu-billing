@@ -56,6 +56,8 @@ public final class MessageConstants {
 	public static final String CART_CLEARED = "Cart Cleared";
 	public static final String ERROR_REMOVING_ITEM = "Error removing item";
 	public static final String ERROR_CLEAR_CART = "Error clearing cart";
+	public static final String PLEASE_SELECT_A_CUSTOMER = "Please select a customer";
+	public static final String BILL_CREATED_SUCCESSFULLY = "Bill created successfully";
 
 	// User Validation Messeges
 

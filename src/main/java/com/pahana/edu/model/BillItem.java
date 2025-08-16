@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import jakarta.persistence.*;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 public class BillItem {
@@ -24,9 +23,6 @@ public class BillItem {
 
 	@CreationTimestamp
 	private LocalDateTime createdAt = LocalDateTime.now();
-
-	@UpdateTimestamp
-	private LocalDateTime updatedAt = LocalDateTime.now();
 
 	@ManyToOne
 	@JoinColumn(name = "billId")
@@ -92,14 +88,6 @@ public class BillItem {
 
 	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
-	}
-
-	public LocalDateTime getUpdatedAt() {
-		return updatedAt;
-	}
-
-	public void setUpdatedAt(LocalDateTime updatedAt) {
-		this.updatedAt = updatedAt;
 	}
 
 	public Bill getBill() {

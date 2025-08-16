@@ -1,13 +1,12 @@
 
     create table Bill (
-        discountAmount decimal(38,2),
-        totalAmount decimal(38,2),
-        UserId bigint,
-        billDate datetime(6),
+        discountAmount float(53),
+        netAmount float(53),
+        totalAmount float(53),
         createdAt datetime(6),
         customerId bigint,
         id bigint not null auto_increment,
-        updatedAt datetime(6),
+        userId bigint,
         primary key (id)
     ) engine=InnoDB;
 
@@ -20,7 +19,6 @@
         createdAt datetime(6),
         id bigint not null auto_increment,
         itemId bigint,
-        updatedAt datetime(6),
         primary key (id)
     ) engine=InnoDB;
 
@@ -92,8 +90,8 @@
        references Customer (id);
 
     alter table Bill 
-       add constraint FK8odrmhbhdspkjfmg8lw0acrd8 
-       foreign key (UserId) 
+       add constraint FKqagoykbe3r9tv5au2q99tgc0t 
+       foreign key (userId) 
        references User (id);
 
     alter table BillItem 

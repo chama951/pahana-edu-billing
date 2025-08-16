@@ -1,7 +1,5 @@
 package com.pahana.edu.model;
 
-import java.math.BigDecimal;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -9,7 +7,6 @@ import jakarta.persistence.*;
 import static jakarta.persistence.CascadeType.ALL;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 public class Bill {
@@ -18,24 +15,21 @@ public class Bill {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private LocalDateTime billDate;
+	private Double totalAmount;
 
-	private BigDecimal totalAmount;
+	private Double discountAmount;
 
-	private BigDecimal discountAmount;
+	private Double netAmount;
 
 	@CreationTimestamp
 	private LocalDateTime createdAt = LocalDateTime.now();
-
-	@UpdateTimestamp
-	private LocalDateTime updatedAt = LocalDateTime.now();
 
 	@ManyToOne
 	@JoinColumn(name = "customerId")
 	private Customer customer;
 
 	@ManyToOne
-	@JoinColumn(name = "UserId")
+	@JoinColumn(name = "userId")
 	private User user;
 
 	@OneToMany(mappedBy = "bill", cascade = ALL, orphanRemoval = true)
@@ -68,28 +62,28 @@ public class Bill {
 		this.id = id;
 	}
 
-	public LocalDateTime getBillDate() {
-		return billDate;
-	}
-
-	public void setBillDate(LocalDateTime billDate) {
-		this.billDate = billDate;
-	}
-
-	public BigDecimal getTotalAmount() {
+	public Double getTotalAmount() {
 		return totalAmount;
 	}
 
-	public void setTotalAmount(BigDecimal totalAmount) {
-		this.totalAmount = totalAmount;
-	}
-
-	public BigDecimal getDiscountAmount() {
+	public Double getDiscountAmount() {
 		return discountAmount;
 	}
 
-	public void setDiscountAmount(BigDecimal discountAmount) {
+	public void setTotalAmount(Double totalAmount) {
+		this.totalAmount = totalAmount;
+	}
+
+	public void setDiscountAmount(Double discountAmount) {
 		this.discountAmount = discountAmount;
+	}
+
+	public Double getNetAmount() {
+		return netAmount;
+	}
+
+	public void setNetAmount(Double netAmount) {
+		this.netAmount = netAmount;
 	}
 
 	public LocalDateTime getCreatedAt() {
@@ -98,14 +92,6 @@ public class Bill {
 
 	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
-	}
-
-	public LocalDateTime getUpdatedAt() {
-		return updatedAt;
-	}
-
-	public void setUpdatedAt(LocalDateTime updatedAt) {
-		this.updatedAt = updatedAt;
 	}
 
 	public Customer getCustomer() {

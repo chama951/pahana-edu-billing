@@ -167,12 +167,6 @@ public class Validator {
 		if (bill == null) {
 			throw new IllegalArgumentException("Bill cannot be null");
 		}
-		if (bill.getBillDate() == null) {
-			throw new IllegalArgumentException("Bill date cannot be null");
-		}
-		if (bill.getBillDate().isAfter(LocalDateTime.now())) {
-			throw new IllegalArgumentException("Bill date cannot be in the future");
-		}
 		validatePositiveAmount(bill.getTotalAmount(), "Total amount");
 		validateNonNegativeAmount(bill.getDiscountAmount(), "Discount amount");
 		if (bill.getDiscountAmount().compareTo(bill.getTotalAmount()) > 0) {
@@ -187,28 +181,28 @@ public class Validator {
 		return bill;
 	}
 
-	private static void validatePositiveAmount(BigDecimal amount, String fieldName) {
+	private static void validatePositiveAmount(Double amount, String fieldName) {
 		if (amount == null) {
 			throw new IllegalArgumentException(fieldName + " cannot be null");
 		}
-		if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+		if (amount <= 0) {
 			throw new IllegalArgumentException(fieldName + " must be positive");
 		}
 		validateAmountPrecision(amount, fieldName);
 	}
 
-	private static void validateNonNegativeAmount(BigDecimal amount, String fieldName) {
+	private static void validateNonNegativeAmount(Double amount, String fieldName) {
 		if (amount == null) {
 			throw new IllegalArgumentException(fieldName + " cannot be null");
 		}
-		if (amount.compareTo(BigDecimal.ZERO) < 0) {
+		if (amount < 0) {
 			throw new IllegalArgumentException(fieldName + " cannot be negative");
 		}
 		validateAmountPrecision(amount, fieldName);
 	}
 
-	private static void validateAmountPrecision(BigDecimal amount, String fieldName) {
-		if (amount.scale() > 2) {
+	private static void validateAmountPrecision(Double amount, String fieldName) {
+		if (amount > 2) {
 			throw new IllegalArgumentException(fieldName + " cannot have more than 2 decimal places");
 		}
 	}

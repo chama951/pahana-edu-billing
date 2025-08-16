@@ -32,11 +32,9 @@ public class PahanaEntityMapper {
 	public Bill mapBill(ResultSet rs) throws SQLException {
 		Bill bill = new Bill();
 		bill.setId(rs.getLong("id"));
-		bill.setBillDate(rs.getObject("billDate", LocalDateTime.class));
-		bill.setTotalAmount(rs.getBigDecimal("totalAmount"));
-		bill.setDiscountAmount(rs.getBigDecimal("discountAmount"));
+		bill.setTotalAmount(rs.getDouble("totalAmount"));
+		bill.setDiscountAmount(rs.getDouble("discountAmount"));
 		bill.setCreatedAt(rs.getObject("createdAt", LocalDateTime.class));
-		bill.setUpdatedAt(rs.getObject("updatedAt", LocalDateTime.class));
 		return bill;
 	}
 
@@ -49,7 +47,6 @@ public class PahanaEntityMapper {
 		billItem.setSubTotal(rs.getDouble("subTotal"));
 		billItem.setDiscountAmount(rs.getDouble("discountAmount"));
 		billItem.setCreatedAt(rs.getObject("createdAt", LocalDateTime.class));
-		billItem.setUpdatedAt(rs.getObject("updatedAt", LocalDateTime.class));
 		return billItem;
 	}
 

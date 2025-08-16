@@ -14,6 +14,8 @@ import com.pahana.edu.model.Customer;
 import com.pahana.edu.model.Item;
 import com.pahana.edu.model.User;
 import com.pahana.edu.model.enums.Privilege;
+import com.pahana.edu.service.BillService;
+import com.pahana.edu.serviceImpl.BillServiceImpl;
 import com.pahana.edu.utill.AuthHelper;
 import com.pahana.edu.utill.responseHandling.ButtonPath;
 import com.pahana.edu.utill.responseHandling.MessageConstants;
@@ -21,9 +23,11 @@ import com.pahana.edu.utill.responseHandling.ResponseHandler;
 
 public class CashierServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	public BillService billService;
 
 	@Override
 	public void init() throws ServletException {
+		billService = new BillServiceImpl();
 		super.init();
 	}
 
@@ -39,12 +43,19 @@ public class CashierServlet extends HttpServlet {
 		try {
 			HttpSession session = request.getSession();
 			User userLoggedIn = (User) session.getAttribute("currentUser");
+			Customer selectedCustomer = (Customer) session.getAttribute("selectedCustomer");
 			if (!userLoggedIn.getRole().hasPrivilege(Privilege.MANAGE_CUSTOMERS)) {
 				ResponseHandler.handleError(
 						request,
 						response,
 						MessageConstants.PRIVILEGE_INSUFFICIENT,
 						ButtonPath.DASHBOARD);
+			} else if (selectedCustomer == null) {
+				ResponseHandler.handleError(
+						request,
+						response,
+						MessageConstants.PLEASE_SELECT_A_CUSTOMER,
+						ButtonPath.MANAGE_CUSTOMERS);
 			} else {
 				doPost(request, response);
 			}
@@ -68,6 +79,9 @@ public class CashierServlet extends HttpServlet {
 			case "/cart-item-remove":
 				cartItemRemove(request, response);
 				break;
+			case "/create-bill":
+				createBill(request, response);
+				break;
 			default:
 				getCashier(request, response);
 				break;
@@ -78,8 +92,43 @@ public class CashierServlet extends HttpServlet {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	private void createBill(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		AuthHelper.isUserLoggedIn(request, response);
+
+		try {
+			HttpSession session = request.getSession();
+			User currentUser = (User) session.getAttribute("currentUser");
+			Customer selectedCustomer = (Customer) session.getAttribute("selectedCustomer");
+
+			Long userId = currentUser.getId();
+			Long customerId = selectedCustomer.getId();
+			List<Item> itemList = (List<Item>) session.getAttribute("itemList");
+
+			billService.createBill(itemList, customerId, userId);
+
+			ResponseHandler.handleSuccess(
+					request,
+					response,
+					MessageConstants.BILL_CREATED_SUCCESSFULLY,
+					ButtonPath.CASHIER);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			ResponseHandler.handleError(
+					request,
+					response,
+					e.getMessage(),
+					ButtonPath.CASHIER);
+		}
+	}
+
 	private void clearCart(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
+		AuthHelper.isUserLoggedIn(request, response);
 
 		try {
 			List<Item> newList = new ArrayList<>();
@@ -103,6 +152,9 @@ public class CashierServlet extends HttpServlet {
 	@SuppressWarnings("unchecked")
 	private void cartItemRemove(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
+		AuthHelper.isUserLoggedIn(request, response);
+
 		try {
 			String itemId = request.getParameter("id");
 			HttpSession session = request.getSession();
@@ -135,17 +187,12 @@ public class CashierServlet extends HttpServlet {
 
 	}
 
-	@SuppressWarnings("unchecked")
 	private void getCashier(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
 		AuthHelper.isUserLoggedIn(request, response);
 
 		try {
-
-			Customer selectedCustomer = (Customer) request.getSession().getAttribute("selectedCustomer");
-
-			List<Item> itemList = (List<Item>) request.getSession().getAttribute("itemList");
 
 			request.getRequestDispatcher("/views/Cashier.jsp").forward(request, response);
 

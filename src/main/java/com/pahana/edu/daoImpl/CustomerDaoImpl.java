@@ -65,11 +65,9 @@ public class CustomerDaoImpl implements CustomerDao {
 				+ " c.updatedAt AS updatedAt, "
 				+ "/* Bill fields */ "
 				+ " b.id AS billId, "
-				+ " b.billDate AS billDate, "
 				+ " b.totalAmount AS totalAmount, "
 				+ " b.discountAmount AS discountAmount, "
 				+ " b.createdAt AS createdAt, "
-				+ " b.updatedAt AS updatedAt, "
 				+ "/* BillItem fields */ "
 				+ " bi.id AS billItemId, "
 				+ " bi.quantity AS quantity, "
@@ -77,7 +75,6 @@ public class CustomerDaoImpl implements CustomerDao {
 				+ " bi.subTotal AS subTotal, "
 				+ " bi.discountAmount AS discountAmount, "
 				+ " bi.createdAt AS createdAt, "
-				+ " bi.updatedAt AS updatedAt, "
 				+ "/* Item fields */ "
 				+ " i.id AS itemId, "
 				+ " i.title AS title, "
@@ -164,11 +161,9 @@ public class CustomerDaoImpl implements CustomerDao {
 	private Bill mapBill(ResultSet rs) throws SQLException {
 		Bill bill = new Bill();
 		bill.setId(rs.getLong("billId"));
-		bill.setBillDate(rs.getObject("billDate", LocalDateTime.class));
-		bill.setTotalAmount(rs.getBigDecimal("totalAmount"));
-		bill.setDiscountAmount(rs.getBigDecimal("discountAmount"));
+		bill.setTotalAmount(rs.getDouble("totalAmount"));
+		bill.setDiscountAmount(rs.getDouble("discountAmount"));
 		bill.setCreatedAt(rs.getObject("CreatedAt", LocalDateTime.class));
-		bill.setUpdatedAt(rs.getObject("updatedAt", LocalDateTime.class));
 		bill.setBillItems(new ArrayList<>());
 		return bill;
 	}
@@ -180,7 +175,6 @@ public class CustomerDaoImpl implements CustomerDao {
 		item.setSubTotal(rs.getDouble("subTotal"));
 		item.setDiscountAmount(rs.getDouble("discountAmount"));
 		item.setCreatedAt(rs.getObject("createdAt", LocalDateTime.class));
-		item.setUpdatedAt(rs.getObject("updatedAt", LocalDateTime.class));
 		return item;
 	}
 

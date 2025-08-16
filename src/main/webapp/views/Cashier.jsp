@@ -255,11 +255,13 @@
                         </p>
                         <div class="action-buttons">
                             <a href="${pageContext.request.contextPath}/cashier/clear-cart" class="btn clear-btn">
-                                <i class="fas fa-broom"></i> Clear Cart
+                                Clear Cart
                             </a>
-                            <button class="btn checkout-btn" onclick="checkout()">
-                                <i class="fas fa-credit-card"></i> Checkout
-                            </button>
+                            <form id="checkoutForm" action="${pageContext.request.contextPath}/cashier/create-bill" method="POST">
+                                <button type="submit" class="btn checkout-btn">
+                                    <i class="fas fa-credit-card"></i> Checkout
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -272,20 +274,5 @@
             </c:otherwise>
         </c:choose>
     </div>
-
-    <script>
-        function checkout() {
-            fetch('${pageContext.request.contextPath}/cart/checkout', {
-                method: 'POST'
-            })
-            .then(response => {
-                if(response.ok) {
-                    window.location.href = '${pageContext.request.contextPath}/views/CheckoutSuccess.jsp';
-                } else {
-                    alert("Error during checkout");
-                }
-            });
-        }
-    </script>
 </body>
 </html>
