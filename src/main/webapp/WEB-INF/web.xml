@@ -82,6 +82,6 @@
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>InvoiceServlet</servlet-name>
-		<url-pattern>/InvoiceServlet</url-pattern>
+		<url-pattern>/invoice/*</url-pattern>
 	</servlet-mapping>
 </web-app>

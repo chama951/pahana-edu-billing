@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.pahana.edu.dao.BillDao;
 import com.pahana.edu.model.Bill;
@@ -13,6 +15,7 @@ import com.pahana.edu.model.BillItem;
 import com.pahana.edu.model.Customer;
 import com.pahana.edu.model.User;
 import com.pahana.edu.model.enums.BillStatus;
+import com.pahana.edu.model.enums.UserRole;
 
 public class BillDaoImpl implements BillDao {
 
@@ -55,56 +58,92 @@ public class BillDaoImpl implements BillDao {
 	}
 
 	@Override
+	public List<Bill> getAllBills() throws SQLException {
+		String sql = "SELECT "
+				+ "b.id, b.totalAmount, b.netAmount, b.discountAmount, b.createdAt, b.billStatus, "
+				+ "c.id as customerId, c.accountNumber as customerAccountNumber, "
+				+ "c.firstName as customerFirstName, c.lastName as customerLastName, "
+				+ "c.address as customerAddress, c.phoneNumber as customerPhoneNumber, "
+				+ "c.email as customerEmail, c.unitsConsumed as customerUnitsConsumed, "
+				+ "c.createdAt as customerCreatedAt, c.updatedAt as customerUpdatedAt, "
+				+ "u.id as userId, u.username as userUsername, u.role as userRole, "
+				+ "u.isActive as userIsActive, u.createdAt as userCreatedAt, "
+				+ "u.updatedAt as userUpdatedAt, u.lastLogin as userLastLogin "
+				+ "FROM bill b "
+				+ "JOIN customer c ON b.customerId = c.id "
+				+ "JOIN user u ON b.userId = u.id";
+
+		try (PreparedStatement stmt = connection.prepareStatement(sql);
+				ResultSet rs = stmt.executeQuery()) {
+
+			List<Bill> billList = new ArrayList<>();
+			while (rs.next()) {
+				billList.add(mapBill(rs));
+			}
+			return billList;
+		} catch (SQLException e) {
+			throw new RuntimeException("Database error occurred", e);
+		}
+	}
+
+	@Override
 	public Bill getBillById(Long billId) throws SQLException {
 		String sql = "SELECT "
 				+ "b.id, b.totalAmount, b.netAmount, b.discountAmount, b.createdAt, b.billStatus, "
-				+ "c.id, c.accountNumber, c.firstName, c.lastName, c.address, "
-				+ "c.phoneNumber, c.email, c.unitsConsumed, "
-				+ "u.id, u.username, u.hashedPassword, u.role, u.isActive "
+				+ "c.id as customerId, c.accountNumber as customerAccountNumber, "
+				+ "c.firstName as customerFirstName, c.lastName as customerLastName, "
+				+ "c.address as customerAddress, c.phoneNumber as customerPhoneNumber, "
+				+ "c.email as customerEmail, c.unitsConsumed as customerUnitsConsumed, "
+				+ "c.createdAt as customerCreatedAt, c.updatedAt as customerUpdatedAt, "
+				+ "u.id as userId, u.username as userUsername, u.role as userRole, "
+				+ "u.isActive as userIsActive, u.createdAt as userCreatedAt, "
+				+ "u.updatedAt as userUpdatedAt, u.lastLogin as userLastLogin "
 				+ "FROM bill b "
 				+ "JOIN customer c ON b.customerId = c.id "
 				+ "JOIN user u ON b.userId = u.id WHERE b.id = ?";
+
 		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 			stmt.setLong(1, billId);
-			ResultSet rs = stmt.executeQuery();
-			if (rs.next()) {
-				Bill bill = new Bill();
-				bill = mapBill(rs);
-				return bill;
+			try (ResultSet rs = stmt.executeQuery()) {
+				return rs.next() ? mapBill(rs) : null;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
 			throw new RuntimeException("Database error occurred", e);
 		}
-		return null;
 	}
 
-	public Bill mapBill(ResultSet rs) throws SQLException {
+	private Bill mapBill(ResultSet rs) throws SQLException {
 		Bill bill = new Bill();
-		bill.setId(rs.getLong("b.id")); // 'b' prefix for bill columns
-		bill.setTotalAmount(rs.getDouble("b.totalAmount"));
-		bill.setNetAmount(rs.getDouble("b.netAmount"));
-		bill.setDiscountAmount(rs.getDouble("b.discountAmount"));
-		bill.setBillStatus(BillStatus.valueOf(rs.getString("b.billStatus")));
-		bill.setCreatedAt(rs.getObject("b.createdAt", LocalDateTime.class));
+		bill.setId(rs.getLong("id"));
+		bill.setTotalAmount(rs.getDouble("totalAmount"));
+		bill.setNetAmount(rs.getDouble("netAmount"));
+		bill.setDiscountAmount(rs.getDouble("discountAmount"));
+		bill.setBillStatus(BillStatus.valueOf(rs.getString("billStatus")));
+		bill.setCreatedAt(rs.getObject("createdAt", LocalDateTime.class));
 
-		// Map Customer (with 'c' prefix)
+		// Map Customer with all fields
 		Customer customer = new Customer();
-		customer.setId(rs.getLong("c.id"));
-		customer.setAccountNumber(rs.getLong("c.accountNumber"));
-		customer.setFirstName(rs.getString("c.firstName"));
-		customer.setLastName(rs.getString("c.lastName"));
-		customer.setAddress(rs.getString("c.address"));
-		customer.setPhoneNumber(rs.getString("c.phoneNumber"));
-		customer.setEmail(rs.getString("c.email"));
-		customer.setUnitsConsumed(rs.getInt("c.unitsConsumed"));
+		customer.setId(rs.getLong("customerId"));
+		customer.setAccountNumber(rs.getLong("customerAccountNumber"));
+		customer.setFirstName(rs.getString("customerFirstName"));
+		customer.setLastName(rs.getString("customerLastName"));
+		customer.setAddress(rs.getString("customerAddress"));
+		customer.setPhoneNumber(rs.getString("customerPhoneNumber"));
+		customer.setEmail(rs.getString("customerEmail"));
+		customer.setUnitsConsumed(rs.getInt("customerUnitsConsumed"));
+		customer.setCreatedAt(rs.getObject("customerCreatedAt", LocalDateTime.class));
+		customer.setUpdatedAt(rs.getObject("customerUpdatedAt", LocalDateTime.class));
 		bill.setCustomer(customer);
 
-		// Map User (with 'u' prefix)
+		// Map User with all fields (excluding hashedPassword for security)
 		User user = new User();
-		user.setId(rs.getLong("u.id"));
-		user.setUsername(rs.getString("u.username"));
-		user.setIsActive(rs.getBoolean("u.isActive"));
+		user.setId(rs.getLong("userId"));
+		user.setUsername(rs.getString("userUsername"));
+		user.setRole(UserRole.valueOf(rs.getString("userRole")));
+		user.setIsActive(rs.getBoolean("userIsActive"));
+		user.setCreatedAt(rs.getObject("userCreatedAt", LocalDateTime.class));
+		user.setUpdatedAt(rs.getObject("userUpdatedAt", LocalDateTime.class));
+		user.setLastLogin(rs.getObject("userLastLogin", LocalDateTime.class));
 		bill.setUser(user);
 
 		return bill;
@@ -134,6 +173,35 @@ public class BillDaoImpl implements BillDao {
 			e.printStackTrace();
 			throw new RuntimeException("Database error occurred", e);
 		}
+	}
+
+	@Override
+	public void updateBill(Bill billInDb) throws SQLException {
+		String sql = "UPDATE bill SET "
+				+ "totalAmount = ?, "
+				+ "discountAmount = ?, "
+				+ "netAmount = ?, "
+				+ "createdAt = ?, "
+//				+ "customerId = ?, "
+//				+ "userId = ?, "
+				+ "billStatus = ? "
+				+ "WHERE id = ?"; // assuming there's an id column as primary key
+
+		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+			stmt.setDouble(1, billInDb.getTotalAmount());
+			stmt.setDouble(2, billInDb.getDiscountAmount());
+			stmt.setDouble(3, billInDb.getNetAmount());
+			stmt.setObject(4, billInDb.getCreatedAt()); // using bill's createdAt instead of current time
+//			stmt.setLong(5, customerId);
+//			stmt.setLong(6, userId);
+			stmt.setString(5, billInDb.getBillStatus().getDisplayName());
+			stmt.setLong(6, billInDb.getId()); // assuming Bill has getId() method
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Database error occurred", e);
+		}
+
 	}
 
 }

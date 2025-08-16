@@ -73,4 +73,27 @@ public class BillServiceImpl implements BillService {
 		}
 
 	}
+
+	@Override
+	public List<Bill> getAllBills() throws SQLException {
+		try {
+			List<Bill> billList = billDao.getAllBills();
+			return billList;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public void changeStatus(Long billId, BillStatus billStatus) throws SQLException {
+		try {
+			Bill billInDb = new Bill();
+			billInDb = billDao.getBillById(billId);
+			billInDb.setBillStatus(billStatus);
+			billDao.updateBill(billInDb);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

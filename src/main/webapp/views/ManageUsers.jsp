@@ -7,257 +7,269 @@
 <head>
 <title>User Management</title>
 <link rel="stylesheet"
-    href="${pageContext.request.contextPath}/css/DisplayUsers.css">
-<!-- Font Awesome for icons -->
-<link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <style>
-.search-container {
-    display: flex;
-    align-items: center;
-    margin-left: auto;
-}
-
-.search-container input[type="text"] {
-    padding: 8px 15px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-right: 10px;
-    width: 300px;
-}
-
-.search-container button {
-    padding: 8px 15px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.search-container button:hover {
-    background-color: #45a049;
-}
-
-.header-row {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    margin: 15px 0;
-}
-
-.header-actions {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-/* Modal styles */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
-}
-
-.modal-content {
-    background-color: #fefefe;
-    margin: 10% auto;
-    padding: 30px 40px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 600px;
-    border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    position: relative;
-}
-
-/* Form group spacing */
-.form-group {
-    margin-bottom: 20px;
-}
-
-/* Input field padding */
-.form-control {
-    padding: 10px 12px;
-}
-
-/* Button spacing */
-.btn {
-    margin-top: 10px;
-    padding: 12px 20px;
-}
-
-/* Close button position adjustment */
-.close-btn {
-    position: absolute;
-    top: 20px;
-    right: 25px;
-    font-size: 30px;
-    cursor: pointer;
-}
-
-/* Form styles */
-.form-group {
-    margin-bottom: 15px;
-}
-
-.form-label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-.form-control {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-
-.btn {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.btn:hover {
-    background-color: #45a049;
-}
-
-.error-message {
-    color: red;
-    font-size: 14px;
-    margin-top: 5px;
-}
-
-/* Button styles */
-.edit-btn {
-    padding: 8px 12px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    margin-right: 5px;
-    min-width: 80px;
-    text-align: center;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    background-color: #FFC107;
-    color: #333;
-}
-
-.edit-btn:hover {
-    background-color: #E0A800;
-    color: #000;
-}
-
-.delete-btn {
-    padding: 8px 12px;
-    height: auto;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.delete-btn:hover {
-    background-color: #c82333;
-}
-
-.action-buttons {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.empty-state {
-    text-align: center;
-    padding: 20px;
-    color: #666;
-}
-
-.status-active {
-    color: #28a745;
-    font-weight: bold;
-}
-
-.status-inactive {
-    color: #dc3545;
-    font-weight: bold;
-}
-
-.back-button {
-    display: inline-flex;
-    align-items: center;
-    padding: 8px 12px;
-    background-color: #6c757d;
-    color: white;
-    border-radius: 4px;
-    text-decoration: none;
-    gap: 5px;
-    font-size: 14px;
-}
-
-.back-button:hover {
-    background-color: #5a6268;
-    color: white;
-}
-
-.add-user-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 8px 12px;
-    background-color: #17a2b8;
-    color: white;
-    border-radius: 4px;
-    border: none;
-    cursor: pointer;
-    font-size: 14px;
-    min-width: 80px;
-    gap: 5px;
-}
-
-.add-user-btn:hover {
-    background-color: #138496;
-}
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f5f5f5;
+    }
+    
+    .users-container {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    h1 {
+        color: #333;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    
+    .header-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    
+    .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .search-container {
+        display: flex;
+        align-items: center;
+    }
+    
+    .search-container input[type="text"] {
+        padding: 8px 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin-right: 10px;
+        width: 300px;
+    }
+    
+    .search-container button {
+        padding: 8px 15px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    
+    .search-container button:hover {
+        background-color: #45a049;
+    }
+    
+    .back-button {
+        display: inline-flex;
+        align-items: center;
+        padding: 8px 12px;
+        background-color: #6c757d;
+        color: white;
+        border-radius: 4px;
+        text-decoration: none;
+        gap: 5px;
+    }
+    
+    .back-button:hover {
+        background-color: #5a6268;
+    }
+    
+    .add-user-btn {
+        display: inline-flex;
+        align-items: center;
+        padding: 8px 12px;
+        background-color: #17a2b8;
+        color: white;
+        border-radius: 4px;
+        border: none;
+        cursor: pointer;
+        gap: 5px;
+    }
+    
+    .add-user-btn:hover {
+        background-color: #138496;
+    }
+    
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    
+    th, td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    
+    th {
+        background-color: #f8f9fa;
+        font-weight: bold;
+    }
+    
+    tr:hover {
+        background-color: #f5f5f5;
+    }
+    
+    .empty-state {
+        text-align: center;
+        padding: 20px;
+        color: #666;
+    }
+    
+    .status-active {
+        color: #28a745;
+        font-weight: bold;
+    }
+    
+    .status-inactive {
+        color: #dc3545;
+        font-weight: bold;
+    }
+    
+    .action-buttons {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    
+    .edit-btn {
+        padding: 6px 12px;
+        background-color: #ffc107;
+        color: #333;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+    
+    .edit-btn:hover {
+        background-color: #e0a800;
+    }
+    
+    .delete-btn {
+        padding: 6px 12px;
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+    
+    .delete-btn:hover {
+        background-color: #c82333;
+    }
+    
+    /* Modal styles */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+    
+    .modal-content {
+        background-color: #fefefe;
+        margin: 10% auto;
+        padding: 30px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 500px;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    .close-btn {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    
+    .close-btn:hover {
+        color: black;
+    }
+    
+    .modal-header {
+        margin-top: 0;
+        color: #333;
+    }
+    
+    .form-group {
+        margin-bottom: 15px;
+    }
+    
+    .form-label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #555;
+    }
+    
+    .form-control {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    
+    .btn {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    
+    .btn:hover {
+        background-color: #45a049;
+    }
+    
+    .error-message {
+        color: red;
+        font-size: 14px;
+        margin-top: 5px;
+    }
 </style>
 </head>
 <body>
     <div class="users-container">
-        <!-- Page title at the very top -->
-        <h1 class="users-header">User Management</h1>
-
-        <!-- Navigation and search row below title -->
+        <h1>User Management</h1>
+        
         <div class="header-row">
             <div class="header-actions">
-                <a href="${pageContext.request.contextPath}/views/Dashboard.jsp"
-                    class="back-button">
+                <a href="${pageContext.request.contextPath}/views/Dashboard.jsp" class="back-button">
                     <i class="fas fa-arrow-left"></i> Dashboard
                 </a>
                 <button onclick="openAddModal()" class="add-user-btn">
                     <i class="fas fa-plus"></i> Add User
                 </button>
             </div>
-
-            <!-- Client-side search -->
+            
             <div class="search-container">
                 <input type="text" id="searchInput" placeholder="Search users...">
                 <button onclick="searchUsers()">
@@ -265,8 +277,8 @@
                 </button>
             </div>
         </div>
-
-        <table class="users-table" id="usersTable">
+        
+        <table id="usersTable">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -282,20 +294,21 @@
                 <c:choose>
                     <c:when test="${empty usersList}">
                         <tr>
-                            <td colspan="7" class="empty-state"><i
-                                class="fas fa-users-slash"></i> No users found</td>
+                            <td colspan="7" class="empty-state">
+                                <i class="fas fa-users-slash"></i> No users found
+                            </td>
                         </tr>
                     </c:when>
                     <c:otherwise>
                         <c:forEach items="${usersList}" var="user">
                             <tr class="user-row">
-                                <td class="user-id">${user.id}</td>
-                                <td class="username">${user.username}</td>
+                                <td>${user.id}</td>
+                                <td>${user.username}</td>
                                 <td class="${user.isActive ? 'status-active' : 'status-inactive'}">
                                     ${user.isActive ? 'Active' : 'Inactive'}
                                 </td>
-                                <td class="role">${user.role}</td>
-                                <td class="last-login">
+                                <td>${user.role}</td>
+                                <td>
                                     <c:choose>
                                         <c:when test="${not empty user.lastLogin}">
                                             ${user.lastLogin.format(DateTimeFormatter.ofPattern('yyyy-MM-dd HH:mm'))}
@@ -305,7 +318,7 @@
                                         </c:otherwise>
                                     </c:choose>
                                 </td>
-                                <td class="created-at">
+                                <td>
                                     ${user.createdAt.format(DateTimeFormatter.ofPattern('yyyy-MM-dd HH:mm'))}
                                 </td>
                                 <td>
@@ -337,12 +350,11 @@
     <div id="updateUserModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('updateUserModal')">&times;</span>
-            <h2 class="modal-header">Update User</h2>
+            <h2>Update User</h2>
 
-            <!-- Uneditable Username Display -->
             <div>
                 <p>
-                    Username : <span id="displayUsername"></span>
+                    <strong>Username:</strong> <span id="displayUsername"></span>
                 </p>
             </div>
 
@@ -377,7 +389,7 @@
     <div id="addUserModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('addUserModal')">&times;</span>
-            <h2 class="modal-header">Add New User</h2>
+            <h2>Add New User</h2>
 
             <form id="addUserForm" class="registration-form"
                 action="${pageContext.request.contextPath}/user/create-user"
@@ -424,9 +436,9 @@
         const rows = table.getElementsByClassName('user-row');
         
         for (let i = 0; i < rows.length; i++) {
-            const id = rows[i].getElementsByClassName('user-id')[0].textContent;
-            const username = rows[i].getElementsByClassName('username')[0].textContent;
-            const role = rows[i].getElementsByClassName('role')[0].textContent;
+            const id = rows[i].cells[0].textContent;
+            const username = rows[i].cells[1].textContent;
+            const role = rows[i].cells[3].textContent;
             
             if (id.toUpperCase().includes(filter) || 
                 username.toUpperCase().includes(filter) ||
@@ -494,8 +506,6 @@
         errorElement.style.display = 'none';
         return true;
     }
-
-    // Removed the window click event listener that was closing modals when clicking outside
     </script>
 </body>
 </html>

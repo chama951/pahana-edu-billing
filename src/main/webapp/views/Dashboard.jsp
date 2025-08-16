@@ -114,7 +114,7 @@
 					</a>
 
 					<!-- Invoices Card -->
-					<a href="${pageContext.request.contextPath}/invoice-history"
+					<a href="${pageContext.request.contextPath}/invoice/*"
 						class="dashboard-card">
 						<div class="card-icon">
 							<i class="fa-solid fa-receipt"></i>

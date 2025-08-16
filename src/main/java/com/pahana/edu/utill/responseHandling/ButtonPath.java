@@ -16,6 +16,7 @@ public final class ButtonPath {
 	public static final String MANAGE_CUSTOMERS = "/customer/*";
 	public static final String MANAGE_ITEMS = "/item/*";
 	public static final String CASHIER = "/cashier/*";
+	public static final String MANAGE_INVOICES = "/invoice/*";
 
 	// Prevent instantiation
 	private ButtonPath() {
