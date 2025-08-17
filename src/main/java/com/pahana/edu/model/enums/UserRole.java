@@ -4,48 +4,44 @@ import java.util.EnumSet;
 import java.util.Set;
 
 public enum UserRole {
-	
-    ADMIN("Manage everything", 
-        EnumSet.of(
-            Privilege.MANAGE_CUSTOMERS,
-            Privilege.MANAGE_ITEMS,
-            Privilege.CREATE_BILLS,
-            Privilege.VIEW_BILLS,
-            Privilege.CANCEL_BILLS,
-            Privilege.MANAGE_USERS,
-            Privilege.VIEW_REPORTS
-        )),
-        
-    CASHIER("Manage customers",
-        EnumSet.of(
-            Privilege.CREATE_BILLS,
-            Privilege.VIEW_BILLS,
-            Privilege.CANCEL_BILLS
-        )),
-        
-    INVENTORY_MANAGER("Manage product inventory",
-        EnumSet.of(
-            Privilege.MANAGE_ITEMS
-        ));
-    
-    private final String description;
-    
-    private final Set<Privilege> privileges;
-    
-    UserRole(String description, Set<Privilege> privileges) {
-        this.description = description;
-        this.privileges = privileges;
-    }
-    
-    public boolean hasPrivilege(Privilege privilege) {
-        return privileges.contains(privilege);
-    }
-    
-    public String getDescription() {
-        return description;
-    }
-    
-    public Set<Privilege> getPrivileges() {
-        return privileges;
-    }
+
+	ADMIN("Manage everything",
+			EnumSet.of(
+					Privilege.MANAGE_CUSTOMERS,
+					Privilege.MANAGE_ITEMS,
+					Privilege.CREATE_BILLS,
+					Privilege.VIEW_BILLS,
+					Privilege.CANCEL_BILLS,
+					Privilege.MANAGE_USERS)),
+
+	CASHIER("Manage customers",
+			EnumSet.of(
+					Privilege.CREATE_BILLS,
+					Privilege.VIEW_BILLS,
+					Privilege.CANCEL_BILLS)),
+
+	INVENTORY_MANAGER("Manage product inventory",
+			EnumSet.of(
+					Privilege.MANAGE_ITEMS));
+
+	private final String description;
+
+	private final Set<Privilege> privileges;
+
+	UserRole(String description, Set<Privilege> privileges) {
+		this.description = description;
+		this.privileges = privileges;
+	}
+
+	public boolean hasPrivilege(Privilege privilege) {
+		return privileges.contains(privilege);
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public Set<Privilege> getPrivileges() {
+		return privileges;
+	}
 }

@@ -56,7 +56,7 @@ public class CashierServlet extends HttpServlet {
 						request,
 						response,
 						MessageConstants.PLEASE_SELECT_A_CUSTOMER,
-						ButtonPath.MANAGE_CUSTOMERS);
+						ButtonPath.DASHBOARD);
 			} else {
 				doPost(request, response);
 			}

@@ -41,7 +41,8 @@ public class InvoiceServlet extends HttpServlet {
 		try {
 			HttpSession session = request.getSession();
 			User userLoggedIn = (User) session.getAttribute("currentUser");
-			if (!userLoggedIn.getRole().hasPrivilege(Privilege.VIEW_BILLS)) {
+			if (!userLoggedIn.getRole().hasPrivilege(Privilege.VIEW_BILLS)
+					&& !userLoggedIn.getRole().hasPrivilege(Privilege.CANCEL_BILLS)) {
 				ResponseHandler.handleError(
 						request,
 						response,

@@ -123,7 +123,7 @@
 					</a>
 
 					<!-- Software Info -->
-					<a href="${pageContext.request.contextPath}/SoftwareInfo.jsp"
+					<a href="${pageContext.request.contextPath}/views/SoftwareInfo.jsp"
 						class="dashboard-card">
 						<div class="card-icon">
 							<i class="fa-solid fa-circle-info"></i>
