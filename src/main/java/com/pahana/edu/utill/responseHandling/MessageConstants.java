@@ -60,6 +60,7 @@ public final class MessageConstants {
 	public static final String BILL_CREATED_SUCCESSFULLY = "Bill created successfully";
 	public static final String BILL_STATUS_CHANGED = "Bill status changed successfully";
 	public static final String FAILED_GENERATE_INVOICE = "Failed to create invoice";
+	public static final String USER_VALIDATION_FAILED = "User validation failed";
 
 	// User Validation Messeges
 

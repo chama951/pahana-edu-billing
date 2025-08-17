@@ -2,6 +2,8 @@ package com.pahana.edu.utill.responseHandling;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Collections;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -45,6 +47,28 @@ public class ResponseHandler {
 		request.setAttribute("successMessage", successMessage);
 		request.setAttribute("buttonPath", redirectPath);
 		request.getRequestDispatcher("/views/successMessage.jsp").forward(request, response);
+	}
+
+	public static void handleValidationError(HttpServletRequest request, HttpServletResponse response,
+			List<String> validationErrors, String redirectPath)
+			throws ServletException, IOException {
+
+		// Combine the main message with bullet points for each validation error
+		StringBuilder fullErrorMessage = new StringBuilder();
+		for (String error : validationErrors) {
+			fullErrorMessage.append(" ").append(error).append("\n");
+		}
+
+		request.setAttribute("errorMessage", fullErrorMessage.toString());
+		request.setAttribute("buttonPath", redirectPath);
+		request.getRequestDispatcher("/views/ValidationMessege.jsp").forward(request, response);
+	}
+
+	public static void handleValidationError(HttpServletRequest request, HttpServletResponse response,
+			String singleValidationError, String redirectPath)
+			throws ServletException, IOException {
+		handleValidationError(request, response,
+				Collections.singletonList(singleValidationError), redirectPath);
 	}
 
 }

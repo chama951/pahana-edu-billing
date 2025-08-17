@@ -16,7 +16,7 @@ import com.pahana.edu.model.enums.Privilege;
 import com.pahana.edu.service.CustomerService;
 import com.pahana.edu.serviceImpl.CustomerServiceImpl;
 import com.pahana.edu.utill.AuthHelper;
-import com.pahana.edu.utill.exception.PahanaEduException;
+import com.pahana.edu.utill.exception.MyCustomException;
 import com.pahana.edu.utill.responseHandling.ButtonPath;
 import com.pahana.edu.utill.responseHandling.MessageConstants;
 import com.pahana.edu.utill.responseHandling.ResponseHandler;
@@ -172,7 +172,7 @@ public class CustomerServlet extends HttpServlet {
 	}
 
 	private void updateCustomer(HttpServletRequest request, HttpServletResponse response)
-			throws IOException, ServletException, PahanaEduException {
+			throws IOException, ServletException, MyCustomException {
 
 		AuthHelper.isUserLoggedIn(request, response);
 
@@ -209,7 +209,7 @@ public class CustomerServlet extends HttpServlet {
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 			return;
-		} catch (PahanaEduException e) {
+		} catch (MyCustomException e) {
 			// Handle known duplicate cases
 			ResponseHandler.handleError(
 					request,
@@ -265,7 +265,7 @@ public class CustomerServlet extends HttpServlet {
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 			return;
-		} catch (PahanaEduException e) {
+		} catch (MyCustomException e) {
 			// Handle known duplicate cases
 			ResponseHandler.handleError(
 					request,

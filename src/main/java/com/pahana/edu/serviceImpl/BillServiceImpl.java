@@ -21,7 +21,7 @@ import com.pahana.edu.model.enums.BillStatus;
 import com.pahana.edu.service.BillService;
 import com.pahana.edu.utill.BillGenerate;
 import com.pahana.edu.utill.database.DBConnectionFactory;
-import com.pahana.edu.utill.exception.PahanaEduException;
+import com.pahana.edu.utill.exception.MyCustomException;
 import com.pahana.edu.utill.responseHandling.ButtonPath;
 import com.pahana.edu.utill.responseHandling.MessageConstants;
 
@@ -33,7 +33,7 @@ public class BillServiceImpl implements BillService {
 
 	@Override
 	public void createBill(List<Item> itemList, Long customerId, Long userId, BillStatus billStatus)
-			throws PahanaEduException, SQLException {
+			throws MyCustomException, SQLException {
 
 		try {
 			// 1. Calculate bill totals
@@ -72,7 +72,7 @@ public class BillServiceImpl implements BillService {
 				// Update inventory
 				Item itemInDb = itemDao.getItemById(item.getId());
 				if (itemInDb.getQuantityInStock() < item.getQuantityInStock()) {
-					throw new PahanaEduException("Insufficient stock for item: " + item.getTitle(),
+					throw new MyCustomException("Insufficient stock for item: " + item.getTitle(),
 							ButtonPath.CASHIER);
 				}
 				Integer newQty = itemInDb.getQuantityInStock() - item.getQuantityInStock();
@@ -97,11 +97,11 @@ public class BillServiceImpl implements BillService {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
-		} catch (PahanaEduException e) {
+		} catch (MyCustomException e) {
 			throw e;
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new PahanaEduException(MessageConstants.FAILED_GENERATE_INVOICE, ButtonPath.CASHIER);
+			throw new MyCustomException(MessageConstants.FAILED_GENERATE_INVOICE, ButtonPath.CASHIER);
 		}
 
 	}

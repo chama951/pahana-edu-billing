@@ -17,7 +17,7 @@ import com.pahana.edu.model.enums.Privilege;
 import com.pahana.edu.service.ItemService;
 import com.pahana.edu.serviceImpl.ItemServiceImpl;
 import com.pahana.edu.utill.AuthHelper;
-import com.pahana.edu.utill.exception.PahanaEduException;
+import com.pahana.edu.utill.exception.MyCustomException;
 import com.pahana.edu.utill.responseHandling.ButtonPath;
 import com.pahana.edu.utill.responseHandling.MessageConstants;
 import com.pahana.edu.utill.responseHandling.ResponseHandler;
@@ -242,7 +242,7 @@ public class ItemServlet extends HttpServlet {
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 			return;
-		} catch (PahanaEduException e) {
+		} catch (MyCustomException e) {
 			// Handle known duplicate cases
 			ResponseHandler.handleError(
 					request,
@@ -307,7 +307,7 @@ public class ItemServlet extends HttpServlet {
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 			return;
-		} catch (PahanaEduException e) {
+		} catch (MyCustomException e) {
 			// Handle known duplicate cases
 			ResponseHandler.handleError(
 					request,

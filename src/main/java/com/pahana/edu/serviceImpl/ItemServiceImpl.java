@@ -8,7 +8,7 @@ import com.pahana.edu.daoImpl.ItemDaoImpl;
 import com.pahana.edu.model.Item;
 import com.pahana.edu.service.ItemService;
 import com.pahana.edu.utill.database.DBConnectionFactory;
-import com.pahana.edu.utill.exception.PahanaEduException;
+import com.pahana.edu.utill.exception.MyCustomException;
 import com.pahana.edu.utill.responseHandling.ButtonPath;
 import com.pahana.edu.utill.responseHandling.MessageConstants;
 
@@ -28,7 +28,7 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
-	public void createItem(Item newItem) throws PahanaEduException, SQLException {
+	public void createItem(Item newItem) throws MyCustomException, SQLException {
 
 		double discountAmount = (newItem.getPrice() * newItem.getDiscountPercentage() / 100);
 		newItem.setDiscountAmount(discountAmount);
@@ -53,7 +53,7 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
-	public void updateItem(Item itemToUpdate) throws PahanaEduException, SQLException {
+	public void updateItem(Item itemToUpdate) throws MyCustomException, SQLException {
 
 		double discountAmount = itemToUpdate.getPrice() * itemToUpdate.getDiscountPercentage() / 100;
 		itemToUpdate.setDiscountAmount(discountAmount);
@@ -67,11 +67,11 @@ public class ItemServiceImpl implements ItemService {
 
 	}
 
-	private void checkItemExist(Item item) throws PahanaEduException {
+	private void checkItemExist(Item item) throws MyCustomException {
 
 		try {
 			if (itemDao.existByIsbn(item.getIsbn(), item.getId())) {
-				throw new PahanaEduException(
+				throw new MyCustomException(
 						MessageConstants.ISBN_NUMBER_EXISTS,
 						ButtonPath.MANAGE_ITEMS);
 			}

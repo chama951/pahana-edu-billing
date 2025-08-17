@@ -1,44 +1,76 @@
 package com.pahana.edu.utill;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.time.Year;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
-import com.pahana.edu.model.Bill;
-import com.pahana.edu.model.BillItem;
 import com.pahana.edu.model.Customer;
 import com.pahana.edu.model.Item;
 import com.pahana.edu.model.User;
+import com.pahana.edu.utill.exception.MyValidationException;
+import com.pahana.edu.utill.responseHandling.MessageConstants;
 
 public class Validator {
 
-	/*
-	 * try { Payment validatedPayment = Validator.validPayment(payment); // Proceed
-	 * with validated payment } catch (IllegalArgumentException e) { // Handle
-	 * validation error System.err.println("Payment validation failed: " +
-	 * e.getMessage()); }
-	 */
+	public static boolean validUser(User user) throws MyValidationException {
+		List<String> errors = new ArrayList<>();
 
-	public static User validUser(User user) {
 		if (user == null) {
-			throw new IllegalArgumentException("User object cannot be null");
+			errors.add("User object cannot be null");
 		}
 		if (user.getUsername() == null || user.getUsername().trim().isEmpty()) {
-			throw new IllegalArgumentException("Username cannot be empty");
+			errors.add("Username cannot be empty");
 		}
-		if (!user.getUsername().matches("^[a-zA-Z0-9._-]{4,20}$")) {
-			throw new IllegalArgumentException(
-					"Username must be 4-20 characters and can only contain letters, numbers, ., _ or -");
+		if (user.getUsername().length() < 4 || user.getUsername().length() > 20) {
+			errors.add("Username must be between 4-20 characters");
 		}
+		if (!user.getUsername().matches("^[a-zA-Z]+$")) {
+			errors.add("Username can only contain letters");
+		}
+
 		if (user.getRole() == null) {
-			throw new IllegalArgumentException("User role must be specified");
+			errors.add("User role must be specified");
 		}
-		if (user.getHashedPassword() == null ||
-				!user.getHashedPassword().matches("^\\$2[aby]\\$\\d{2}\\$[./0-9A-Za-z]{53}$")) {
-			throw new IllegalArgumentException("Invalid password hash format");
+
+		if (user.getHashedPassword() == null || user.getHashedPassword().isEmpty()) {
+			errors.add("Password cannot be empty");
 		}
-		return user;
+		// Minimum 8 characters
+		if (user.getHashedPassword().length() < 8) {
+			errors.add("Password must be at least 8 characters long");
+		}
+
+		// At least one uppercase letter
+		if (!user.getHashedPassword().matches(".*[A-Z].*")) {
+			errors.add("Password must contain at least one uppercase letter");
+		}
+
+		// At least one lowercase letter
+		if (!user.getHashedPassword().matches(".*[a-z].*")) {
+			errors.add("Password must contain at least one lowercase letter");
+		}
+
+		// At least one digit
+		if (!user.getHashedPassword().matches(".*\\d.*")) {
+			errors.add("Password must contain at least one number");
+		}
+
+		// At least one special character
+		if (!user.getHashedPassword().matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*")) {
+			errors.add("Password must contain at least one special character");
+		}
+
+		// No whitespace
+		if (user.getHashedPassword().matches(".*\\s.*")) {
+			errors.add("Password cannot contain whitespace");
+		}
+
+		if (!errors.isEmpty()) {
+			throw new MyValidationException(
+					errors);
+		}
+		return true;
 	}
 
 	// ISBN validation patterns (supports ISBN-10 and ISBN-13)
@@ -136,75 +168,6 @@ public class Validator {
 			throw new IllegalArgumentException("Units consumed cannot be negative");
 		}
 		return customer;
-	}
-
-	public static BillItem validBillItem(BillItem billItem) {
-		if (billItem == null) {
-			throw new IllegalArgumentException("Bill item cannot be null");
-		}
-		if (billItem.getQuantity() == null || billItem.getQuantity() <= 0) {
-			throw new IllegalArgumentException("Quantity must be a positive number");
-		}
-		if (billItem.getUnitPrice() < 0) {
-			throw new IllegalArgumentException("Unit price cannot be negative");
-		}
-		if (billItem.getSubTotal() < 0) {
-			throw new IllegalArgumentException("Subtotal cannot be negative");
-		}
-		if (billItem.getDiscountAmount() < 0 || billItem.getDiscountAmount() > 100) {
-			throw new IllegalArgumentException("Discount percentage must be between 0 and 100");
-		}
-		if (billItem.getBill() == null) {
-			throw new IllegalArgumentException("Bill item must be associated with a bill");
-		}
-		if (billItem.getItem() == null) {
-			throw new IllegalArgumentException("Bill item must be associated with an item");
-		}
-		return billItem;
-	}
-
-	public static Bill validBill(Bill bill) {
-		if (bill == null) {
-			throw new IllegalArgumentException("Bill cannot be null");
-		}
-		validatePositiveAmount(bill.getTotalAmount(), "Total amount");
-		validateNonNegativeAmount(bill.getDiscountAmount(), "Discount amount");
-		if (bill.getDiscountAmount().compareTo(bill.getTotalAmount()) > 0) {
-			throw new IllegalArgumentException("Discount cannot be greater than total amount");
-		}
-		if (bill.getCustomer() == null) {
-			throw new IllegalArgumentException("Bill must be associated with a customer");
-		}
-		if (bill.getBillItems() == null || bill.getBillItems().isEmpty()) {
-			throw new IllegalArgumentException("Bill must contain at least one item");
-		}
-		return bill;
-	}
-
-	private static void validatePositiveAmount(Double amount, String fieldName) {
-		if (amount == null) {
-			throw new IllegalArgumentException(fieldName + " cannot be null");
-		}
-		if (amount <= 0) {
-			throw new IllegalArgumentException(fieldName + " must be positive");
-		}
-		validateAmountPrecision(amount, fieldName);
-	}
-
-	private static void validateNonNegativeAmount(Double amount, String fieldName) {
-		if (amount == null) {
-			throw new IllegalArgumentException(fieldName + " cannot be null");
-		}
-		if (amount < 0) {
-			throw new IllegalArgumentException(fieldName + " cannot be negative");
-		}
-		validateAmountPrecision(amount, fieldName);
-	}
-
-	private static void validateAmountPrecision(Double amount, String fieldName) {
-		if (amount > 2) {
-			throw new IllegalArgumentException(fieldName + " cannot have more than 2 decimal places");
-		}
 	}
 
 }

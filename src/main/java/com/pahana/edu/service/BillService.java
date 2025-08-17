@@ -7,12 +7,12 @@ import com.pahana.edu.model.Bill;
 import com.pahana.edu.model.BillItem;
 import com.pahana.edu.model.Item;
 import com.pahana.edu.model.enums.BillStatus;
-import com.pahana.edu.utill.exception.PahanaEduException;
+import com.pahana.edu.utill.exception.MyCustomException;
 
 public interface BillService {
 
 	void createBill(List<Item> itemList, Long customerId, Long userId, BillStatus billStatus)
-			throws PahanaEduException, SQLException;
+			throws MyCustomException, SQLException;
 
 	List<Bill> getAllBills() throws SQLException;
 

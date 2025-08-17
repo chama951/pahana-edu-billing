@@ -18,6 +18,8 @@ import com.pahana.edu.service.UserService;
 import com.pahana.edu.serviceImpl.UserServiceImpl;
 import com.pahana.edu.utill.AuthHelper;
 import com.pahana.edu.utill.PasswordUtil;
+import com.pahana.edu.utill.exception.MyCustomException;
+import com.pahana.edu.utill.exception.MyValidationException;
 import com.pahana.edu.utill.responseHandling.ButtonPath;
 import com.pahana.edu.utill.responseHandling.MessageConstants;
 import com.pahana.edu.utill.responseHandling.ResponseHandler;
@@ -100,7 +102,7 @@ public class UserServlet extends HttpServlet {
 	}
 
 	private void createFirstUser(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+			throws ServletException, IOException, SQLException {
 
 		try {
 
@@ -117,32 +119,41 @@ public class UserServlet extends HttpServlet {
 
 			User newUser = userService.createUser(firstUser);
 
-			HttpSession session = request.getSession();
-			session.setAttribute("currentUser", newUser);
-			session.setAttribute("id", newUser.getId());
-			session.setAttribute("username", newUser.getUsername());
-			session.setAttribute("userRole", newUser.getRole());
-			session.setAttribute("isActive", newUser.getIsActive());
+			if (newUser != null) {
+				HttpSession session = request.getSession();
+				session.setAttribute("currentUser", newUser);
+				session.setAttribute("id", newUser.getId());
+				session.setAttribute("username", newUser.getUsername());
+				session.setAttribute("userRole", newUser.getRole());
+				session.setAttribute("isActive", newUser.getIsActive());
 
-			ResponseHandler.handleSuccess(
-					request,
-					response,
-					MessageConstants.USER_CREATED,
-					ButtonPath.DASHBOARD); // logged in and redirect to the Dashboard
+				ResponseHandler.handleSuccess(
+						request,
+						response,
+						MessageConstants.USER_CREATED,
+						ButtonPath.DASHBOARD); // logged in and redirect to the Dashboard
+			}
 
-		} catch (Exception e) {
+		} catch (MyCustomException e) {
 			e.printStackTrace();
 			ResponseHandler.handleError(
 					request,
 					response,
 					e.getMessage(),
-					ButtonPath.LOGIN);
+					ButtonPath.CREATE_FIRST_USER);
+		} catch (MyValidationException e) {
+			e.printStackTrace();
+			ResponseHandler.handleValidationError(
+					request,
+					response,
+					e.getValidationErrors(),
+					ButtonPath.CREATE_FIRST_USER);
 		}
 
 	}
 
 	private void changeUsername(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+			throws ServletException, IOException, SQLException {
 
 		AuthHelper.isUserLoggedIn(request, response);
 
@@ -152,6 +163,7 @@ public class UserServlet extends HttpServlet {
 			Long loggedInId = Long.valueOf(userLoggedIn.getId());
 
 			String newUsername = request.getParameter("newUsername");
+
 			userService.changeUsername(loggedInId, newUsername);
 
 			ResponseHandler.handleSuccess(
@@ -160,18 +172,25 @@ public class UserServlet extends HttpServlet {
 					MessageConstants.USERNAME_UPDATED,
 					ButtonPath.LOGIN);
 
-		} catch (Exception e) {
+		} catch (MyCustomException e) {
 			e.printStackTrace();
 			ResponseHandler.handleError(
 					request,
 					response,
 					e.getMessage(),
 					ButtonPath.DASHBOARD);
+		} catch (MyValidationException e) {
+			e.printStackTrace();
+			ResponseHandler.handleValidationError(
+					request,
+					response,
+					e.getValidationErrors(),
+					ButtonPath.DASHBOARD);
 		}
 	}
 
 	private void changePassword(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+			throws ServletException, IOException, SQLException {
 
 		AuthHelper.isUserLoggedIn(request, response);
 
@@ -185,27 +204,35 @@ public class UserServlet extends HttpServlet {
 
 			if (!PasswordUtil.checkPassword(currentPassword, userLoggedIn.getHashedPassword())) {
 				ResponseHandler.handleError(request, response,
-						MessageConstants.INCORRECT_CURRENT_PASSWORD, ButtonPath.CHANGE_PASSWORD);
-				return;
+						MessageConstants.INCORRECT_CURRENT_PASSWORD,
+						ButtonPath.DASHBOARD);
+			} else {
+
+				userService.changePassword(loggedInId, newPassword);
+
+				session.invalidate();
+
+				ResponseHandler.handleSuccess(
+						request,
+						response,
+						MessageConstants.PASSWORD_UPDATED,
+						ButtonPath.LOGIN);
+
 			}
-			String passwordToUpdate = PasswordUtil.hashPassword(newPassword);
 
-			userService.changePassword(loggedInId, passwordToUpdate);
-
-			session.invalidate();
-
-			ResponseHandler.handleSuccess(
-					request,
-					response,
-					MessageConstants.PASSWORD_UPDATED,
-					ButtonPath.LOGIN);
-
-		} catch (Exception e) {
+		} catch (MyCustomException e) {
 			e.printStackTrace();
 			ResponseHandler.handleError(
 					request,
 					response,
 					e.getMessage(),
+					ButtonPath.DASHBOARD);
+		} catch (MyValidationException e) {
+			e.printStackTrace();
+			ResponseHandler.handleValidationError(
+					request,
+					response,
+					e.getValidationErrors(),
 					ButtonPath.DASHBOARD);
 		}
 	}
@@ -233,7 +260,7 @@ public class UserServlet extends HttpServlet {
 	}
 
 	private void createUser(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+			throws ServletException, IOException, SQLException {
 
 		AuthHelper.isUserLoggedIn(request, response);
 
@@ -258,12 +285,19 @@ public class UserServlet extends HttpServlet {
 					MessageConstants.USER_CREATED,
 					ButtonPath.MANAGE_USERS);
 
-		} catch (Exception e) {
+		} catch (MyCustomException e) {
 			e.printStackTrace();
 			ResponseHandler.handleError(
 					request,
 					response,
 					e.getMessage(),
+					ButtonPath.MANAGE_CUSTOMERS);
+		} catch (MyValidationException e) {
+			e.printStackTrace();
+			ResponseHandler.handleValidationError(
+					request,
+					response,
+					e.getValidationErrors(),
 					ButtonPath.MANAGE_CUSTOMERS);
 		}
 	}

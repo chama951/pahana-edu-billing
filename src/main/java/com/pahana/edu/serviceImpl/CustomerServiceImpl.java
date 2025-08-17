@@ -8,7 +8,7 @@ import com.pahana.edu.daoImpl.CustomerDaoImpl;
 import com.pahana.edu.model.Customer;
 import com.pahana.edu.service.CustomerService;
 import com.pahana.edu.utill.database.DBConnectionFactory;
-import com.pahana.edu.utill.exception.PahanaEduException;
+import com.pahana.edu.utill.exception.MyCustomException;
 import com.pahana.edu.utill.responseHandling.ButtonPath;
 import com.pahana.edu.utill.responseHandling.MessageConstants;
 
@@ -16,7 +16,7 @@ public class CustomerServiceImpl implements CustomerService {
 	private CustomerDao customerDao = new CustomerDaoImpl(DBConnectionFactory.getConnection());
 
 	@Override
-	public void createCustomer(Customer newCustomer) throws PahanaEduException, SQLException {
+	public void createCustomer(Customer newCustomer) throws MyCustomException, SQLException {
 		try {
 			checkCustomerExist(newCustomer);
 			customerDao.createCustomer(newCustomer);
@@ -27,7 +27,7 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public void updateCustomer(Customer customerToUpdate) throws PahanaEduException, SQLException {
+	public void updateCustomer(Customer customerToUpdate) throws MyCustomException, SQLException {
 		try {
 			checkCustomerExist(customerToUpdate);
 			customerDao.updateCustomer(customerToUpdate);
@@ -58,24 +58,24 @@ public class CustomerServiceImpl implements CustomerService {
 
 	}
 
-	public void checkCustomerExist(Customer customer) throws PahanaEduException {
+	public void checkCustomerExist(Customer customer) throws MyCustomException {
 
 		try {
 
 			if (customerDao.existByAccNo(customer.getAccountNumber(), customer.getId())) {
-				throw new PahanaEduException(
+				throw new MyCustomException(
 						MessageConstants.CUSTOMER_NUMBER_EXISTS,
 						ButtonPath.MANAGE_CUSTOMERS);
 			}
 
 			if (customerDao.existByEmail(customer.getEmail(), customer.getId())) {
-				throw new PahanaEduException(
+				throw new MyCustomException(
 						MessageConstants.CUSTOMER_EMAIL_EXISTS,
 						ButtonPath.MANAGE_CUSTOMERS);
 			}
 
 			if (customerDao.existByPhoneNumber(customer.getPhoneNumber(), customer.getId())) {
-				throw new PahanaEduException(
+				throw new MyCustomException(
 						MessageConstants.CUSTOMER_PHONENO_EXISTS,
 						ButtonPath.MANAGE_CUSTOMERS);
 			}

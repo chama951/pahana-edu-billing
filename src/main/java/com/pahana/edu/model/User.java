@@ -40,7 +40,7 @@ public class User {
 			LocalDateTime updatedAt, LocalDateTime lastLogin) {
 		super();
 		this.username = username;
-		this.hashedPassword = PasswordUtil.hashPassword(plainPassword);
+		this.hashedPassword = plainPassword;
 		this.role = role;
 		this.isActive = isActive;
 		this.createdAt = createdAt;
@@ -51,7 +51,7 @@ public class User {
 	public User(String username, String plainPassword, UserRole role, Boolean isActive, LocalDateTime createdAt) {
 		super();
 		this.username = username;
-		this.hashedPassword = PasswordUtil.hashPassword(plainPassword);
+		this.hashedPassword = plainPassword;
 		this.role = role;
 		this.isActive = isActive;
 		this.createdAt = createdAt;

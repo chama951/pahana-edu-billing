@@ -22,12 +22,12 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.pahana.edu.model.*;
-import com.pahana.edu.utill.exception.PahanaEduException;
+import com.pahana.edu.utill.exception.MyCustomException;
 import com.pahana.edu.utill.responseHandling.ButtonPath;
 
 public class BillGenerate {
 	public void generateInvoicePdf(Bill bill, List<BillItem> billItems, Customer customer, User user)
-			throws PahanaEduException {
+			throws MyCustomException {
 		try {
 			// 1. Create invoices directory inside project root
 			String projectRoot = new File("").getAbsolutePath();
@@ -201,7 +201,7 @@ public class BillGenerate {
 			}
 
 		} catch (Exception e) {
-			throw new PahanaEduException("Failed to generate PDF invoice: " + e.getMessage(), ButtonPath.CASHIER);
+			throw new MyCustomException("Failed to generate PDF invoice: " + e.getMessage(), ButtonPath.CASHIER);
 		}
 	}
 

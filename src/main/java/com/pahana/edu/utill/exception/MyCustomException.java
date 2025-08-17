@@ -1,12 +1,12 @@
 package com.pahana.edu.utill.exception;
 
-public class PahanaEduException extends Exception {
+public class MyCustomException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
 	private final String redirectPath;
 
-	public PahanaEduException(String message, String redirectPath) {
+	public MyCustomException(String message, String redirectPath) {
 		super(message);
 		this.redirectPath = redirectPath;
 	}
