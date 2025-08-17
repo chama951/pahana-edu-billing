@@ -17,6 +17,7 @@ import com.pahana.edu.service.CustomerService;
 import com.pahana.edu.serviceImpl.CustomerServiceImpl;
 import com.pahana.edu.utill.AuthHelper;
 import com.pahana.edu.utill.exception.MyCustomException;
+import com.pahana.edu.utill.exception.MyValidationException;
 import com.pahana.edu.utill.responseHandling.ButtonPath;
 import com.pahana.edu.utill.responseHandling.MessageConstants;
 import com.pahana.edu.utill.responseHandling.ResponseHandler;
@@ -215,18 +216,16 @@ public class CustomerServlet extends HttpServlet {
 					request,
 					response,
 					e.getMessage(),
-					e.getRedirectPath());
+					ButtonPath.MANAGE_CUSTOMERS);
 
-		} catch (Exception e) {
-			// Handle unexpected errors
+		} catch (MyValidationException e) {
 			e.printStackTrace();
-			ResponseHandler.handleError(
+			ResponseHandler.handleValidationError(
 					request,
 					response,
-					e.getMessage(),
+					e.getValidationErrors(),
 					ButtonPath.MANAGE_CUSTOMERS);
 		}
-
 	}
 
 	private void createCustomer(HttpServletRequest request, HttpServletResponse response)
@@ -271,15 +270,14 @@ public class CustomerServlet extends HttpServlet {
 					request,
 					response,
 					e.getMessage(),
-					e.getRedirectPath());
+					ButtonPath.MANAGE_CUSTOMERS);
 
-		} catch (Exception e) {
-			// Handle unexpected errors
+		} catch (MyValidationException e) {
 			e.printStackTrace();
-			ResponseHandler.handleError(
+			ResponseHandler.handleValidationError(
 					request,
 					response,
-					e.getMessage(),
+					e.getValidationErrors(),
 					ButtonPath.MANAGE_CUSTOMERS);
 		}
 

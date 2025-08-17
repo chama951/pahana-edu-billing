@@ -7,8 +7,10 @@ import com.pahana.edu.dao.ItemDao;
 import com.pahana.edu.daoImpl.ItemDaoImpl;
 import com.pahana.edu.model.Item;
 import com.pahana.edu.service.ItemService;
+import com.pahana.edu.utill.Validator;
 import com.pahana.edu.utill.database.DBConnectionFactory;
 import com.pahana.edu.utill.exception.MyCustomException;
+import com.pahana.edu.utill.exception.MyValidationException;
 import com.pahana.edu.utill.responseHandling.ButtonPath;
 import com.pahana.edu.utill.responseHandling.MessageConstants;
 
@@ -28,13 +30,16 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
-	public void createItem(Item newItem) throws MyCustomException, SQLException {
+	public void createItem(Item newItem) throws MyCustomException, SQLException, MyValidationException {
 
 		double discountAmount = (newItem.getPrice() * newItem.getDiscountPercentage() / 100);
 		newItem.setDiscountAmount(discountAmount);
 
 		try {
 			checkItemExist(newItem);
+
+			Validator.validItem(newItem);
+
 			itemDao.createItem(newItem);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -53,13 +58,16 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
-	public void updateItem(Item itemToUpdate) throws MyCustomException, SQLException {
+	public void updateItem(Item itemToUpdate) throws MyCustomException, SQLException, MyValidationException {
 
 		double discountAmount = itemToUpdate.getPrice() * itemToUpdate.getDiscountPercentage() / 100;
 		itemToUpdate.setDiscountAmount(discountAmount);
 
 		try {
 			checkItemExist(itemToUpdate);
+
+			Validator.validItem(itemToUpdate);
+
 			itemDao.updateItem(itemToUpdate);
 		} catch (SQLException e) {
 			e.printStackTrace();

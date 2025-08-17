@@ -38,6 +38,7 @@ public class Item {
 	@UpdateTimestamp
 	private LocalDateTime updatedAt = LocalDateTime.now();
 
+	@Column(length = 2000)
 	private String description;
 
 	private String author;

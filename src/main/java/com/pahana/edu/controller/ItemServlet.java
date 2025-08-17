@@ -18,6 +18,7 @@ import com.pahana.edu.service.ItemService;
 import com.pahana.edu.serviceImpl.ItemServiceImpl;
 import com.pahana.edu.utill.AuthHelper;
 import com.pahana.edu.utill.exception.MyCustomException;
+import com.pahana.edu.utill.exception.MyValidationException;
 import com.pahana.edu.utill.responseHandling.ButtonPath;
 import com.pahana.edu.utill.responseHandling.MessageConstants;
 import com.pahana.edu.utill.responseHandling.ResponseHandler;
@@ -243,20 +244,19 @@ public class ItemServlet extends HttpServlet {
 			e.printStackTrace();
 			return;
 		} catch (MyCustomException e) {
-			// Handle known duplicate cases
-			ResponseHandler.handleError(
-					request,
-					response,
-					e.getMessage(),
-					e.getRedirectPath());
-
-		} catch (Exception e) {
 			// Handle unexpected errors
 			e.printStackTrace();
 			ResponseHandler.handleError(
 					request,
 					response,
 					e.getMessage(),
+					ButtonPath.MANAGE_ITEMS);
+		} catch (MyValidationException e) {
+			e.printStackTrace();
+			ResponseHandler.handleValidationError(
+					request,
+					response,
+					e.getValidationErrors(),
 					ButtonPath.MANAGE_ITEMS);
 		}
 
@@ -313,15 +313,14 @@ public class ItemServlet extends HttpServlet {
 					request,
 					response,
 					e.getMessage(),
-					e.getRedirectPath());
+					ButtonPath.MANAGE_ITEMS);
 
-		} catch (Exception e) {
-			// Handle unexpected errors
+		} catch (MyValidationException e) {
 			e.printStackTrace();
-			ResponseHandler.handleError(
+			ResponseHandler.handleValidationError(
 					request,
 					response,
-					e.getMessage(),
+					e.getValidationErrors(),
 					ButtonPath.MANAGE_ITEMS);
 		}
 
