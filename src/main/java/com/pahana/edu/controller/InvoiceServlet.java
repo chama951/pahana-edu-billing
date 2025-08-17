@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.pahana.edu.model.Bill;
+import com.pahana.edu.model.BillItem;
 import com.pahana.edu.model.User;
 import com.pahana.edu.model.enums.BillStatus;
 import com.pahana.edu.model.enums.Privilege;
@@ -65,6 +66,8 @@ public class InvoiceServlet extends HttpServlet {
 			switch (action) {
 			case "/update-invoice":
 				updateInvoice(request, response);
+			case "/get-billitems":
+				getBillItemList(request, response);
 			default:
 				getInvoices(request, response);
 				break;
@@ -72,6 +75,32 @@ public class InvoiceServlet extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return;
+		}
+	}
+
+	private void getBillItemList(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		AuthHelper.isUserLoggedIn(request, response);
+		Long billId = Long.valueOf(request.getParameter("invoiceId"));
+		try {
+			List<BillItem> billItems = billService.getBillItemList(billId);
+			Bill bill = billService.getBillById(billId);
+			request.setAttribute("bill", bill);
+			request.setAttribute("billItems", billItems);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return;
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			return;
+		} catch (Exception e) {
+			// Handle unexpected errors
+			e.printStackTrace();
+			ResponseHandler.handleError(
+					request,
+					response,
+					e.getMessage(),
+					ButtonPath.MANAGE_INVOICES);
 		}
 	}
 

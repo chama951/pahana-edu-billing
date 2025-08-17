@@ -18,4 +18,6 @@ public interface BillDao {
 
 	void updateBill(Bill billInDb) throws SQLException;
 
+	List<BillItem> getBillItemList(Long billId) throws SQLException;
+
 }

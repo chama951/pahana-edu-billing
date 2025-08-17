@@ -13,6 +13,7 @@ import com.pahana.edu.dao.BillDao;
 import com.pahana.edu.model.Bill;
 import com.pahana.edu.model.BillItem;
 import com.pahana.edu.model.Customer;
+import com.pahana.edu.model.Item;
 import com.pahana.edu.model.User;
 import com.pahana.edu.model.enums.BillStatus;
 import com.pahana.edu.model.enums.UserRole;
@@ -202,6 +203,51 @@ public class BillDaoImpl implements BillDao {
 			throw new RuntimeException("Database error occurred", e);
 		}
 
+	}
+
+	@Override
+	public List<BillItem> getBillItemList(Long billId) throws SQLException {
+		String sql = "SELECT bi.id, bi.quantity, bi.unitPrice, bi.discountAmount, bi.subTotal, bi.createdAt, "
+				+ "i.id as itemId, i.title, i.isbn, i.price, i.discountPercentage, i.discountAmount as itemDiscountAmount, "
+				+ "i.quantityInStock, i.description, i.author, i.publicationYear, i.publisher "
+				+ "FROM billItem bi "
+				+ "JOIN item i ON bi.itemId = i.id "
+				+ "WHERE bi.billId = ?";
+
+		List<BillItem> billItems = new ArrayList<>();
+
+		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+			stmt.setLong(1, billId);
+			try (ResultSet rs = stmt.executeQuery()) {
+				while (rs.next()) {
+					BillItem billItem = new BillItem();
+					billItem.setId(rs.getLong("id"));
+					billItem.setQuantity(rs.getInt("quantity"));
+					billItem.setUnitPrice(rs.getDouble("unitPrice"));
+					billItem.setDiscountAmount(rs.getDouble("discountAmount"));
+					billItem.setSubTotal(rs.getDouble("subTotal"));
+					billItem.setCreatedAt(rs.getObject("createdAt", LocalDateTime.class));
+
+					// Set the Item
+					Item item = new Item();
+					item.setId(rs.getLong("itemId"));
+					item.setTitle(rs.getString("title"));
+					item.setIsbn(rs.getString("isbn"));
+					item.setPrice(rs.getDouble("price"));
+					item.setDiscountPercentage(rs.getDouble("discountPercentage"));
+					item.setDiscountAmount(rs.getDouble("itemDiscountAmount"));
+					item.setQuantityInStock(rs.getInt("quantityInStock"));
+					item.setDescription(rs.getString("description"));
+					item.setAuthor(rs.getString("author"));
+					item.setPublicationYear(rs.getInt("publicationYear"));
+					item.setPublisher(rs.getString("publisher"));
+					billItem.setItem(item);
+
+					billItems.add(billItem);
+				}
+			}
+		}
+		return billItems;
 	}
 
 }

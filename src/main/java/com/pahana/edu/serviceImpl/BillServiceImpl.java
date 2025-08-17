@@ -128,4 +128,26 @@ public class BillServiceImpl implements BillService {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public List<BillItem> getBillItemList(Long billId) throws SQLException {
+		try {
+			List<BillItem> billItems = billDao.getBillItemList(billId);
+			return billItems;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public Bill getBillById(Long billId) throws SQLException {
+		try {
+			Bill billInDb = billDao.getBillById(billId);
+			return billInDb;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }
