@@ -167,7 +167,7 @@
         padding: 25px;
         border: 1px solid #888;
         width: 60%;
-        max-width: 500px;
+        max-width: 700px;
         border-radius: 8px;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     }
@@ -250,6 +250,38 @@
     .save-btn:hover {
         background-color: #218838;
     }
+    
+    .detail-section {
+        margin-bottom: 20px;
+    }
+    
+    .detail-section h3 {
+        border-bottom: 1px solid #eee;
+        padding-bottom: 8px;
+        margin-bottom: 12px;
+        color: #333;
+    }
+    
+    .detail-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+    
+    .detail-item {
+        margin-bottom: 8px;
+    }
+    
+    .detail-label {
+        font-weight: bold;
+        color: #555;
+        display: inline-block;
+        min-width: 150px;
+    }
+    
+    .detail-value {
+        color: #333;
+    }
 </style>
 </head>
 <body>
@@ -312,7 +344,24 @@
                                         '${bill.netAmount}',
                                         '${bill.discountAmount}',
                                         '${bill.billStatus}',
-                                        '${bill.createdAt.format(DateTimeFormatter.ofPattern('yyyy-MM-dd HH:mm'))}'
+                                        '${bill.createdAt.format(DateTimeFormatter.ofPattern('yyyy-MM-dd HH:mm'))}',
+                                        '${bill.customer.id}',
+                                        '${bill.customer.accountNumber}',
+                                        '${bill.customer.firstName}',
+                                        '${bill.customer.lastName}',
+                                        '${bill.customer.address}',
+                                        '${bill.customer.phoneNumber}',
+                                        '${bill.customer.email}',
+                                        '${bill.customer.unitsConsumed}',
+                                        '${bill.customer.createdAt.format(DateTimeFormatter.ofPattern('yyyy-MM-dd HH:mm'))}',
+                                        '${bill.customer.updatedAt.format(DateTimeFormatter.ofPattern('yyyy-MM-dd HH:mm'))}',
+                                        '${bill.user.id}',
+                                        '${bill.user.username}',
+                                        '${bill.user.role}',
+                                        ${bill.user.isActive},
+                                        '${bill.user.createdAt.format(DateTimeFormatter.ofPattern('yyyy-MM-dd HH:mm'))}',
+                                        '${bill.user.updatedAt.format(DateTimeFormatter.ofPattern('yyyy-MM-dd HH:mm'))}',
+                                        '${bill.user.lastLogin != null ? bill.user.lastLogin.format(DateTimeFormatter.ofPattern('yyyy-MM-dd HH:mm')) : ''}'
                                     )">
                                         <i class="fas fa-eye"></i> View
                                     </button>
@@ -334,31 +383,109 @@
             <span class="close-btn" onclick="closeModal('viewInvoiceModal')">&times;</span>
             <h2>Invoice Details</h2>
             
-            <div class="modal-section">
+            <div class="detail-section">
                 <h3>Invoice Information</h3>
-                <div class="detail-row">
-                    <div class="detail-label">Invoice ID:</div>
-                    <div class="detail-value" id="modalInvoiceId"></div>
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <span class="detail-label">Invoice ID:</span>
+                        <span class="detail-value" id="modalInvoiceId"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Status:</span>
+                        <span class="detail-value" id="modalStatus"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Total Amount:</span>
+                        <span class="detail-value" id="modalTotalAmount"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Net Amount:</span>
+                        <span class="detail-value" id="modalNetAmount"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Discount Amount:</span>
+                        <span class="detail-value" id="modalDiscountAmount"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Created At:</span>
+                        <span class="detail-value" id="modalCreatedAt"></span>
+                    </div>
                 </div>
-                <div class="detail-row">
-                    <div class="detail-label">Total Amount:</div>
-                    <div class="detail-value" id="modalTotalAmount"></div>
+            </div>
+            
+            <div class="detail-section">
+                <h3>Customer Information</h3>
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <span class="detail-label">Customer ID:</span>
+                        <span class="detail-value" id="modalCustomerId"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Account Number:</span>
+                        <span class="detail-value" id="modalAccountNumber"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Name:</span>
+                        <span class="detail-value" id="modalCustomerName"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Address:</span>
+                        <span class="detail-value" id="modalCustomerAddress"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Phone:</span>
+                        <span class="detail-value" id="modalCustomerPhone"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Email:</span>
+                        <span class="detail-value" id="modalCustomerEmail"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Units Consumed:</span>
+                        <span class="detail-value" id="modalUnitsConsumed"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Customer Since:</span>
+                        <span class="detail-value" id="modalCustomerCreatedAt"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Last Updated:</span>
+                        <span class="detail-value" id="modalCustomerUpdatedAt"></span>
+                    </div>
                 </div>
-                <div class="detail-row">
-                    <div class="detail-label">Net Amount:</div>
-                    <div class="detail-value" id="modalNetAmount"></div>
-                </div>
-                <div class="detail-row">
-                    <div class="detail-label">Discount Amount:</div>
-                    <div class="detail-value" id="modalDiscountAmount"></div>
-                </div>
-                <div class="detail-row">
-                    <div class="detail-label">Status:</div>
-                    <div class="detail-value" id="modalStatus"></div>
-                </div>
-                <div class="detail-row">
-                    <div class="detail-label">Created At:</div>
-                    <div class="detail-value" id="modalCreatedAt"></div>
+            </div>
+            
+            <div class="detail-section">
+                <h3>Created By</h3>
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <span class="detail-label">User ID:</span>
+                        <span class="detail-value" id="modalUserId"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Username:</span>
+                        <span class="detail-value" id="modalUsername"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Role:</span>
+                        <span class="detail-value" id="modalUserRole"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Status:</span>
+                        <span class="detail-value" id="modalUserStatus"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Account Created:</span>
+                        <span class="detail-value" id="modalUserCreatedAt"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Last Updated:</span>
+                        <span class="detail-value" id="modalUserUpdatedAt"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Last Login:</span>
+                        <span class="detail-value" id="modalUserLastLogin"></span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -426,14 +553,38 @@
     });
     
     function openViewModal(
-        id, totalAmount, netAmount, discountAmount, status, createdAt
+        id, totalAmount, netAmount, discountAmount, status, createdAt,
+        customerId, accountNumber, firstName, lastName, address, phoneNumber, email, 
+        unitsConsumed, customerCreatedAt, customerUpdatedAt,
+        userId, username, role, isActive, userCreatedAt, userUpdatedAt, lastLogin
     ) {
+        // Invoice Information
         document.getElementById('modalInvoiceId').textContent = id;
         document.getElementById('modalTotalAmount').textContent = 'LKR ' + totalAmount;
         document.getElementById('modalNetAmount').textContent = 'LKR ' + netAmount;
         document.getElementById('modalDiscountAmount').textContent = 'LKR ' + discountAmount;
         document.getElementById('modalStatus').textContent = status;
         document.getElementById('modalCreatedAt').textContent = createdAt;
+        
+        // Customer Information
+        document.getElementById('modalCustomerId').textContent = customerId;
+        document.getElementById('modalAccountNumber').textContent = accountNumber;
+        document.getElementById('modalCustomerName').textContent = firstName + ' ' + lastName;
+        document.getElementById('modalCustomerAddress').textContent = address;
+        document.getElementById('modalCustomerPhone').textContent = phoneNumber;
+        document.getElementById('modalCustomerEmail').textContent = email;
+        document.getElementById('modalUnitsConsumed').textContent = unitsConsumed;
+        document.getElementById('modalCustomerCreatedAt').textContent = customerCreatedAt;
+        document.getElementById('modalCustomerUpdatedAt').textContent = customerUpdatedAt;
+        
+        // User Information
+        document.getElementById('modalUserId').textContent = userId;
+        document.getElementById('modalUsername').textContent = username;
+        document.getElementById('modalUserRole').textContent = role;
+        document.getElementById('modalUserStatus').textContent = isActive ? 'Active' : 'Inactive';
+        document.getElementById('modalUserCreatedAt').textContent = userCreatedAt;
+        document.getElementById('modalUserUpdatedAt').textContent = userUpdatedAt;
+        document.getElementById('modalUserLastLogin').textContent = lastLogin || 'Never logged in';
         
         document.getElementById('viewInvoiceModal').style.display = 'block';
     }
