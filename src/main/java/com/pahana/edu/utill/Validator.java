@@ -74,8 +74,8 @@ public class Validator {
 	}
 
 	// ISBN validation patterns (supports ISBN-10 and ISBN-13)
-	private static final Pattern ISBN_PATTERN = Pattern.compile(
-			"^(?:ISBN(?:-1[03])?:? )?(?=[0-9X]{10}$|(?=(?:[0-9]+[- ]){3})[- 0-9X]{13}$|97[89][0-9]{10}$|(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)(?:97[89][- ]?)?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9X]$");
+	private static final Pattern ISBN_PATTERN = Pattern
+			.compile("^(?:ISBN(?:-13)?:? )?(97[89][- ]?)?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9X]$");
 
 	public static boolean validItem(Item item) throws MyValidationException {
 		List<String> errors = new ArrayList<>();

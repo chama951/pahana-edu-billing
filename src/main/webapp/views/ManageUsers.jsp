@@ -372,7 +372,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" for="role">Privileges</label> 
+                    <label class="form-label" for="role">User Role</label> 
                     <select class="form-control" id="role" name="role" required>
                         <c:forEach items="<%=UserRole.values()%>" var="role">
                             <option value="${role}">${role}</option>
@@ -414,7 +414,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" for="newRole">Privileges</label> 
+                    <label class="form-label" for="newRole">User Role</label> 
                     <select class="form-control" id="newRole" name="role" required>
                         <c:forEach items="<%=UserRole.values()%>" var="role">
                             <option value="${role}">${role}</option>

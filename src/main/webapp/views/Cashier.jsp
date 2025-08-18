@@ -213,7 +213,7 @@
 <body>
     <div class="cart-container">
         <div class="cart-header">
-            <h1>Shopping Cart</h1>
+            <h2>Cashier</h2>
             <a href="${pageContext.request.contextPath}/views/Dashboard.jsp" class="btn back-btn">
                 <i class="fas fa-arrow-left"></i> Back to Dashboard
             </a>
