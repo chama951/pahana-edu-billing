@@ -1,9 +1,7 @@
 package com.pahana.edu.model;
 
 import java.time.LocalDateTime;
-
 import jakarta.persistence.*;
-
 import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
@@ -31,21 +29,6 @@ public class BillItem {
 	@ManyToOne
 	@JoinColumn(name = "itemId")
 	private Item item;
-
-//	private BillItem(Long id, Integer quantity, double unitPrice, double subTotal, double discountPercentage,
-//			LocalDateTime createdAt, LocalDateTime updatedAt, Bill bill,
-//			Item item) {
-//		super();
-//		this.id = id;
-//		this.quantity = quantity;
-//		this.unitPrice = unitPrice;
-//		this.subTotal = subTotal;
-//		this.discountPercentage = discountPercentage;
-//		this.createdAt = createdAt;
-//		this.updatedAt = updatedAt;
-//		this.bill = bill;
-//		this.item = item;
-//	}
 
 	public BillItem() {
 	}

@@ -95,7 +95,6 @@ public class InvoiceServlet extends HttpServlet {
 			e.printStackTrace();
 			return;
 		} catch (Exception e) {
-			// Handle unexpected errors
 			e.printStackTrace();
 			ResponseHandler.handleError(
 					request,
@@ -121,7 +120,6 @@ public class InvoiceServlet extends HttpServlet {
 			e.printStackTrace();
 			return;
 		} catch (Exception e) {
-			// Handle unexpected errors
 			e.printStackTrace();
 			ResponseHandler.handleError(
 					request,
@@ -157,7 +155,6 @@ public class InvoiceServlet extends HttpServlet {
 			e.printStackTrace();
 			return;
 		} catch (Exception e) {
-			// Handle unexpected errors
 			e.printStackTrace();
 			ResponseHandler.handleError(
 					request,

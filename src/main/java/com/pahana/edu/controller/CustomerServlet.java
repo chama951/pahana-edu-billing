@@ -102,7 +102,6 @@ public class CustomerServlet extends HttpServlet {
 					MessageConstants.CUSTOMER_SELECTED,
 					ButtonPath.MANAGE_CUSTOMERS);
 		} catch (Exception e) {
-			// Handle unexpected errors
 			e.printStackTrace();
 			ResponseHandler.handleError(
 					request,
@@ -128,7 +127,6 @@ public class CustomerServlet extends HttpServlet {
 			e.printStackTrace();
 			return;
 		} catch (Exception e) {
-			// Handle unexpected errors
 			e.printStackTrace();
 			ResponseHandler.handleError(
 					request,
@@ -161,7 +159,6 @@ public class CustomerServlet extends HttpServlet {
 			e.printStackTrace();
 			return;
 		} catch (Exception e) {
-			// Handle unexpected errors
 			e.printStackTrace();
 			ResponseHandler.handleError(
 					request,
@@ -211,7 +208,6 @@ public class CustomerServlet extends HttpServlet {
 			e.printStackTrace();
 			return;
 		} catch (MyCustomException e) {
-			// Handle known duplicate cases
 			ResponseHandler.handleError(
 					request,
 					response,
@@ -265,7 +261,6 @@ public class CustomerServlet extends HttpServlet {
 			e.printStackTrace();
 			return;
 		} catch (MyCustomException e) {
-			// Handle known duplicate cases
 			ResponseHandler.handleError(
 					request,
 					response,

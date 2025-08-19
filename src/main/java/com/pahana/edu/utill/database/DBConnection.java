@@ -19,18 +19,15 @@ public class DBConnection {
 
 	private DBConnection() {
 		try {
-			// Load properties
 			InputStream input = this.getClass().getClassLoader().getResourceAsStream("/db.properties");
 			Properties prop = new Properties();
 			prop.load(input);
 
-			// Assign values
 			DB_URL = prop.getProperty("db.url");
 			DB_USER = prop.getProperty("db.username");
 			DB_PASSWORD = prop.getProperty("db.password");
 			DB_DRIVER = prop.getProperty("db.driver");
 
-			// Register driver
 			Class.forName(DB_DRIVER);
 			this.connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 		} catch (ClassNotFoundException | SQLException | IOException e) {

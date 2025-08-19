@@ -103,31 +103,26 @@ public class CustomerDaoImpl implements CustomerDao {
 			while (rs.next()) {
 				Long customerId = rs.getLong("id");
 
-				// Handle new customer
 				if (!customerId.equals(lastCustomerId)) {
 					currentCustomer = mapCustomer(rs);
 					customers.add(currentCustomer);
 					lastCustomerId = customerId;
-					lastBillId = null; // Reset bill tracking
+					lastBillId = null;
 				}
 
-				// Handle bills (skip if no bill exists)
 				if (rs.getObject("billId") != null) {
 					Long billId = rs.getLong("billId");
 
-					// Handle new bill
 					if (!billId.equals(lastBillId)) {
 						currentBill = mapBill(rs);
 						currentCustomer.getBillList().add(currentBill);
 						lastBillId = billId;
 					}
 
-					// Handle bill items (skip if no item exists)
 					if (rs.getObject("billItemId") != null) {
 						BillItem item = mapBillItem(rs);
 						currentBill.getBillItems().add(item);
 
-						// Handle item details
 						if (rs.getObject("itemId") != null) {
 							Item itemDetails = mapItem(rs);
 							item.setItem(itemDetails);
@@ -276,7 +271,7 @@ public class CustomerDaoImpl implements CustomerDao {
 			ResultSet rs = stmt.executeQuery();
 
 			if (rs.next()) {
-				return rs.getInt(1) > 0; // Returns true if count > 0
+				return rs.getInt(1) > 0;
 			}
 			return false;
 
@@ -307,7 +302,7 @@ public class CustomerDaoImpl implements CustomerDao {
 			ResultSet rs = stmt.executeQuery();
 
 			if (rs.next()) {
-				return rs.getInt(1) > 0; // Returns true if count > 0
+				return rs.getInt(1) > 0;
 			}
 			return false;
 
@@ -340,7 +335,7 @@ public class CustomerDaoImpl implements CustomerDao {
 			ResultSet rs = stmt.executeQuery();
 
 			if (rs.next()) {
-				return rs.getInt(1) > 0; // Returns true if count > 0
+				return rs.getInt(1) > 0;
 			}
 			return false;
 

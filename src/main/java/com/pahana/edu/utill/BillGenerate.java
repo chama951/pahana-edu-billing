@@ -29,7 +29,6 @@ public class BillGenerate {
 	public void generateInvoicePdf(Bill bill, List<BillItem> billItems, Customer customer, User user)
 			throws MyCustomException {
 		try {
-			// 1. Create invoices directory inside project root
 			String projectRoot = new File("").getAbsolutePath();
 			String invoicesDirPath = projectRoot + File.separator + "invoices";
 			File invoicesDir = new File(invoicesDirPath);
@@ -39,21 +38,17 @@ public class BillGenerate {
 			String fileName = "invoice_" + bill.getId() + ".pdf";
 			String filePath = invoicesDirPath + File.separator + fileName;
 
-			// 2. Create PDF document
 			Document document = new Document(PageSize.A4, 36, 36, 72, 72);
 			PdfWriter.getInstance(document, new FileOutputStream(filePath));
 			document.open();
 
-			// 3. Invoice header
 			Paragraph header = new Paragraph("INVOICE",
 					FontFactory.getFont(FontFactory.HELVETICA_BOLD, 20, BaseColor.BLACK));
 			header.setAlignment(Element.ALIGN_CENTER);
 			header.setSpacingAfter(20f);
 			document.add(header);
 
-			// 4. Add company logo (optional)
 			try {
-				// Load from resources folder (works in IDE and JAR)
 				Image logo = Image.getInstance(
 						getClass().getClassLoader().getResource("images/logo.png"));
 				logo.scaleToFit(80, 80);
@@ -63,12 +58,10 @@ public class BillGenerate {
 				System.err.println("Could not load logo: " + e.getMessage());
 			}
 
-			// 5. Header table (company info + invoice details)
 			PdfPTable headerTable = new PdfPTable(2);
 			headerTable.setWidthPercentage(100);
 			headerTable.setSpacingAfter(20f);
 
-			// Left column - Company info
 			PdfPCell leftCell = new PdfPCell();
 			leftCell.setBorder(Rectangle.NO_BORDER);
 			leftCell.addElement(new Paragraph("Pahana Bookshop",
@@ -79,7 +72,6 @@ public class BillGenerate {
 			leftCell.addElement(new Paragraph("Email: pahanaedu@company.com"));
 			headerTable.addCell(leftCell);
 
-			// Right column - Invoice details
 			PdfPCell rightCell = new PdfPCell();
 			rightCell.setBorder(Rectangle.NO_BORDER);
 			rightCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -91,7 +83,6 @@ public class BillGenerate {
 			headerTable.addCell(rightCell);
 			document.add(headerTable);
 
-			// 6. Customer information
 			Paragraph customerHeader = new Paragraph("BILL TO:",
 					FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12));
 			customerHeader.setSpacingBefore(15f);
@@ -108,7 +99,6 @@ public class BillGenerate {
 			customerTable.addCell(customerCell);
 			document.add(customerTable);
 
-			// 7. Items table
 			PdfPTable table = new PdfPTable(6);
 			table.setWidthPercentage(100);
 			table.setSpacingBefore(20f);
@@ -116,7 +106,6 @@ public class BillGenerate {
 			float[] columnWidths = { 2f, 3f, 1.5f, 1.5f, 1.5f, 2f };
 			table.setWidths(columnWidths);
 
-			// Table headers
 			Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10, BaseColor.WHITE);
 			addTableHeader(table, "ISBN", headerFont, BaseColor.DARK_GRAY);
 			addTableHeader(table, "Item", headerFont, BaseColor.DARK_GRAY);
@@ -125,11 +114,9 @@ public class BillGenerate {
 			addTableHeader(table, "Discount", headerFont, BaseColor.DARK_GRAY);
 			addTableHeader(table, "Subtotal", headerFont, BaseColor.DARK_GRAY);
 
-			// Add items with alternating row colors
 			BaseColor lightGray = new BaseColor(240, 240, 240);
 			boolean alternate = false;
 
-			// FIX: Create new BillItem for each iteration
 			for (BillItem billItem : billItems) {
 				Item item = billItem.getItem();
 
@@ -145,7 +132,6 @@ public class BillGenerate {
 			}
 			document.add(table);
 
-			// 8. Totals section
 			PdfPTable totalsTable = new PdfPTable(2);
 			totalsTable.setWidthPercentage(50);
 			totalsTable.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -154,7 +140,6 @@ public class BillGenerate {
 			addTotalRow(totalsTable, "Subtotal:", String.format("Rs. %.2f", bill.getTotalAmount()));
 			addTotalRow(totalsTable, "Discount:", String.format("Rs. %.2f", bill.getDiscountAmount()));
 
-			// Grand total
 			PdfPCell labelCell = new PdfPCell(new Phrase("TOTAL:",
 					FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12)));
 			labelCell.setBorder(Rectangle.NO_BORDER);
@@ -169,7 +154,6 @@ public class BillGenerate {
 
 			document.add(totalsTable);
 
-			// 9. Footer
 			Paragraph footer = new Paragraph("\n\nThank you for come again!",
 					FontFactory.getFont(FontFactory.HELVETICA_OBLIQUE, 10));
 			footer.setAlignment(Element.ALIGN_CENTER);
@@ -180,11 +164,9 @@ public class BillGenerate {
 			terms.setAlignment(Element.ALIGN_CENTER);
 			document.add(terms);
 
-			// 10. Close document
 			document.close();
 			System.out.println("Invoice generated at: " + new File(filePath).getAbsolutePath());
 
-			// 11. Open PDF automatically
 			try {
 				File pdfFile = new File(filePath);
 				if (pdfFile.exists()) {
@@ -205,7 +187,6 @@ public class BillGenerate {
 		}
 	}
 
-	// Helper method to add styled table headers
 	private void addTableHeader(PdfPTable table, String text, Font font, BaseColor bgColor) {
 		PdfPCell header = new PdfPCell(new Phrase(text, font));
 		header.setBackgroundColor(bgColor);
@@ -215,22 +196,18 @@ public class BillGenerate {
 		table.addCell(header);
 	}
 
-	// Helper method to add total rows
 	private void addTotalRow(PdfPTable table, String label, String value) {
-		// Label cell
 		PdfPCell labelCell = new PdfPCell(new Phrase(label));
 		labelCell.setBorder(Rectangle.NO_BORDER);
 		labelCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		table.addCell(labelCell);
 
-		// Value cell
 		PdfPCell valueCell = new PdfPCell(new Phrase(value));
 		valueCell.setBorder(Rectangle.NO_BORDER);
 		valueCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		table.addCell(valueCell);
 	}
 
-	// Helper method to add complete table rows
 	private void addTableRow(PdfPTable table,
 			String isbn,
 			String title,
@@ -240,35 +217,29 @@ public class BillGenerate {
 			String subtotal,
 			BaseColor bgColor) {
 
-		// ISBN cell
 		PdfPCell isbnCell = new PdfPCell(new Phrase(isbn));
 		isbnCell.setBackgroundColor(bgColor);
 		table.addCell(isbnCell);
 
-		// Title cell
 		PdfPCell titleCell = new PdfPCell(new Phrase(title));
 		titleCell.setBackgroundColor(bgColor);
 		table.addCell(titleCell);
 
-		// Quantity cell
 		PdfPCell qtyCell = new PdfPCell(new Phrase(quantity));
 		qtyCell.setBackgroundColor(bgColor);
 		qtyCell.setHorizontalAlignment(Element.ALIGN_CENTER);
 		table.addCell(qtyCell);
 
-		// Unit Price cell
 		PdfPCell priceCell = new PdfPCell(new Phrase(unitPrice));
 		priceCell.setBackgroundColor(bgColor);
 		priceCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		table.addCell(priceCell);
 
-		// Discount cell
 		PdfPCell discountCell = new PdfPCell(new Phrase(discount));
 		discountCell.setBackgroundColor(bgColor);
 		discountCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		table.addCell(discountCell);
 
-		// Subtotal cell
 		PdfPCell subtotalCell = new PdfPCell(new Phrase(subtotal));
 		subtotalCell.setBackgroundColor(bgColor);
 		subtotalCell.setHorizontalAlignment(Element.ALIGN_RIGHT);

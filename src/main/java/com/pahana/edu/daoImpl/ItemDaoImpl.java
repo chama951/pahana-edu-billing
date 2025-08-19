@@ -132,7 +132,7 @@ public class ItemDaoImpl implements ItemDao {
 			ResultSet rs = stmt.executeQuery();
 
 			if (rs.next()) {
-				return rs.getInt(1) > 0; // Returns true if count > 0
+				return rs.getInt(1) > 0;
 			}
 			return false;
 
@@ -206,7 +206,6 @@ public class ItemDaoImpl implements ItemDao {
 				if (rs.next()) {
 					Item item = mapItem(rs);
 
-					// Only set user if userId exists (LEFT JOIN might return null)
 					if (rs.getObject("userId") != null) {
 						item.setUser(mapUser(rs));
 					}
@@ -218,7 +217,7 @@ public class ItemDaoImpl implements ItemDao {
 			e.printStackTrace();
 			throw new RuntimeException("Database error occurred", e);
 		}
-		return null; // or throw ItemNotFoundException
+		return null;
 	}
 
 }

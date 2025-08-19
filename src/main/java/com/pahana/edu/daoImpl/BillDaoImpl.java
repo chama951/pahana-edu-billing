@@ -122,7 +122,6 @@ public class BillDaoImpl implements BillDao {
 		bill.setBillStatus(BillStatus.valueOf(rs.getString("billStatus")));
 		bill.setCreatedAt(rs.getObject("createdAt", LocalDateTime.class));
 
-		// Map Customer with all fields
 		Customer customer = new Customer();
 		customer.setId(rs.getLong("customerId"));
 		customer.setAccountNumber(rs.getLong("customerAccountNumber"));
@@ -136,7 +135,6 @@ public class BillDaoImpl implements BillDao {
 		customer.setUpdatedAt(rs.getObject("customerUpdatedAt", LocalDateTime.class));
 		bill.setCustomer(customer);
 
-		// Map User with all fields (excluding hashedPassword for security)
 		User user = new User();
 		user.setId(rs.getLong("userId"));
 		user.setUsername(rs.getString("userUsername"));
@@ -186,17 +184,17 @@ public class BillDaoImpl implements BillDao {
 //				+ "customerId = ?, "
 //				+ "userId = ?, "
 				+ "billStatus = ? "
-				+ "WHERE id = ?"; // assuming there's an id column as primary key
+				+ "WHERE id = ?";
 
 		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 			stmt.setDouble(1, billInDb.getTotalAmount());
 			stmt.setDouble(2, billInDb.getDiscountAmount());
 			stmt.setDouble(3, billInDb.getNetAmount());
-			stmt.setObject(4, billInDb.getCreatedAt()); // using bill's createdAt instead of current time
+			stmt.setObject(4, billInDb.getCreatedAt());
 //			stmt.setLong(5, customerId);
 //			stmt.setLong(6, userId);
 			stmt.setString(5, billInDb.getBillStatus().getDisplayName());
-			stmt.setLong(6, billInDb.getId()); // assuming Bill has getId() method
+			stmt.setLong(6, billInDb.getId());
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

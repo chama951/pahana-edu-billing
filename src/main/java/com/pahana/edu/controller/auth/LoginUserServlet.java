@@ -75,7 +75,7 @@ public class LoginUserServlet extends HttpServlet {
 						request,
 						response,
 						MessageConstants.LOGIN_SUCCESS + username,
-						ButtonPath.DASHBOARD);// redirecting to "/views/Dashboard.jsp"
+						ButtonPath.DASHBOARD);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -2,12 +2,9 @@ package com.pahana.edu.model;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
 import jakarta.persistence.*;
 import static jakarta.persistence.CascadeType.ALL;
-
 import org.hibernate.annotations.CreationTimestamp;
-
 import com.pahana.edu.model.enums.BillStatus;
 
 @Entity

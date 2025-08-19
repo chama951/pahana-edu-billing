@@ -36,7 +36,6 @@ public class BillServiceImpl implements BillService {
 			throws MyCustomException, SQLException {
 
 		try {
-			// 1. Calculate bill totals
 			Bill bill = new Bill();
 			Double discountAmount = 0.0;
 			Double totalAmount = 0.0;
@@ -51,16 +50,13 @@ public class BillServiceImpl implements BillService {
 			bill.setNetAmount(totalAmount - discountAmount);
 			bill.setBillStatus(billStatus);
 
-			// 2. Create the bill record
 			Long billId = billDao.createBill(bill, customerId, userId);
 			Bill billInDb = billDao.getBillById(billId);
 			List<BillItem> billItems = new ArrayList<>();
 			Customer customerInDb = customerDao.getCustomerById(customerId);
 			User currentUser = userDao.getUserById(userId);
 
-			// 3. Process each item
 			for (Item item : itemList) {
-				// Create NEW BillItem for each item
 				BillItem billItem = new BillItem();
 				billItem.setBill(billInDb);
 				billItem.setItem(item);
@@ -69,7 +65,6 @@ public class BillServiceImpl implements BillService {
 				billItem.setSubTotal(item.getPrice() * item.getQuantityInStock());
 				billItem.setUnitPrice(item.getPrice());
 
-				// Update inventory
 				Item itemInDb = itemDao.getItemById(item.getId());
 				if (itemInDb.getQuantityInStock() < item.getQuantityInStock()) {
 					throw new MyCustomException("Insufficient stock for item: " + item.getTitle(),
@@ -79,18 +74,15 @@ public class BillServiceImpl implements BillService {
 				itemInDb.setQuantityInStock(newQty);
 				itemDao.updateItem(itemInDb);
 
-				// Update customer units
 				Integer newUnitsConsumed = customerInDb.getUnitsConsumed() + item.getQuantityInStock();
 				customerInDb.setUnitsConsumed(newUnitsConsumed);
 				customerDao.updateCustomer(customerInDb);
 
-				// Save bill item
 				billDao.createBillItem(billItem, billId);
 				billItems.add(billItem);
 			}
 
-			// 4. Generate invoice after all items processed
-			customerDao.updateCustomer(customerInDb); // Final customer update
+			customerDao.updateCustomer(customerInDb);
 			BillGenerate billGenerate = new BillGenerate();
 			billGenerate.generateInvoicePdf(billInDb, billItems, customerInDb, currentUser);
 

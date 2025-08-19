@@ -187,7 +187,6 @@ public class ItemServlet extends HttpServlet {
 			e.printStackTrace();
 			return;
 		} catch (Exception e) {
-			// Handle unexpected errors
 			e.printStackTrace();
 			ResponseHandler.handleError(
 					request,
@@ -244,7 +243,6 @@ public class ItemServlet extends HttpServlet {
 			e.printStackTrace();
 			return;
 		} catch (MyCustomException e) {
-			// Handle unexpected errors
 			e.printStackTrace();
 			ResponseHandler.handleError(
 					request,
@@ -308,7 +306,6 @@ public class ItemServlet extends HttpServlet {
 			e.printStackTrace();
 			return;
 		} catch (MyCustomException e) {
-			// Handle known duplicate cases
 			ResponseHandler.handleError(
 					request,
 					response,

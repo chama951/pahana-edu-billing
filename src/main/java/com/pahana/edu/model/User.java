@@ -1,12 +1,9 @@
 package com.pahana.edu.model;
 
 import java.time.LocalDateTime;
-
 import jakarta.persistence.*;
-
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
 import com.pahana.edu.model.enums.Privilege;
 import com.pahana.edu.model.enums.UserRole;
 import com.pahana.edu.utill.PasswordUtil;
@@ -21,7 +18,7 @@ public class User {
 	@Column(unique = true)
 	private String username;
 
-	private String hashedPassword; // Consider using @Transient for plain password if needed
+	private String hashedPassword;
 
 	@Enumerated(EnumType.STRING)
 	private UserRole role;

@@ -30,7 +30,7 @@ public class UserDaoImpl implements UserDao {
 				+ "createdAt) VALUES (?, ?, ?, ?, ?)";
 		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 			stmt.setString(1, user.getUsername());
-			stmt.setString(2, user.getHashedPassword()); // Already hashed
+			stmt.setString(2, user.getHashedPassword());
 			stmt.setString(3, user.getRole().name());
 			stmt.setBoolean(4, user.getIsActive());
 			stmt.setObject(5, LocalDateTime.now());
@@ -91,7 +91,6 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public void updateUser(User userToUpdate) throws SQLException {
-// Username is not here to update because of there are a single servlet class to update loggedIn username by them self
 		String sql = "UPDATE user SET "
 				+ "role = ?, "
 				+ "isActive = ? , "
@@ -205,7 +204,7 @@ public class UserDaoImpl implements UserDao {
 			ResultSet rs = stmt.executeQuery();
 
 			if (rs.next()) {
-				return rs.getInt(1) > 0; // Returns true if count > 0
+				return rs.getInt(1) > 0;
 			}
 			return false;
 

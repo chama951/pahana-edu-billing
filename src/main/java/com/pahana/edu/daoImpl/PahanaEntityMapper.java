@@ -12,7 +12,6 @@ import com.pahana.edu.model.User;
 import com.pahana.edu.model.enums.UserRole;
 
 public class PahanaEntityMapper {
-	// Customer Mapper
 	public Customer mapCustomer(ResultSet rs) throws SQLException {
 		Customer customer = new Customer();
 		customer.setId(rs.getLong("id"));
@@ -28,7 +27,6 @@ public class PahanaEntityMapper {
 		return customer;
 	}
 
-	// Bill Mapper
 	public Bill mapBill(ResultSet rs) throws SQLException {
 		Bill bill = new Bill();
 		bill.setId(rs.getLong("id"));
@@ -38,7 +36,6 @@ public class PahanaEntityMapper {
 		return bill;
 	}
 
-	// BillItem Mapper
 	public BillItem mapBillItem(ResultSet rs) throws SQLException {
 		BillItem billItem = new BillItem();
 		billItem.setId(rs.getLong("id"));
@@ -50,7 +47,6 @@ public class PahanaEntityMapper {
 		return billItem;
 	}
 
-	// Item Mapper
 	public Item mapItem(ResultSet rs) throws SQLException {
 		Item item = new Item();
 		item.setId(rs.getLong("id"));
@@ -67,7 +63,6 @@ public class PahanaEntityMapper {
 		return item;
 	}
 
-	// User Mapper
 	public User mapUser(ResultSet rs) throws SQLException {
 		User user = new User();
 		user.setId(rs.getLong("id"));
