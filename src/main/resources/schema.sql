@@ -1,5 +1,11 @@
+	
+	drop database pahana_edu;
+	
+	create database pahana_edu;
 
-    create table Bill (
+	use pahana_edu;
+   
+	create table Bill (
         discountAmount float(53),
         netAmount float(53),
         totalAmount float(53),

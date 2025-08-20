@@ -24,7 +24,7 @@ public class Bill {
 	private BillStatus billStatus;
 
 	@CreationTimestamp
-	private LocalDateTime createdAt = LocalDateTime.now();
+	private LocalDateTime createdAt;
 
 	@ManyToOne
 	@JoinColumn(name = "customerId")
