@@ -154,7 +154,7 @@ public class BillGenerate {
 
 			document.add(totalsTable);
 
-			Paragraph footer = new Paragraph("\n\nThank you for come again!",
+			Paragraph footer = new Paragraph("\n\nThank you & come again!",
 					FontFactory.getFont(FontFactory.HELVETICA_OBLIQUE, 10));
 			footer.setAlignment(Element.ALIGN_CENTER);
 			document.add(footer);

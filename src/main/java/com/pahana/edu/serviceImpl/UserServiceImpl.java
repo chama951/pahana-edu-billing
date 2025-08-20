@@ -7,7 +7,6 @@ import com.pahana.edu.dao.UserDao;
 import com.pahana.edu.daoImpl.UserDaoImpl;
 import com.pahana.edu.model.User;
 import com.pahana.edu.service.UserService;
-import com.pahana.edu.utill.PasswordUtil;
 import com.pahana.edu.utill.Validator;
 import com.pahana.edu.utill.database.DBConnectionFactory;
 import com.pahana.edu.utill.exception.MyCustomException;
@@ -24,9 +23,6 @@ public class UserServiceImpl implements UserService {
 		try {
 			Validator.validUser(newUser);
 			checkUsernameExist(newUser);
-
-			String hashedPassword = PasswordUtil.hashPassword(newUser.getHashedPassword());
-			newUser.setHashedPassword(hashedPassword);
 
 			User userInDb = userDao.createUser(newUser);
 			return userInDb;
@@ -110,9 +106,7 @@ public class UserServiceImpl implements UserService {
 
 			Validator.validUser(userInDb);
 
-			String hashedPassword = PasswordUtil.hashPassword(passwordToUpdate);
-
-			userDao.changePassword(loggedInId, hashedPassword);
+			userDao.changePassword(loggedInId, passwordToUpdate);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

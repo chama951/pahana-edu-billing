@@ -23,7 +23,7 @@ public class User {
 	@Enumerated(EnumType.STRING)
 	private UserRole role;
 
-	private Boolean isActive = true;
+	private Boolean isActive;
 
 	@CreationTimestamp
 	private LocalDateTime createdAt;

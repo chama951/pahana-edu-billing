@@ -11,6 +11,7 @@ import java.util.List;
 import com.pahana.edu.dao.UserDao;
 import com.pahana.edu.model.User;
 import com.pahana.edu.model.enums.UserRole;
+import com.pahana.edu.utill.PasswordUtil;
 
 public class UserDaoImpl implements UserDao {
 
@@ -30,9 +31,9 @@ public class UserDaoImpl implements UserDao {
 				+ "createdAt) VALUES (?, ?, ?, ?, ?)";
 		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 			stmt.setString(1, user.getUsername());
-			stmt.setString(2, user.getHashedPassword());
+			stmt.setString(2, PasswordUtil.hashPassword(user.getHashedPassword()));
 			stmt.setString(3, user.getRole().name());
-			stmt.setBoolean(4, user.getIsActive());
+			stmt.setBoolean(4, true);
 			stmt.setObject(5, LocalDateTime.now());
 			stmt.executeUpdate();
 			User userInDb = getUserByUsername(user.getUsername());
@@ -170,7 +171,7 @@ public class UserDaoImpl implements UserDao {
 				+ "hashedPassword = ?, "
 				+ "updatedAt = ? WHERE id = ?";
 		try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-			stmt.setString(1, hashPassword);
+			stmt.setString(1, PasswordUtil.hashPassword(hashPassword));
 			stmt.setObject(2, LocalDateTime.now());
 			stmt.setLong(3, id);
 			stmt.executeUpdate();
